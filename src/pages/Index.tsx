@@ -117,6 +117,8 @@ const Index = () => {
                 </li>)}
             </ul>
 
+            <h2 className="text-3xl sm:text-4xl font-bold mt-12 sm:mt-16 mb-6 sm:mb-8">Давняя мечта</h2>
+
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Еще в 2021 году я поняла, что хочу двигаться в IT-бизнес. Мне всегда сложно давалась работа с командой,
               это целое искусство. И <strong>моей мечтой с 2021 было создать сервис, который бы убрал всех посредников между
