@@ -689,6 +689,18 @@ const Index = () => {
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
+              Провела мастер-класс для своих учеников, отзывы:
+            </p>
+
+            <div className="my-8">
+              <EditableImage 
+                storageKey="masterclass-reviews" 
+                placeholder="Добавить изображение" 
+                size="medium"
+              />
+            </div>
+
+            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Кажется, меня к этому готовила жизнь) 11 лет опыта в дизайне и работе с клиентами, 85 млн выручки за
               первые полгода в IT-проекте (то есть умею не только сделать, но сделанное продать). Не хватало только
               навыков кода, и вот — они теперь не нужны.
