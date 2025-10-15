@@ -247,12 +247,12 @@ const Index = () => {
               платформу за 3 часа, на которую у меня уходило несколько месяцев!
             </p>
 
-            {/* Editable Image 1 */}
+            {/* Editable Image 1 - Full width */}
             <div className="my-8 sm:my-12">
               <EditableImage 
                 storageKey="vibecoding-intro"
-                placeholder="Добавить изображение о вайбкодинге"
-                className="w-full aspect-video"
+                placeholder="Добавить изображение о вайбкодинге (на весь экран)"
+                size="full"
               />
             </div>
 
@@ -356,12 +356,12 @@ const Index = () => {
               руководителю учитывать рабочее время сотрудников.
             </p>
 
-            {/* Editable Image 2 */}
+            {/* Editable Image 2 - Medium size */}
             <div className="my-8 sm:my-12">
               <EditableImage 
                 storageKey="team-example"
-                placeholder="Добавить пример для команды"
-                className="w-full aspect-video"
+                placeholder="Добавить пример для команды (средний размер)"
+                size="medium"
               />
             </div>
 
@@ -387,12 +387,12 @@ const Index = () => {
               И все это — за 4 000 руб. в месяц на нейросети. Вместо сотен тысяч и миллионов на заказ, как раньше.
             </p>
 
-            {/* Editable Image 3 */}
+            {/* Editable Image 3 - Small size */}
             <div className="my-8 sm:my-12">
               <EditableImage 
                 storageKey="clients-example"
-                placeholder="Добавить пример для клиентов"
-                className="w-full aspect-video"
+                placeholder="Добавить пример для клиентов (маленькое фото)"
+                size="small"
               />
             </div>
 
@@ -438,12 +438,12 @@ const Index = () => {
               проекты, которые я завайбкодю (надеюсь, слово правильное), а не мое личное время.
             </p>
 
-            {/* Editable Image 4 */}
+            {/* Editable Image 4 - Medium size */}
             <div className="my-8 sm:my-12">
               <EditableImage 
                 storageKey="personal-projects"
-                placeholder="Добавить изображение личного проекта"
-                className="w-full aspect-video"
+                placeholder="Добавить изображение личного проекта (средний размер)"
+                size="medium"
               />
             </div>
 
