@@ -5,7 +5,7 @@ import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
 import { preventOrphans } from "@/lib/typography";
 import heroImage from "@/assets/hero-vibecoding.jpg";
-import platformImage from "@/assets/platform-example.jpg";
+import platformImage from "@/assets/platform-example.png";
 import emotionsImage from "@/assets/emotions-screenshot.png";
 import talkscoreImage from "@/assets/talkscore-screenshot.png";
 const Index = () => {
@@ -377,9 +377,18 @@ const Index = () => {
             </p>
 
             <h4 className="text-xl sm:text-2xl font-bold mt-8 mb-4">Пример нашей платформы для клиентов</h4>
-            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
+            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Создана вдвоем за 2 месяца: я и один разработчик вместо огромной команды или работы с партнерами.
             </p>
+
+            {/* Platform Screenshot */}
+            <div className="my-8 sm:my-12 flex justify-center">
+              <img 
+                src={platformImage} 
+                alt="Пример платформы для клиентов - образовательная платформа" 
+                className="max-w-full rounded-2xl shadow-lg" 
+              />
+            </div>
 
             <h3 id="dlya-sebya" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
               Для себя и детей
