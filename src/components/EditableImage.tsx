@@ -20,15 +20,24 @@ export const EditableImage = ({
     // Загружаем сохраненное изображение из localStorage
     return localStorage.getItem(`image_${storageKey}`) || null;
   });
+  const [currentSize, setCurrentSize] = useState<'small' | 'medium' | 'full'>(() => {
+    return (localStorage.getItem(`image_size_${storageKey}`) as 'small' | 'medium' | 'full') || size;
+  });
 
-  const handleImageSelect = (url: string) => {
+  const handleImageSelect = (url: string, newSize?: 'small' | 'medium' | 'full') => {
     setSelectedImageUrl(url);
     localStorage.setItem(`image_${storageKey}`, url);
+    
+    if (newSize) {
+      setCurrentSize(newSize);
+      localStorage.setItem(`image_size_${storageKey}`, newSize);
+    }
+    
     setIsDialogOpen(false);
   };
 
   const getSizeClasses = () => {
-    switch (size) {
+    switch (currentSize) {
       case 'small':
         return 'max-w-sm mx-auto h-64';
       case 'full':
@@ -58,6 +67,7 @@ export const EditableImage = ({
           open={isDialogOpen}
           onOpenChange={setIsDialogOpen}
           onSelectImage={handleImageSelect}
+          showSizeSelector={true}
         />
       </>
     );
@@ -78,6 +88,7 @@ export const EditableImage = ({
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         onSelectImage={handleImageSelect}
+        showSizeSelector={true}
       />
     </>
   );
