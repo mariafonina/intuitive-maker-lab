@@ -7,6 +7,7 @@ import { preventOrphans } from "@/lib/typography";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/platform-example.jpg";
 import emotionsImage from "@/assets/emotions-screenshot.png";
+import talkscoreImage from "@/assets/talkscore-screenshot.png";
 const Index = () => {
   const [readingTime, setReadingTime] = useState(0);
   useEffect(() => {
@@ -393,6 +394,15 @@ const Index = () => {
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Кстати, вот оно — <a href="https://talkscore.club" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">talkscore.club</a>, им можно пользоваться.
             </p>
+
+            {/* Talkscore Screenshot */}
+            <div className="my-8 sm:my-12 flex justify-center">
+              <img 
+                src={talkscoreImage} 
+                alt="Интерфейс приложения talkscore.club" 
+                className="max-w-full sm:max-w-md rounded-2xl shadow-lg" 
+              />
+            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
               Более того. Меня постоянно просят создать клуб, комьюнити, подписку. Я создам, но центром станут мои
