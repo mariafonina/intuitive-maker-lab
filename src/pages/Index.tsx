@@ -378,17 +378,6 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="my-8 sm:my-12">
-              <img
-                src={platformImage}
-                alt="Пример платформы созданной с помощью вайбкодинга"
-                className="w-full rounded-2xl shadow-lg"
-              />
-              <p className="text-center text-sm text-muted-foreground mt-4">
-                Платформа, где теперь проходит мое обучение
-              </p>
-            </div>
-
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               <strong>Я подсчитала, что сократила расходы (прямые и косвенные) на разработку в 3 300 раз!</strong>
             </p>
