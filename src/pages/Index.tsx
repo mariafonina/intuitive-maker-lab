@@ -117,7 +117,7 @@ const Index = () => {
                 </li>)}
             </ul>
 
-            <h2 className="text-3xl sm:text-4xl font-bold mt-12 sm:mt-16 mb-6 sm:mb-8">Давняя мечта</h2>
+            <h3 className="text-2xl sm:text-3xl font-bold mt-12 mb-6">Давняя мечта</h3>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Еще в 2021 году я поняла, что хочу двигаться в IT-бизнес. Мне всегда сложно давалась работа с командой,
