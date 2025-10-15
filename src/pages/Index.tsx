@@ -5,8 +5,7 @@ import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
 import { preventOrphans } from "@/lib/typography";
 import heroImage from "@/assets/hero-vibecoding.jpg";
-import platformImage from "@/assets/platform-example.jpg";
-import emotionsImage from "@/assets/emotions-screenshot.png";
+import platformImage from "@/assets/vibecoding-platform.png";
 import talkscoreImage from "@/assets/talkscore-screenshot.png";
 const Index = () => {
   const [readingTime, setReadingTime] = useState(0);
@@ -246,14 +245,6 @@ const Index = () => {
               платформу за 3 часа, на которую у меня уходило несколько месяцев!
             </p>
 
-            {/* Screenshot Image */}
-            <div className="my-8 sm:my-12 flex justify-center">
-              <img 
-                src={`${emotionsImage}?t=${Date.now()}`} 
-                alt="Пример разработанной платформы" 
-                className="max-w-full rounded-2xl shadow-lg" 
-              />
-            </div>
 
             {/* Emoji Reactions */}
             <div className="flex flex-wrap gap-2 sm:gap-3 my-6 sm:my-8">
