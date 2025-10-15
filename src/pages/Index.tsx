@@ -362,7 +362,7 @@ const Index = () => {
             </ul>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
-              Кстати, вот оно — talkscore.club, им можно пользоваться.
+              Кстати, вот оно — <a href="https://talkscore.club" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">talkscore.club</a>, им можно пользоваться.
             </p>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
