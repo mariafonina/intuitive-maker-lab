@@ -261,7 +261,7 @@ const Index = () => {
               приложение в AppStore.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
+            <div className="flex flex-col gap-4 my-8">
               <EditableImage storageKey="app-dev-1" placeholder="Скриншот из разработки приложения" size="small" />
               <EditableImage storageKey="app-dev-2" placeholder="Пример бага в приложении" size="small" />
               <EditableImage storageKey="app-dev-3" placeholder="Процесс разработки" size="small" />
