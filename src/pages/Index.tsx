@@ -256,13 +256,22 @@ const Index = () => {
 
             <h3 className="text-2xl sm:text-3xl font-bold mt-12 mb-6">2023 год</h3>
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
-              <strong>
-                Я все-таки решаюсь и вкладываю 12 млн руб в разработку приложения. И еще покупаю новый айфон победителю
-                конкурса на название приложения.
-              </strong>{" "}
-              Мы работаем с командой подрядчиков 3 месяца, результат примерно никакой. Много ошибок, багов, в итоге мы
-              даже не выгружаем приложение в AppStore.
+              <strong>Я все-таки решаюсь и вкладываю 12 млн руб в разработку приложения.</strong> Мы работаем с командой
+              подрядчиков 3 месяца, результат примерно никакой. Много ошибок, багов, в итоге мы даже не выгружаем
+              приложение в AppStore.
             </p>
+
+            <div className="my-8 sm:my-12">
+              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
+            </div>
+
+            <div className="my-8 sm:my-12">
+              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
+            </div>
+
+            <div className="my-8 sm:my-12">
+              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
+            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Тогда же ко мне приходят ребята с идеей — выгрузить мою методологию в сервис с искусственным интеллектом.
