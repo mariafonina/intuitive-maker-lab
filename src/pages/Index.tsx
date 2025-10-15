@@ -247,7 +247,11 @@ const Index = () => {
 
             {/* Screenshot Image */}
             <div className="my-8 sm:my-12 flex justify-center">
-              <img src={emotionsImage} alt="Пример разработанной платформы" className="max-w-full rounded-2xl shadow-lg" />
+              <img 
+                src={`${emotionsImage}?t=${Date.now()}`} 
+                alt="Пример разработанной платформы" 
+                className="max-w-full rounded-2xl shadow-lg" 
+              />
             </div>
 
             {/* Emoji Reactions */}
