@@ -43,7 +43,7 @@ const Index = () => {
           </div>
 
           {/* Table of Contents */}
-          <div className="my-8 sm:my-12 p-4 sm:p-6 bg-muted/50 rounded-2xl border border-border">
+          <div className="my-8 sm:my-12 p-4 sm:p-6 bg-muted/50 rounded-2xl">
             <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4 sm:mb-6">Содержание</h3>
             <ul className="space-y-2 text-left list-none">
               {[{
@@ -383,7 +383,7 @@ const Index = () => {
                 </li>)}
             </ol>
 
-            <div className="my-8 sm:my-12 p-6 sm:p-8 bg-muted/30 rounded-2xl border border-border">
+            <div className="my-8 sm:my-12 p-6 sm:p-8 bg-muted/30 rounded-2xl">
               <h4 className="text-xl sm:text-2xl font-bold mb-4">Статистика опроса в моем инстаграм среди экспертов</h4>
               <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4">
                 Только 5% активно используют вайбкодинг:
