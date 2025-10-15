@@ -82,14 +82,9 @@ All colors MUST be HSL.
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
+  /* Prevent orphans in text */
+  p, li, blockquote {
+    text-wrap: pretty;
   }
 }

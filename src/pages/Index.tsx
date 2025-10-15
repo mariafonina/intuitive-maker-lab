@@ -3,6 +3,7 @@ import { Navigation } from "@/components/Navigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
+import { preventOrphans } from "@/lib/typography";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/platform-example.jpg";
 import emotionsImage from "@/assets/emotions-screenshot.png";
