@@ -14,7 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      images: {
+        Row: {
+          filename: string
+          id: string
+          storage_path: string
+          uploaded_at: string | null
+          url: string
+        }
+        Insert: {
+          filename: string
+          id?: string
+          storage_path: string
+          uploaded_at?: string | null
+          url: string
+        }
+        Update: {
+          filename?: string
+          id?: string
+          storage_path?: string
+          uploaded_at?: string | null
+          url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
