@@ -8,6 +8,7 @@ import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/vibecoding-platform.png";
 import talkscoreImage from "@/assets/talkscore-screenshot.png";
 import { ImageUpload } from "@/components/ImageUpload";
+import { EditableImage } from "@/components/EditableImage";
 const Index = () => {
   const [readingTime, setReadingTime] = useState(0);
   useEffect(() => {
@@ -246,6 +247,15 @@ const Index = () => {
               платформу за 3 часа, на которую у меня уходило несколько месяцев!
             </p>
 
+            {/* Editable Image 1 */}
+            <div className="my-8 sm:my-12">
+              <EditableImage 
+                storageKey="vibecoding-intro"
+                placeholder="Добавить изображение о вайбкодинге"
+                className="w-full aspect-video"
+              />
+            </div>
+
 
             {/* Emoji Reactions */}
             <div className="flex flex-wrap gap-2 sm:gap-3 my-6 sm:my-8">
@@ -346,6 +356,15 @@ const Index = () => {
               руководителю учитывать рабочее время сотрудников.
             </p>
 
+            {/* Editable Image 2 */}
+            <div className="my-8 sm:my-12">
+              <EditableImage 
+                storageKey="team-example"
+                placeholder="Добавить пример для команды"
+                className="w-full aspect-video"
+              />
+            </div>
+
             <h3 id="dlya-klientov" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
               Для клиентов
             </h3>
@@ -367,6 +386,15 @@ const Index = () => {
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               И все это — за 4 000 руб. в месяц на нейросети. Вместо сотен тысяч и миллионов на заказ, как раньше.
             </p>
+
+            {/* Editable Image 3 */}
+            <div className="my-8 sm:my-12">
+              <EditableImage 
+                storageKey="clients-example"
+                placeholder="Добавить пример для клиентов"
+                className="w-full aspect-video"
+              />
+            </div>
 
             <h4 className="text-xl sm:text-2xl font-bold mt-8 mb-4">Пример нашей платформы для клиентов</h4>
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -409,6 +437,15 @@ const Index = () => {
               Более того. Меня постоянно просят создать клуб, комьюнити, подписку. Я создам, но центром станут мои
               проекты, которые я завайбкодю (надеюсь, слово правильное), а не мое личное время.
             </p>
+
+            {/* Editable Image 4 */}
+            <div className="my-8 sm:my-12">
+              <EditableImage 
+                storageKey="personal-projects"
+                placeholder="Добавить изображение личного проекта"
+                className="w-full aspect-video"
+              />
+            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
               Сейчас я как никогда близко к мечте из 2021 года. Каждую неделю (!!!) я создаю все новые и новые сервисы
