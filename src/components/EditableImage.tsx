@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ImagePlus } from "lucide-react";
 import { ImageGalleryDialog } from "./ImageGalleryDialog";
+import { Input } from "./ui/input";
 
 interface EditableImageProps {
   placeholder?: string;
@@ -23,6 +24,9 @@ export const EditableImage = ({
   const [currentSize, setCurrentSize] = useState<'small' | 'medium' | 'full'>(() => {
     return (localStorage.getItem(`image_size_${storageKey}`) as 'small' | 'medium' | 'full') || size;
   });
+  const [caption, setCaption] = useState<string>(() => {
+    return localStorage.getItem(`image_caption_${storageKey}`) || '';
+  });
 
   const handleImageSelect = (url: string, newSize?: 'small' | 'medium' | 'full') => {
     setSelectedImageUrl(url);
@@ -34,6 +38,12 @@ export const EditableImage = ({
     }
     
     setIsDialogOpen(false);
+  };
+
+  const handleCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newCaption = e.target.value;
+    setCaption(newCaption);
+    localStorage.setItem(`image_caption_${storageKey}`, newCaption);
   };
 
   const getSizeClasses = () => {
@@ -49,27 +59,35 @@ export const EditableImage = ({
 
   if (selectedImageUrl) {
     return (
-      <>
+      <div className={className}>
         <div 
-          className={`relative group cursor-pointer rounded-2xl overflow-hidden ${getSizeClasses()} ${className}`}
+          className={`relative group cursor-pointer rounded-2xl overflow-hidden ${getSizeClasses()}`}
           onClick={() => setIsDialogOpen(true)}
         >
           <img 
             src={selectedImageUrl} 
-            alt="Selected content" 
+            alt={caption || "Selected content"} 
             className="w-full h-full object-contain bg-muted"
           />
           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <p className="text-white text-sm font-medium">Изменить изображение</p>
           </div>
         </div>
+        <Input
+          type="text"
+          value={caption}
+          onChange={handleCaptionChange}
+          placeholder="Добавить подпись к изображению..."
+          className="mt-3 text-sm text-center italic"
+          onClick={(e) => e.stopPropagation()}
+        />
         <ImageGalleryDialog
           open={isDialogOpen}
           onOpenChange={setIsDialogOpen}
           onSelectImage={handleImageSelect}
           showSizeSelector={true}
         />
-      </>
+      </div>
     );
   }
 
