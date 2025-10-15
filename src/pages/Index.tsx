@@ -140,9 +140,7 @@ const Index = () => {
               Но тогда мой инфобизнес так стремительно рос, что было вообще не до этого.
             </p>
 
-            <h3 id="razrabotka-ranishe" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
-              2022 год.
-            </h3>
+            <h3 id="razrabotka-ranishe" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">Кризис смыслов, 2022</h3>
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Я в полнейшем смысловом кризисе. Через 3 года я пойму, что мы всегда знаем свои истинные желания, и
               если в них не идем — начинается пи*дец. Как раз в этот момент выхожу из всех чатов инфобизнеса, думаю,
