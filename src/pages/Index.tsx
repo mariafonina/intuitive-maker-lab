@@ -368,6 +368,14 @@ const Index = () => {
                 Это когда ВСЕ делает искусственный интеллект: прототип, дизайн, верстку, код. А ты общаешься с ним через
                 поле, как в мессенджере.
               </p>
+              
+              <div className="my-8">
+                <EditableImage 
+                  storageKey="vibecoding-messenger-example" 
+                  placeholder="Пример интерфейса общения с ИИ" 
+                  size="medium"
+                />
+              </div>
             </div>
 
             <div className="my-8 sm:my-12">
