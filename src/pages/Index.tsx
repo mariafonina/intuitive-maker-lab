@@ -419,27 +419,39 @@ const Index = () => {
             </ol>
 
             <div className="my-8 sm:my-12 p-6 sm:p-8 bg-muted/30 rounded-2xl">
-              <h4 className="text-xl sm:text-2xl font-bold mb-4">Статистика опроса в моем инстаграм среди экспертов</h4>
-              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4">
+              <h4 className="text-xl sm:text-2xl font-bold mb-6">Статистика опроса в моем инстаграм среди экспертов</h4>
+              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
                 Только 5% активно используют вайбкодинг:
               </p>
-              <ul className="space-y-2 list-none">
+              <div className="space-y-6">
                 {[{
-                text: "Да, люблю",
-                votes: "56 votes",
-                percent: "5%"
-              }, {
-                text: "Слышал, но не понял, что делать",
-                votes: "225 votes",
-                percent: "18%"
-              }, {
-                text: "Что это такое?",
-                votes: "952 votes",
-                percent: "77%"
-              }].map((item, idx) => <li key={idx} className="text-base sm:text-lg text-muted-foreground">
-                    <strong>{item.text}</strong> ({item.votes}) - {item.percent}
-                  </li>)}
-              </ul>
+                  text: "Да, люблю ❤️",
+                  percent: 5
+                }, {
+                  text: "Слышал, но не понимаю, что делать",
+                  percent: 18
+                }, {
+                  text: "Что это такое? 😳",
+                  percent: 77
+                }].map((item, idx) => (
+                  <div key={idx} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-base sm:text-lg text-foreground font-medium">
+                        {item.text}
+                      </span>
+                      <span className="text-2xl sm:text-3xl font-bold text-foreground ml-4">
+                        {item.percent}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-3 sm:h-4 overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-primary to-accent"
+                        style={{ width: `${item.percent}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Interactive Poll */}
