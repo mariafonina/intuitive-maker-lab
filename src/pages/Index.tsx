@@ -5,24 +5,20 @@ import { PreorderModal } from "@/components/PreorderModal";
 import { ChatBubble } from "@/components/ChatBubble";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/platform-example.jpg";
-
 const Index = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [readingTime, setReadingTime] = useState(0);
-
   useEffect(() => {
     const article = document.querySelector("article");
     if (article) {
       const text = article.innerText;
-      const wordCount = text.split(/\s+/).filter((word) => word.length > 0).length;
+      const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
       const wordsPerMinute = 230;
       const time = Math.ceil(wordCount / wordsPerMinute);
       setReadingTime(time);
     }
   }, []);
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <Navigation onOpenModal={() => setIsModalOpen(true)} />
       <ProgressBar />
       <PreorderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -46,57 +42,56 @@ const Index = () => {
 
           {/* Hero Image */}
           <div className="mb-12 sm:mb-16 flex justify-center">
-            <img
-              src={heroImage}
-              alt="Современное рабочее пространство разработчика"
-              className="max-w-full rounded-2xl shadow-lg"
-            />
+            <img src={heroImage} alt="Современное рабочее пространство разработчика" className="max-w-full rounded-2xl shadow-lg" />
           </div>
 
           {/* Table of Contents */}
           <div className="my-8 sm:my-12 p-4 sm:p-6 bg-muted/50 rounded-2xl border border-border">
             <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4 sm:mb-6">Содержание</h3>
             <ul className="space-y-2 text-left list-none">
-              {[
-                { id: "predystoriya", text: "Предыстория" },
-                { id: "krizis", text: "Кризис в инфобизнесе" },
-                { id: "razrabotka-ranishe", text: "Как мы раньше занимались разработкой" },
-                { id: "chto-takoe-vibecoding", text: "Что такое вайбкодинг" },
-                { id: "dlya-komandy", text: "Что можно создать для команды" },
-                { id: "dlya-klientov", text: "Что можно создать для клиентов" },
-                { id: "dlya-sebya", text: "Что можно создать для себя и детей" },
-                { id: "kak-zarabatyvat", text: "Как на этом зарабатывать" },
-                { id: "budet-li-proekt", text: "Будет ли проект от меня на эту тему" },
-              ].map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={`#${item.id}`}
-                    className="text-sm text-primary hover:underline font-medium transition-colors"
-                  >
+              {[{
+              id: "predystoriya",
+              text: "Предыстория"
+            }, {
+              id: "krizis",
+              text: "Кризис в инфобизнесе"
+            }, {
+              id: "razrabotka-ranishe",
+              text: "Как мы раньше занимались разработкой"
+            }, {
+              id: "chto-takoe-vibecoding",
+              text: "Что такое вайбкодинг"
+            }, {
+              id: "dlya-komandy",
+              text: "Что можно создать для команды"
+            }, {
+              id: "dlya-klientov",
+              text: "Что можно создать для клиентов"
+            }, {
+              id: "dlya-sebya",
+              text: "Что можно создать для себя и детей"
+            }, {
+              id: "kak-zarabatyvat",
+              text: "Как на этом зарабатывать"
+            }, {
+              id: "budet-li-proekt",
+              text: "Будет ли проект от меня на эту тему"
+            }].map(item => <li key={item.id}>
+                  <a href={`#${item.id}`} className="text-sm text-primary hover:underline font-medium transition-colors">
                     {item.text}
                   </a>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
 
           {/* Content */}
           <div className="prose prose-lg max-w-none">
-            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
-              Привет! Если ты это читаешь, поздравляю. Когда ты дочитаешь, твоя жизнь может измениться до
-              неузнаваемости, как и моя.
-            </p>
-            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
-              Этим летом я узнала про вайбкодинг, и теперь это моя самая любимая часть работы. Серьезно, я бы
-              занималась ТОЛЬКО ЭТИМ.
-            </p>
+            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">Привет! Если ты это читаешь, поздравляю.
+Когда ты дочитаешь, твоя жизнь может измениться до неузнаваемости, как и моя.</p>
+            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">Этим летом я узнала про вайбкодинг, и теперь это моя самая любимая часть работы.
+Серьезно, я бы занималась ТОЛЬКО ЭТИМ.</p>
 
-            <h2
-              id="predystoriya"
-              className="text-3xl sm:text-4xl font-bold mt-12 sm:mt-16 mb-6 sm:mb-8 scroll-mt-20"
-            >
-              Начну с предыстории.
-            </h2>
+            <h2 id="predystoriya" className="text-3xl sm:text-4xl font-bold mt-12 sm:mt-16 mb-6 sm:mb-8 scroll-mt-20">Предыстория</h2>
             <p id="krizis" className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Несколько лет назад моим основным источником дохода были курсы и продюсирование курсов. Но в какой-то
               момент я от этого выгорела. От слов конверсия и разговоров про охваты физически тошнило. Я вышла из
@@ -105,23 +100,22 @@ const Index = () => {
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4">Тому есть несколько причин:</p>
             <ul className="space-y-3 mb-8 list-none">
-              {[
-                {
-                  title: "кровавая конкуренция",
-                  text: "(вот всего лишь несколько вещей, которые делали мои конкуренты в инфобизнесе: публичные разоблачения, фальшивая дружба, чтобы собрать информацию и подставить, кража денег, вымогательство и шантаж)",
-                },
-                { title: "политика государства", text: "(самые успешные коллеги — сейчас в сизо)" },
-                { title: "опыт", text: "(я уже очень давно в этом и хотелось чего-то нового)" },
-                {
-                  title: "потолок",
-                  text: "(в инфобизнесе ты можешь развить свой продукт, но у развития есть потолок: качество съемки, качество материалов, обратная связь — каждый поток я меняла свое обучение, улучшала, но улучшать в рамках качества съемки и подачи невозможно до бесконечности)",
-                },
-              ].map((item, idx) => (
-                <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
+              {[{
+              title: "кровавая конкуренция",
+              text: "(вот всего лишь несколько вещей, которые делали мои конкуренты в инфобизнесе: публичные разоблачения, фальшивая дружба, чтобы собрать информацию и подставить, кража денег, вымогательство и шантаж)"
+            }, {
+              title: "политика государства",
+              text: "(самые успешные коллеги — сейчас в сизо)"
+            }, {
+              title: "опыт",
+              text: "(я уже очень давно в этом и хотелось чего-то нового)"
+            }, {
+              title: "потолок",
+              text: "(в инфобизнесе ты можешь развить свой продукт, но у развития есть потолок: качество съемки, качество материалов, обратная связь — каждый поток я меняла свое обучение, улучшала, но улучшать в рамках качества съемки и подачи невозможно до бесконечности)"
+            }].map((item, idx) => <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
                   <span className="absolute left-0 top-3 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent"></span>
                   <strong className="text-foreground">{item.title}</strong> {item.text}
-                </li>
-              ))}
+                </li>)}
             </ul>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -158,18 +152,10 @@ const Index = () => {
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4">Посудите сами:</p>
             <ul className="space-y-3 mb-8 list-none">
-              {[
-                "я начинала свой путь в бизнесе в 2014 с разработки сайтов на заказ — нашла программиста за соседним столиком в макдаке",
-                "я занимаюсь дизайном с того же 2014 года, не было денег на дизайнера, и я сама дизайнила сайты, и проектировала каждый личный кабинет каждого потока Масштаба",
-                "обожаю технологичные продукты, живу технологиями",
-                "мне очень важно, чтобы было КРАСИВО, моя Библия — книга Типографика верстки Горбунова.",
-                "продуктовое мышление: я продаю проекты на миллионы долларов, потому что они идеально отвечают на запросы людей",
-              ].map((item, idx) => (
-                <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
+              {["я начинала свой путь в бизнесе в 2014 с разработки сайтов на заказ — нашла программиста за соседним столиком в макдаке", "я занимаюсь дизайном с того же 2014 года, не было денег на дизайнера, и я сама дизайнила сайты, и проектировала каждый личный кабинет каждого потока Масштаба", "обожаю технологичные продукты, живу технологиями", "мне очень важно, чтобы было КРАСИВО, моя Библия — книга Типографика верстки Горбунова.", "продуктовое мышление: я продаю проекты на миллионы долларов, потому что они идеально отвечают на запросы людей"].map((item, idx) => <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
                   <span className="absolute left-0 top-3 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent"></span>
                   {item}
-                </li>
-              ))}
+                </li>)}
             </ul>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -229,10 +215,7 @@ const Index = () => {
             </p>
 
             {/* Key Definition */}
-            <div
-              id="chto-takoe-vibecoding"
-              className="my-12 sm:my-16 p-6 sm:p-8 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl border border-primary/20 scroll-mt-20"
-            >
+            <div id="chto-takoe-vibecoding" className="my-12 sm:my-16 p-6 sm:p-8 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl border border-primary/20 scroll-mt-20">
               <h2 className="text-2xl sm:text-3xl font-bold mt-0 mb-4">
                 Вайбкодинг — это разработка без разработки.
               </h2>
@@ -243,11 +226,7 @@ const Index = () => {
             </div>
 
             <div className="my-8 sm:my-12">
-              <img
-                src={platformImage}
-                alt="Пример платформы созданной с помощью вайбкодинга"
-                className="w-full rounded-2xl shadow-lg"
-              />
+              <img src={platformImage} alt="Пример платформы созданной с помощью вайбкодинга" className="w-full rounded-2xl shadow-lg" />
               <p className="text-center text-sm text-muted-foreground mt-4">
                 Платформа, где теперь проходит мое обучение
               </p>
@@ -270,19 +249,10 @@ const Index = () => {
               Для команды
             </h3>
             <ul className="space-y-2 mb-8 list-none">
-              {[
-                "Система управления проектами",
-                "ИИ-агенты и сервисы, чтобы писать посты, рассылки в стиле проекта",
-                "Калькулятор для управления расходами проекта",
-                "Дашборды и трекеры",
-                "Внутренние базы знаний и боты с ответами на вопросы",
-                "и все, что угодно",
-              ].map((item, idx) => (
-                <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
+              {["Система управления проектами", "ИИ-агенты и сервисы, чтобы писать посты, рассылки в стиле проекта", "Калькулятор для управления расходами проекта", "Дашборды и трекеры", "Внутренние базы знаний и боты с ответами на вопросы", "и все, что угодно"].map((item, idx) => <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
                   <span className="absolute left-0 top-3 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent"></span>
                   {item}
-                </li>
-              ))}
+                </li>)}
             </ul>
 
             <h3 id="dlya-klientov" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
@@ -298,27 +268,14 @@ const Index = () => {
               Для себя и детей
             </h3>
             <ul className="space-y-2 mb-8 list-none">
-              {[
-                "Я создала для себя приложение, отмечать после общения с людьми, было мне приятно или неприятно, чтобы лучше формировать свой круг общения",
-                "Трекер привычек для детей",
-                "Читательский дневник",
-                "Хочу создать с сыном игру про самолеты — он увлекается авиацией, и помочь ему зарабатывать с этой игры",
-                "Интерактивный генератор сказок",
-                "Развивающие игры для малышей",
-                "Семейный дашборд: списки покупок, визиты к врачу, школьное расписание",
-              ].map((item, idx) => (
-                <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
+              {["Я создала для себя приложение, отмечать после общения с людьми, было мне приятно или неприятно, чтобы лучше формировать свой круг общения", "Трекер привычек для детей", "Читательский дневник", "Хочу создать с сыном игру про самолеты — он увлекается авиацией, и помочь ему зарабатывать с этой игры", "Интерактивный генератор сказок", "Развивающие игры для малышей", "Семейный дашборд: списки покупок, визиты к врачу, школьное расписание"].map((item, idx) => <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
                   <span className="absolute left-0 top-3 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent"></span>
                   {item}
-                </li>
-              ))}
+                </li>)}
             </ul>
 
             {/* Monetization Section */}
-            <div
-              id="kak-zarabatyvat"
-              className="my-12 sm:my-16 p-6 sm:p-8 bg-primary/10 rounded-2xl border border-primary/20 scroll-mt-20"
-            >
+            <div id="kak-zarabatyvat" className="my-12 sm:my-16 p-6 sm:p-8 bg-primary/10 rounded-2xl border border-primary/20 scroll-mt-20">
               <h2 className="text-2xl sm:text-3xl font-bold mt-0 mb-4">Как на этом зарабатывать: 9 способов</h2>
               <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-0">
                 Очень просто. Я бы сказала, сейчас это самый простой способ.
@@ -326,28 +283,14 @@ const Index = () => {
             </div>
 
             <ol className="space-y-6 mb-12 list-none counter-reset">
-              {[
-                "Это базовый современный навык, он должен быть у каждого члена команды. Уже 8 месяцев мы прощаемся с членами команды, которые не пользуются искусственным интеллектом для ускорения и упрощения своей работы.",
-                "Сейчас огромная конкуренция среди всех видов специалистов, услуг и обучений. Создать для клиентов дополнительную ценность: дашборды, красивые отчеты, сервисы — это способ выделиться из всех.",
-                "Сэкономить миллионы рублей на разработке. Это не преувеличение. Если вы пойдете в серьезную разработку, то миллион рублей в месяц, это минимум.",
-                "Сэкономить время на разработке. Раньше на то, на что сейчас уходит 3 дня, уходило 3 месяца.",
-                "Снизить расходы на команду и увеличить ее эффективность. Можно все, что угодно оптимизировать через искусственный интеллект и сервисы.",
-                "Разрабатывать такое на заказ как услугу. Даже если вы будете брать за это сотни тысяч рублей — раньше бизнес платил за это миллионы.",
-                "Поднять чек на свою услугу — за счет того, что с навыком вайбкодинга вы можете сильно улучшить продукт для клиента.",
-                "Оказывать услуги для бизнеса. Сейчас кризис, и бизнес только и хочет, что снизить расходы, повысить доходы и эффективность.",
-                "Если вы продюсер — то это необходимый навык, без которого в течение года вас уже не будет на рынке.",
-              ].map((item, idx) => (
-                <li
-                  key={idx}
-                  className="relative pl-12 text-base sm:text-lg leading-relaxed text-muted-foreground"
-                  style={{ counterIncrement: "list-counter" }}
-                >
+              {["Это базовый современный навык, он должен быть у каждого члена команды. Уже 8 месяцев мы прощаемся с членами команды, которые не пользуются искусственным интеллектом для ускорения и упрощения своей работы.", "Сейчас огромная конкуренция среди всех видов специалистов, услуг и обучений. Создать для клиентов дополнительную ценность: дашборды, красивые отчеты, сервисы — это способ выделиться из всех.", "Сэкономить миллионы рублей на разработке. Это не преувеличение. Если вы пойдете в серьезную разработку, то миллион рублей в месяц, это минимум.", "Сэкономить время на разработке. Раньше на то, на что сейчас уходит 3 дня, уходило 3 месяца.", "Снизить расходы на команду и увеличить ее эффективность. Можно все, что угодно оптимизировать через искусственный интеллект и сервисы.", "Разрабатывать такое на заказ как услугу. Даже если вы будете брать за это сотни тысяч рублей — раньше бизнес платил за это миллионы.", "Поднять чек на свою услугу — за счет того, что с навыком вайбкодинга вы можете сильно улучшить продукт для клиента.", "Оказывать услуги для бизнеса. Сейчас кризис, и бизнес только и хочет, что снизить расходы, повысить доходы и эффективность.", "Если вы продюсер — то это необходимый навык, без которого в течение года вас уже не будет на рынке."].map((item, idx) => <li key={idx} className="relative pl-12 text-base sm:text-lg leading-relaxed text-muted-foreground" style={{
+              counterIncrement: "list-counter"
+            }}>
                   <span className="absolute left-0 top-1 text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                     {idx + 1}.
                   </span>
                   {item}
-                </li>
-              ))}
+                </li>)}
             </ol>
 
             <h2 id="budet-li-proekt" className="text-3xl sm:text-4xl font-bold mt-16 mb-6 scroll-mt-20">
@@ -365,17 +308,10 @@ const Index = () => {
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4">Он состоит из:</p>
             <ul className="space-y-2 mb-8 list-none">
-              {[
-                "AI-first мышления (как думать задачами для ИИ)",
-                "Продуктового подхода (создавать то, что нужно рынку и клиенту)",
-                "Дизайн-мышлению (делать красиво)",
-                "Бизнес-логике (монетизировать с первого проекта)",
-              ].map((item, idx) => (
-                <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
+              {["AI-first мышления (как думать задачами для ИИ)", "Продуктового подхода (создавать то, что нужно рынку и клиенту)", "Дизайн-мышлению (делать красиво)", "Бизнес-логике (монетизировать с первого проекта)"].map((item, idx) => <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
                   <span className="absolute left-0 top-3 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent"></span>
                   {item}
-                </li>
-              ))}
+                </li>)}
             </ul>
 
             {/* Final CTA */}
@@ -384,21 +320,12 @@ const Index = () => {
                 В честь моего 33-летия готовлю проект, который:
               </h2>
               <ul className="list-none p-0 space-y-4 text-gray-200 text-left mx-auto max-w-md mb-8">
-                {[
-                  "научит вас создавать личные и коммерческие проекты с нуля",
-                  "покажет, как зарабатывать на вайбкодинге уже в процессе прохождения",
-                  "даст доступ ко всем моим промтам, шаблонам и фишкам",
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-start text-sm sm:text-base">
+                {["научит вас создавать личные и коммерческие проекты с нуля", "покажет, как зарабатывать на вайбкодинге уже в процессе прохождения", "даст доступ ко всем моим промтам, шаблонам и фишкам"].map((item, idx) => <li key={idx} className="flex items-start text-sm sm:text-base">
                     <span className="mr-2 text-accent">✔️</span>
                     <span>{item}</span>
-                  </li>
-                ))}
+                  </li>)}
               </ul>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all shadow-lg hover:shadow-xl"
-              >
+              <button onClick={() => setIsModalOpen(true)} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all shadow-lg hover:shadow-xl">
                 Хочу быть в курсе!
               </button>
             </div>
@@ -419,8 +346,6 @@ const Index = () => {
       <footer className="text-center py-12 border-t border-border mt-16">
         <p className="text-muted-foreground">&copy; 2025 Мари Афонина</p>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
