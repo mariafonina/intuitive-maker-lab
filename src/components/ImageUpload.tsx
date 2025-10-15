@@ -18,52 +18,60 @@ export const ImageUpload = () => {
         return;
       }
 
-      const file = event.target.files[0];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const files = Array.from(event.target.files);
+      const uploadPromises = files.map(async (file) => {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const filePath = `${fileName}`;
 
-      // Upload file to storage
-      const { error: uploadError } = await supabase.storage
-        .from('images')
-        .upload(filePath, file);
+        // Upload file to storage
+        const { error: uploadError } = await supabase.storage
+          .from('images')
+          .upload(filePath, file);
 
-      if (uploadError) {
-        throw uploadError;
-      }
+        if (uploadError) {
+          throw uploadError;
+        }
 
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(filePath);
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('images')
+          .getPublicUrl(filePath);
 
-      // Save metadata to database
-      const { data, error: dbError } = await supabase
-        .from('images')
-        .insert({
-          filename: file.name,
-          storage_path: filePath,
-          url: publicUrl
-        })
-        .select()
-        .single();
+        // Save metadata to database
+        const { data, error: dbError } = await supabase
+          .from('images')
+          .insert({
+            filename: file.name,
+            storage_path: filePath,
+            url: publicUrl
+          })
+          .select()
+          .single();
 
-      if (dbError) throw dbError;
+        if (dbError) throw dbError;
 
-      setImages([...images, { id: data.id, url: publicUrl, filename: file.name }]);
+        return { id: data.id, url: publicUrl, filename: file.name };
+      });
+
+      const uploadedImages = await Promise.all(uploadPromises);
+      setImages([...images, ...uploadedImages]);
       
       toast({
         title: "Успешно загружено!",
-        description: "Изображение добавлено в базу данных",
+        description: `${files.length} изображени${files.length === 1 ? 'е' : files.length < 5 ? 'я' : 'й'} добавлено в базу данных`,
       });
     } catch (error) {
       toast({
         title: "Ошибка",
-        description: "Не удалось загрузить изображение",
+        description: "Не удалось загрузить изображения",
         variant: "destructive",
       });
     } finally {
       setUploading(false);
+      if (event.target) {
+        event.target.value = '';
+      }
     }
   };
 
@@ -90,6 +98,7 @@ export const ImageUpload = () => {
           <Input
             type="file"
             accept="image/*"
+            multiple
             onChange={handleFileUpload}
             disabled={uploading}
             className="flex-1"
