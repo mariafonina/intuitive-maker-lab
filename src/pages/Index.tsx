@@ -261,6 +261,13 @@ const Index = () => {
               приложение в AppStore.
             </p>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
+              <EditableImage storageKey="app-dev-1" placeholder="Скриншот из разработки приложения" size="small" />
+              <EditableImage storageKey="app-dev-2" placeholder="Пример бага в приложении" size="small" />
+              <EditableImage storageKey="app-dev-3" placeholder="Процесс разработки" size="small" />
+              <EditableImage storageKey="app-dev-4" placeholder="Результат работы команды" size="small" />
+            </div>
+
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Тогда же ко мне приходят ребята с идеей — выгрузить мою методологию в сервис с искусственным интеллектом.
             </p>
