@@ -240,6 +240,34 @@ const Index = () => {
               платформу за 3 часа, на которую у меня уходило несколько месяцев!
             </p>
 
+            {/* Emoji Reactions */}
+            <div className="flex flex-wrap gap-2 sm:gap-3 my-6 sm:my-8">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-amber-100 dark:bg-amber-900/30 rounded-full">
+                <span className="text-lg sm:text-xl">⭐</span>
+                <span className="text-sm sm:text-base font-semibold text-foreground">5</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full">
+                <span className="text-lg sm:text-xl">🔥</span>
+                <span className="text-sm sm:text-base font-semibold text-foreground">280</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-red-100 dark:bg-red-900/30 rounded-full">
+                <span className="text-lg sm:text-xl">❤️</span>
+                <span className="text-sm sm:text-base font-semibold text-foreground">94</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-full">
+                <span className="text-lg sm:text-xl">😁</span>
+                <span className="text-sm sm:text-base font-semibold text-foreground">53</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                <span className="text-lg sm:text-xl">👏</span>
+                <span className="text-sm sm:text-base font-semibold text-foreground">25</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-pink-100 dark:bg-pink-900/30 rounded-full">
+                <span className="text-lg sm:text-xl">🎉</span>
+                <span className="text-sm sm:text-base font-semibold text-foreground">1</span>
+              </div>
+            </div>
+
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4">
               Сейчас все мои знакомые предприниматели, кто имел дело с IT, говорят:
             </p>
