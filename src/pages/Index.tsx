@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ChatBubble } from "@/components/ChatBubble";
+import { Poll } from "@/components/Poll";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/platform-example.jpg";
 import emotionsImage from "@/assets/emotions-screenshot.png";
@@ -440,6 +441,21 @@ const Index = () => {
                   </li>)}
               </ul>
             </div>
+
+            {/* Interactive Poll */}
+            <Poll
+              question="Вы дочитали почти до конца! 👏"
+              options={[
+                {
+                  id: "want-more",
+                  text: "Уже оооч хочу погрузиться в это, если подойдет формат и цена"
+                },
+                {
+                  id: "not-understand",
+                  text: "Так и не понял, что такое вайбкодинг"
+                }
+              ]}
+            />
 
             <h2 id="budet-li-proekt" className="text-3xl sm:text-4xl font-bold mt-16 mb-6 scroll-mt-20">
               Будет ли проект от меня на эту тему
