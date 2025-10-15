@@ -668,9 +668,25 @@ const Index = () => {
               Как только я начала делиться своими успехами в вайбкодинге — меня завалили вопросами, как это делается.
             </p>
 
+            <div className="my-8">
+              <EditableImage 
+                storageKey="success-sharing-1" 
+                placeholder="Добавить изображение" 
+                size="medium"
+              />
+            </div>
+
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               А когда стала еще больше рассказывать — тем более.
             </p>
+
+            <div className="my-8">
+              <EditableImage 
+                storageKey="success-sharing-2" 
+                placeholder="Добавить изображение" 
+                size="medium"
+              />
+            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Кажется, меня к этому готовила жизнь) 11 лет опыта в дизайне и работе с клиентами, 85 млн выручки за
@@ -723,6 +739,14 @@ const Index = () => {
               российский сервер (потому что данные рф клиентов должны храниться на рф серверах), как это подавать в
               соцсетях.
             </p>
+
+            <div className="my-8">
+              <EditableImage 
+                storageKey="experience-lifehacks" 
+                placeholder="Добавить изображение" 
+                size="medium"
+              />
+            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">Поэтому — проекту быть.</p>
 
