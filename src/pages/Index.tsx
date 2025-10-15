@@ -45,11 +45,11 @@ const Index = () => {
           </header>
 
           {/* Hero Image */}
-          <div className="mb-12 sm:mb-16">
+          <div className="mb-12 sm:mb-16 flex justify-center">
             <img
               src={heroImage}
               alt="Современное рабочее пространство разработчика"
-              className="w-full rounded-2xl shadow-lg"
+              className="max-w-full rounded-2xl shadow-lg"
             />
           </div>
 
