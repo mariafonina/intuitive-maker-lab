@@ -261,6 +261,22 @@ const Index = () => {
               приложение в AppStore.
             </p>
 
+            <div className="my-8 sm:my-12">
+              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
+            </div>
+
+            <div className="my-8 sm:my-12">
+              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
+            </div>
+
+            <div className="my-8 sm:my-12">
+              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
+            </div>
+
+            <div className="my-8 sm:my-12">
+              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
+            </div>
+
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Тогда же ко мне приходят ребята с идеей — выгрузить мою методологию в сервис с искусственным интеллектом.
             </p>
@@ -372,10 +388,6 @@ const Index = () => {
               <p className="text-center text-sm text-muted-foreground mt-4">
                 Платформа, где теперь проходит мое обучение
               </p>
-            </div>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -506,30 +518,6 @@ const Index = () => {
                 alt="Пример платформы для клиентов - образовательная платформа"
                 className="max-w-full rounded-2xl shadow-lg"
               />
-            </div>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
             </div>
 
             <h3 id="dlya-sebya" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
@@ -693,17 +681,9 @@ const Index = () => {
               Как только я начала делиться своими успехами в вайбкодинге — меня завалили вопросами, как это делается.
             </p>
 
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
-
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               А когда стала еще больше рассказывать — тем более.
             </p>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Кажется, меня к этому готовила жизнь) 11 лет опыта в дизайне и работе с клиентами, 85 млн выручки за
@@ -756,10 +736,6 @@ const Index = () => {
               российский сервер (потому что данные рф клиентов должны храниться на рф серверах), как это подавать в
               соцсетях.
             </p>
-
-            <div className="my-8 sm:my-12">
-              <EditableImage storageKey="название-уникальное" placeholder="Описание для картинки" />
-            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">Поэтому — проекту быть.</p>
 
