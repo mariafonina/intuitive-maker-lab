@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { ProgressBar } from "@/components/ProgressBar";
-import { PreorderModal } from "@/components/PreorderModal";
 import { ChatBubble } from "@/components/ChatBubble";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/platform-example.jpg";
 const Index = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [readingTime, setReadingTime] = useState(0);
   useEffect(() => {
     const article = document.querySelector("article");
@@ -19,9 +17,8 @@ const Index = () => {
     }
   }, []);
   return <div className="min-h-screen bg-background">
-      <Navigation onOpenModal={() => setIsModalOpen(true)} />
+      <Navigation />
       <ProgressBar />
-      <PreorderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8">
         <article className="max-w-4xl mx-auto">
@@ -480,21 +477,6 @@ const Index = () => {
               Свободу создавать что угодно. Не зависеть от разработчиков, дизайнеров, бюджетов.
             </p>
 
-            {/* Final CTA */}
-            <div className="my-12 sm:my-16 text-center p-6 sm:p-12 bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-2xl">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mt-0 mb-6">
-                В честь моего 33-летия готовлю проект, который:
-              </h2>
-              <ul className="list-none p-0 space-y-4 text-gray-200 text-left mx-auto max-w-md mb-8">
-                {["научит вас создавать личные и коммерческие проекты с нуля", "покажет, как зарабатывать на вайбкодинге уже в процессе прохождения", "даст доступ ко всем моим промтам, шаблонам и фишкам"].map((item, idx) => <li key={idx} className="flex items-start text-sm sm:text-base">
-                    <span className="mr-2 text-accent">✔️</span>
-                    <span>{item}</span>
-                  </li>)}
-              </ul>
-              <button onClick={() => setIsModalOpen(true)} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all shadow-lg hover:shadow-xl">
-                Хочу быть в курсе!
-              </button>
-            </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">Кстати, этот сайт я завайбкодила за 2 часа. Вы уже в первую неделю сможете также.</p>
 
