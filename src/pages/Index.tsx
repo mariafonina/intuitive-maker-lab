@@ -499,13 +499,12 @@ const Index = () => {
               Создана вдвоем за 2 месяца: я и один разработчик вместо огромной команды или работы с партнерами.
             </p>
 
-            {/* Platform Screenshot */}
-            <div className="my-8 sm:my-12 flex justify-center">
-              <img
-                src={platformImage}
-                alt="Пример платформы для клиентов - образовательная платформа"
-                className="max-w-full rounded-2xl shadow-lg"
-              />
+            {/* Platform Screenshots */}
+            <div className="flex flex-col gap-4 my-8">
+              <EditableImage storageKey="platform-client-1" placeholder="Пример платформы для клиентов 1" size="medium" />
+              <EditableImage storageKey="platform-client-2" placeholder="Пример платформы для клиентов 2" size="medium" />
+              <EditableImage storageKey="platform-client-3" placeholder="Пример платформы для клиентов 3" size="medium" />
+              <EditableImage storageKey="platform-client-4" placeholder="Пример платформы для клиентов 4" size="medium" />
             </div>
 
             <h3 id="dlya-sebya" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
