@@ -14,8 +14,8 @@ export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: Admi
   ];
 
   return (
-    <div className="w-64 bg-muted/30 border-r min-h-screen flex flex-col">
-      <div className="p-6 border-b">
+    <div className="w-64 bg-muted/30 min-h-screen flex flex-col">
+      <div className="p-6">
         <a
           href="https://t.me/mari_zapuski"
           target="_blank"
@@ -30,11 +30,13 @@ export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: Admi
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentSection === item.id;
+          const isNewArticle = item.id === "new-article";
+          
           return (
             <Button
               key={item.id}
-              variant={isActive ? "secondary" : "ghost"}
-              className="w-full justify-start"
+              variant={isNewArticle ? "default" : (isActive ? "secondary" : "ghost")}
+              className={`w-full justify-start ${isNewArticle ? "transition-all duration-200 hover:scale-105 hover:shadow-lg" : ""}`}
               onClick={() => onSectionChange(item.id)}
             >
               <Icon className="mr-2 h-4 w-4" />
@@ -44,8 +46,8 @@ export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: Admi
         })}
       </nav>
 
-      <div className="p-4 border-t">
-        <Button variant="outline" className="w-full" onClick={onLogout}>
+      <div className="p-4">
+        <Button variant="ghost" className="w-full" onClick={onLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           Выйти
         </Button>
