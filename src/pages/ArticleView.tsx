@@ -142,9 +142,10 @@ const ArticleView = () => {
                   {article.subtitle}
                 </p>
               )}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
-                {article.title}
-              </h1>
+              <h1 
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6"
+                dangerouslySetInnerHTML={{ __html: article.title }}
+              />
               <p className="text-sm sm:text-base text-muted-foreground">
                 {readingTime > 0 && `Время на чтение: ~${readingTime} мин.`}
               </p>

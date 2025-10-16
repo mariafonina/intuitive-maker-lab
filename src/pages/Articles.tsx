@@ -94,9 +94,10 @@ const Articles = () => {
                         {article.subtitle}
                       </CardDescription>
                     )}
-                    <CardTitle className="text-xl line-clamp-2">
-                      {article.title}
-                    </CardTitle>
+                    <CardTitle 
+                      className="text-xl line-clamp-2"
+                      dangerouslySetInnerHTML={{ __html: article.title }}
+                    />
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground line-clamp-3 mb-4">

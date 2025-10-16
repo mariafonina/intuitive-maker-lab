@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Edit, Trash2, ExternalLink } from "lucide-react";
 import { RichTextEditor } from "@/components/RichTextEditor";
+import { TitleEditor } from "@/components/TitleEditor";
 import { AdminSidebar } from "@/components/AdminSidebar";
 
 interface Article {
@@ -218,11 +219,10 @@ const Admin = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="title">Заголовок</Label>
-                    <Input
-                      id="title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      required
+                    <TitleEditor
+                      content={title}
+                      onChange={setTitle}
+                      placeholder="Введите заголовок..."
                     />
                   </div>
                   <div className="space-y-2">
@@ -276,7 +276,10 @@ const Admin = () => {
                   <CardContent className="py-4 px-6">
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-lg mb-1">{article.title}</h3>
+                        <h3 
+                          className="font-semibold text-lg mb-1"
+                          dangerouslySetInnerHTML={{ __html: article.title }}
+                        />
                         <p className="text-sm text-muted-foreground">
                           {new Date(article.created_at).toLocaleDateString("ru-RU")} • {article.published ? "Опубликовано" : "Черновик"}
                         </p>
