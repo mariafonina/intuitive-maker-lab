@@ -28,13 +28,38 @@ export const EditableImage = ({
     loadImageFromDB();
   }, [storageKey]);
 
+  // Fallback: seed from localStorage if DB is empty
+  useEffect(() => {
+    if (!isLoading && !selectedImageUrl) {
+      const lsUrl = localStorage.getItem(`image_${storageKey}`);
+      const lsSize = (localStorage.getItem(`image_size_${storageKey}`) as 'small' | 'medium' | 'full') || size;
+      const lsCaption = localStorage.getItem(`image_caption_${storageKey}`) || '';
+      if (lsUrl) {
+        supabase
+          .from('site_images')
+          .upsert(
+            [{
+              storage_key: storageKey,
+              image_url: lsUrl,
+              image_size: lsSize,
+              caption: lsCaption,
+            }],
+            { onConflict: 'storage_key' }
+          );
+        setSelectedImageUrl(lsUrl);
+        setCurrentSize(lsSize);
+        setCaption(lsCaption);
+      }
+    }
+  }, [isLoading, selectedImageUrl, storageKey, size]);
+
   const loadImageFromDB = async () => {
     try {
       const { data, error } = await supabase
         .from('site_images')
         .select('*')
         .eq('storage_key', storageKey)
-        .single();
+        .maybeSingle();
 
       if (error && error.code !== 'PGRST116') {
         console.error('Error loading image:', error);
@@ -60,26 +85,17 @@ export const EditableImage = ({
     setIsDialogOpen(false);
 
     try {
-      // Try to update existing record first
-      const { error: updateError } = await supabase
+      await supabase
         .from('site_images')
-        .update({
-          image_url: url,
-          image_size: finalSize,
-        })
-        .eq('storage_key', storageKey);
-
-      // If no rows were updated, insert new record
-      if (updateError || updateError?.code === 'PGRST116') {
-        await supabase
-          .from('site_images')
-          .insert({
+        .upsert(
+          [{
             storage_key: storageKey,
             image_url: url,
             image_size: finalSize,
             caption: caption,
-          });
-      }
+          }],
+          { onConflict: 'storage_key' }
+        );
     } catch (error) {
       console.error('Error saving image:', error);
     }
@@ -90,10 +106,19 @@ export const EditableImage = ({
     setCaption(newCaption);
 
     try {
-      await supabase
-        .from('site_images')
-        .update({ caption: newCaption })
-        .eq('storage_key', storageKey);
+      if (selectedImageUrl) {
+        await supabase
+          .from('site_images')
+          .upsert(
+            [{
+              storage_key: storageKey,
+              image_url: selectedImageUrl,
+              image_size: currentSize,
+              caption: newCaption,
+            }],
+            { onConflict: 'storage_key' }
+          );
+      }
     } catch (error) {
       console.error('Error updating caption:', error);
     }
