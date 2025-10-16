@@ -23,7 +23,9 @@ const Index = () => {
       setReadingTime(time);
     }
   }, []);
-  return <div className="min-h-screen bg-background">
+  
+  return (
+    <div className="min-h-screen bg-background">
       <Navigation />
       <ProgressBar />
 
@@ -594,6 +596,8 @@ const Index = () => {
       <footer className="text-center py-12 border-t border-border mt-16">
         <p className="text-muted-foreground">© 2025 Мари Афонина с ИИ С любовью</p>
       </footer>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
