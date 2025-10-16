@@ -7,8 +7,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Edit, Trash2, LogOut } from "lucide-react";
+import { Loader2, Edit, Trash2 } from "lucide-react";
 import { RichTextEditor } from "@/components/RichTextEditor";
+import { AdminSidebar } from "@/components/AdminSidebar";
 
 interface Article {
   id: string;
@@ -26,6 +27,7 @@ const Admin = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
+  const [currentSection, setCurrentSection] = useState("articles");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -140,6 +142,7 @@ const Admin = () => {
     setTitle(article.title);
     setContent(article.content);
     setPublished(article.published);
+    setCurrentSection("new-article");
   };
 
   const handleDelete = async (id: string) => {
@@ -190,76 +193,78 @@ const Admin = () => {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Админ-панель</h1>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Выйти
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {editingArticle ? "Редактировать статью" : "Создать статью"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Заголовок</Label>
-                  <Input
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="content">Содержание</Label>
-                  <RichTextEditor
-                    content={content}
-                    onChange={setContent}
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="published"
-                    checked={published}
-                    onCheckedChange={setPublished}
-                  />
-                  <Label htmlFor="published">Опубликовать</Label>
-                </div>
-                <div className="flex gap-2">
-                  <Button type="submit" className="flex-1">
-                    {editingArticle ? "Обновить" : "Создать"}
-                  </Button>
-                  {editingArticle && (
-                    <Button type="button" variant="outline" onClick={resetForm}>
-                      Отмена
+    <div className="min-h-screen bg-background flex">
+      <AdminSidebar
+        currentSection={currentSection}
+        onSectionChange={setCurrentSection}
+        onLogout={handleLogout}
+      />
+      
+      <div className="flex-1 p-8">
+        {currentSection === "new-article" && (
+          <div className="max-w-4xl">
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  {editingArticle ? "Редактировать статью" : "Создать статью"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="title">Заголовок</Label>
+                    <Input
+                      id="title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="content">Содержание</Label>
+                    <RichTextEditor
+                      content={content}
+                      onChange={setContent}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="published"
+                      checked={published}
+                      onCheckedChange={setPublished}
+                    />
+                    <Label htmlFor="published">Опубликовать</Label>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button type="submit" className="flex-1">
+                      {editingArticle ? "Обновить" : "Создать"}
                     </Button>
-                  )}
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+                    {editingArticle && (
+                      <Button type="button" variant="outline" onClick={resetForm}>
+                        Отмена
+                      </Button>
+                    )}
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
-          <div className="space-y-3">
-            <h2 className="text-2xl font-bold">Статьи</h2>
+        {currentSection === "articles" && (
+          <div className="max-w-4xl space-y-4">
+            <h2 className="text-3xl font-bold mb-6">Все статьи</h2>
             {articles.length === 0 ? (
               <p className="text-muted-foreground">Нет статей</p>
             ) : (
               articles.map((article) => (
-                <Card key={article.id} className="hover:bg-muted/50 transition-colors border-none shadow-none">
-                  <CardContent className="py-3 px-4">
-                    <div className="flex justify-between items-center gap-4">
+                <Card key={article.id} className="hover:bg-muted/50 transition-colors">
+                  <CardContent className="py-4 px-6">
+                    <div className="flex justify-between items-start gap-4">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium truncate">{article.title}</h3>
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(article.created_at).toLocaleDateString("ru-RU")}
+                        <h3 className="font-semibold text-lg mb-1">{article.title}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(article.created_at).toLocaleDateString("ru-RU")} • {article.published ? "Опубликовано" : "Черновик"}
                         </p>
                       </div>
                       <div className="flex gap-2 shrink-0">
@@ -284,7 +289,7 @@ const Admin = () => {
               ))
             )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
