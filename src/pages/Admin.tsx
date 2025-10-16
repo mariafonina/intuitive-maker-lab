@@ -203,7 +203,7 @@ const Admin = () => {
       <div className="flex-1 p-8">
         {currentSection === "new-article" && (
           <div className="max-w-4xl">
-            <Card>
+            <Card className="border-none shadow-none">
               <CardHeader>
                 <CardTitle>
                   {editingArticle ? "Редактировать статью" : "Создать статью"}
