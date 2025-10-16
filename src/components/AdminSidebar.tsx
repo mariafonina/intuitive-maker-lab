@@ -9,8 +9,8 @@ interface AdminSidebarProps {
 
 export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: AdminSidebarProps) => {
   const menuItems = [
-    { id: "articles", label: "Статьи", icon: FileText },
     { id: "new-article", label: "Новая статья", icon: Plus },
+    { id: "articles", label: "Статьи", icon: FileText },
   ];
 
   return (
