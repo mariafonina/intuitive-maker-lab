@@ -64,11 +64,10 @@ const Articles = () => {
                   </p>
                 </CardHeader>
                 <CardContent>
-                  <div className="prose prose-gray dark:prose-invert max-w-none">
-                    {article.content.split('\n').map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
-                    ))}
-                  </div>
+                  <div 
+                    className="prose prose-gray dark:prose-invert max-w-none"
+                    dangerouslySetInnerHTML={{ __html: article.content }}
+                  />
                 </CardContent>
               </Card>
             ))}

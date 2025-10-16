@@ -4,11 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Plus, Edit, Trash2, LogOut } from "lucide-react";
+import { Loader2, Edit, Trash2, LogOut } from "lucide-react";
+import { RichTextEditor } from "@/components/RichTextEditor";
 
 interface Article {
   id: string;
@@ -220,12 +220,9 @@ const Admin = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="content">Содержание</Label>
-                  <Textarea
-                    id="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    required
-                    rows={10}
+                  <RichTextEditor
+                    content={content}
+                    onChange={setContent}
                   />
                 </div>
                 <div className="flex items-center space-x-2">
@@ -277,9 +274,10 @@ const Admin = () => {
                         </Button>
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
-                      {article.content}
-                    </p>
+                    <div 
+                      className="text-sm text-muted-foreground line-clamp-3 mb-2 prose prose-sm"
+                      dangerouslySetInnerHTML={{ __html: article.content }}
+                    />
                     <div className="flex items-center gap-2 text-xs">
                       <span
                         className={`px-2 py-1 rounded ${
