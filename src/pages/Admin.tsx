@@ -24,6 +24,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState<Article[]>([]);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
   const [currentSection, setCurrentSection] = useState("articles");
@@ -95,16 +96,10 @@ const Admin = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
-      // Extract title from first line of content
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = content;
-      const firstParagraph = tempDiv.querySelector('p, h1, h2, h3, h4, h5, h6');
-      const extractedTitle = firstParagraph?.textContent?.trim() || 'Без заголовка';
-
       if (editingArticle) {
         const { error } = await supabase
           .from("articles")
-          .update({ title: extractedTitle, content, published })
+          .update({ title, content, published })
           .eq("id", editingArticle.id);
 
         if (error) throw error;
@@ -117,7 +112,7 @@ const Admin = () => {
         const { error } = await supabase
           .from("articles")
           .insert({
-            title: extractedTitle,
+            title,
             content,
             published,
             author_id: session.user.id,
@@ -144,6 +139,7 @@ const Admin = () => {
 
   const handleEdit = (article: Article) => {
     setEditingArticle(article);
+    setTitle(article.title);
     setContent(article.content);
     setPublished(article.published);
     setCurrentSection("new-article");
@@ -176,6 +172,7 @@ const Admin = () => {
 
   const resetForm = () => {
     setEditingArticle(null);
+    setTitle("");
     setContent("");
     setPublished(false);
   };
@@ -215,7 +212,16 @@ const Admin = () => {
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="content">Содержание (первая строка станет заголовком)</Label>
+                    <Label htmlFor="title">Заголовок</Label>
+                    <Input
+                      id="title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="content">Содержание</Label>
                     <RichTextEditor
                       content={content}
                       onChange={setContent}
