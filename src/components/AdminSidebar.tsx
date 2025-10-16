@@ -11,6 +11,7 @@ export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: Admi
   const menuItems = [
     { id: "new-article", label: "Новая статья", icon: Plus },
     { id: "articles", label: "Статьи", icon: FileText },
+    { id: "images", label: "Галерея изображений", icon: FileText },
   ];
 
   return (

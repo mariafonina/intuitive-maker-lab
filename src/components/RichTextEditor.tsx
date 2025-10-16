@@ -19,7 +19,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { ImageGalleryDialog } from './ImageGalleryDialog';
 
 interface RichTextEditorProps {
   content: string;
@@ -63,6 +64,8 @@ const GradientText = Mark.create({
 });
 
 export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -159,6 +162,13 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
     };
     
     input.click();
+  }, [editor]);
+
+  const handleGalleryImageSelect = useCallback((url: string) => {
+    if (editor) {
+      editor.chain().focus().setImage({ src: url }).run();
+      setIsGalleryOpen(false);
+    }
   }, [editor]);
 
   if (!editor) {
@@ -261,10 +271,26 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={addImage}
             icon={ImageIcon}
           />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsGalleryOpen(true)}
+            className="h-9 px-3 text-xs"
+          >
+            Из галереи
+          </Button>
         </div>
       </div>
 
       <EditorContent editor={editor} />
+      
+      <ImageGalleryDialog
+        open={isGalleryOpen}
+        onOpenChange={setIsGalleryOpen}
+        onSelectImage={handleGalleryImageSelect}
+        showSizeSelector={false}
+      />
     </div>
   );
 };

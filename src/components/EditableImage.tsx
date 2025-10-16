@@ -22,11 +22,39 @@ export const EditableImage = ({
   const [currentSize, setCurrentSize] = useState<'small' | 'medium' | 'full'>(size);
   const [caption, setCaption] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Check admin status on mount
+  useEffect(() => {
+    checkAdminStatus();
+  }, []);
 
   // Load image data from database on mount
   useEffect(() => {
     loadImageFromDB();
   }, [storageKey]);
+
+  const checkAdminStatus = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        setIsAdmin(false);
+        return;
+      }
+
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      setIsAdmin(!!roles);
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      setIsAdmin(false);
+    }
+  };
 
   // Fallback: seed from localStorage if DB is empty
   useEffect(() => {
@@ -136,6 +164,27 @@ export const EditableImage = ({
   };
 
   if (selectedImageUrl) {
+    // Read-only mode for non-admins
+    if (!isAdmin) {
+      return (
+        <div className={className}>
+          <div className={`rounded-2xl overflow-hidden ${getSizeClasses()}`}>
+            <img 
+              src={selectedImageUrl} 
+              alt={caption || "Content image"} 
+              className="w-full h-full object-contain bg-muted"
+            />
+          </div>
+          {caption && (
+            <p className="mt-3 text-sm text-center italic text-muted-foreground">
+              {caption}
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    // Editable mode for admins
     return (
       <div className={className}>
         <div 
@@ -169,6 +218,12 @@ export const EditableImage = ({
     );
   }
 
+  // Non-admins see nothing if no image is selected
+  if (!isAdmin) {
+    return null;
+  }
+
+  // Admins can add images
   return (
     <>
       <div 

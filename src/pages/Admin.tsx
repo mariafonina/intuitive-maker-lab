@@ -11,6 +11,7 @@ import { Loader2, Edit, Trash2, ExternalLink } from "lucide-react";
 import { RichTextEditor } from "@/components/RichTextEditor";
 import { TitleEditor } from "@/components/TitleEditor";
 import { AdminSidebar } from "@/components/AdminSidebar";
+import { ImageUpload } from "@/components/ImageUpload";
 
 interface Article {
   id: string;
@@ -315,6 +316,13 @@ const Admin = () => {
                 </Card>
               ))
             )}
+          </div>
+        )}
+
+        {currentSection === "images" && (
+          <div className="max-w-4xl">
+            <h2 className="text-3xl font-bold mb-6">Галерея изображений</h2>
+            <ImageUpload />
           </div>
         )}
       </div>

@@ -8,7 +8,7 @@ import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/vibecoding-platform.png";
 import talkscoreImage from "@/assets/talkscore-screenshot.png";
 
-import { EditableImage } from "@/components/EditableImage";
+
 const Index = () => {
   const [readingTime, setReadingTime] = useState(0);
   useEffect(() => {
@@ -226,12 +226,9 @@ const Index = () => {
               приложение в AppStore.
             </p>
 
-            <div className="flex flex-col gap-4 my-8">
-              <EditableImage storageKey="app-dev-1" placeholder="Скриншот из разработки приложения" size="small" />
-              <EditableImage storageKey="app-dev-2" placeholder="Пример бага в приложении" size="small" />
-              <EditableImage storageKey="app-dev-3" placeholder="Процесс разработки" size="small" />
-              <EditableImage storageKey="app-dev-4" placeholder="Результат работы команды" size="small" />
-            </div>
+            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
+              [Здесь были скриншоты из процесса разработки приложения]
+            </p>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Тогда же ко мне приходят ребята с идеей — выгрузить мою методологию в сервис с искусственным интеллектом.
@@ -272,9 +269,11 @@ const Index = () => {
               разработала платформу за 3 часа, на которую у меня уходило несколько месяцев!
             </p>
 
-            {/* Editable Image 1 - Full width */}
+            {/* Static Image Placeholder 1 */}
             <div className="my-8 sm:my-12">
-              <EditableImage storageKey="vibecoding-intro" placeholder="Добавить изображение о вайбкодинге (на весь экран)" size="full" />
+              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
+                [Здесь может быть изображение о вайбкодинге]
+              </p>
             </div>
 
             {/* Emoji Reactions */}
@@ -328,7 +327,9 @@ const Index = () => {
               </p>
               
               <div className="my-8">
-                <EditableImage storageKey="vibecoding-messenger-example" placeholder="Пример интерфейса общения с ИИ" size="medium" />
+                <p className="text-base text-muted-foreground mb-6 italic text-center">
+                  [Пример интерфейса общения с ИИ]
+                </p>
               </div>
             </div>
 
@@ -375,9 +376,11 @@ const Index = () => {
               руководителю учитывать рабочее время сотрудников.
             </p>
 
-            {/* Editable Image 2 - Medium size */}
+            {/* Static Image Placeholder 2 */}
             <div className="my-8 sm:my-12">
-              <EditableImage storageKey="team-example" placeholder="Добавить пример для команды (средний размер)" size="medium" />
+              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
+                [Пример для команды]
+              </p>
             </div>
 
             <h3 id="dlya-klientov" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
@@ -402,9 +405,11 @@ const Index = () => {
               И все это — за 4 000 руб. в месяц на нейросети. Вместо сотен тысяч и миллионов на заказ, как раньше.
             </p>
 
-            {/* Editable Image 3 - Small size */}
+            {/* Static Image Placeholder 3 */}
             <div className="my-8 sm:my-12">
-              <EditableImage storageKey="clients-example" placeholder="Добавить пример для клиентов (маленькое фото)" size="small" />
+              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
+                [Пример для клиентов]
+              </p>
             </div>
 
             <h4 className="text-xl sm:text-2xl font-bold mt-8 mb-4">Пример нашей платформы для клиентов</h4>
@@ -414,10 +419,9 @@ const Index = () => {
 
             {/* Platform Screenshots */}
             <div className="flex flex-col gap-4 my-8">
-              <EditableImage storageKey="platform-client-1" placeholder="Пример платформы для клиентов 1" size="medium" />
-              <EditableImage storageKey="platform-client-2" placeholder="Пример платформы для клиентов 2" size="medium" />
-              <EditableImage storageKey="platform-client-3" placeholder="Пример платформы для клиентов 3" size="medium" />
-              <EditableImage storageKey="platform-client-4" placeholder="Пример платформы для клиентов 4" size="medium" />
+              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
+                [Примеры платформы для клиентов]
+              </p>
             </div>
 
             <h3 id="dlya-sebya" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
@@ -448,9 +452,11 @@ const Index = () => {
               проекты, которые я завайбкодю (надеюсь, слово правильное), а не мое личное время.
             </p>
 
-            {/* Editable Image 4 - Medium size */}
+            {/* Static Image Placeholder 4 */}
             <div className="my-8 sm:my-12">
-              <EditableImage storageKey="personal-projects" placeholder="Добавить изображение личного проекта (средний размер)" size="medium" />
+              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
+                [Личный проект]
+              </p>
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
@@ -507,7 +513,9 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <EditableImage storageKey="success-sharing-1" placeholder="Добавить изображение" size="medium" />
+              <p className="text-base text-muted-foreground mb-6 italic text-center">
+                [Успехи в вайбкодинге]
+              </p>
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -515,7 +523,9 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <EditableImage storageKey="success-sharing-2" placeholder="Добавить изображение" size="medium" />
+              <p className="text-base text-muted-foreground mb-6 italic text-center">
+                [Успехи в вайбкодинге - часть 2]
+              </p>
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -523,7 +533,9 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <EditableImage storageKey="masterclass-reviews" placeholder="Добавить изображение" size="medium" />
+              <p className="text-base text-muted-foreground mb-6 italic text-center">
+                [Отзывы с мастер-класса]
+              </p>
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -562,7 +574,9 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <EditableImage storageKey="experience-lifehacks" placeholder="Добавить изображение" size="medium" />
+              <p className="text-base text-muted-foreground mb-6 italic text-center">
+                [Опыт и лайфхаки]
+              </p>
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">Поэтому — проекту быть.</p>
