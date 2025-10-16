@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Edit, Trash2 } from "lucide-react";
+import { Loader2, Edit, Trash2, ExternalLink } from "lucide-react";
 import { RichTextEditor } from "@/components/RichTextEditor";
 import { AdminSidebar } from "@/components/AdminSidebar";
 
@@ -268,6 +268,16 @@ const Admin = () => {
                         </p>
                       </div>
                       <div className="flex gap-2 shrink-0">
+                        {article.published && (
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => window.open("/articles", "_blank")}
+                            title="Открыть на сайте"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        )}
                         <Button
                           size="icon"
                           variant="ghost"
