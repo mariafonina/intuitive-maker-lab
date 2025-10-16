@@ -45,16 +45,72 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-gray dark:prose-invert max-w-none focus:outline-none min-h-[400px] px-4 py-3',
+        class: 'prose prose-lg dark:prose-invert max-w-none focus:outline-none min-h-[400px] px-6 py-4',
+      },
+      handleDrop: (view, event, slice, moved) => {
+        if (!moved && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) {
+          const file = event.dataTransfer.files[0];
+          if (file.type.startsWith('image/')) {
+            event.preventDefault();
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const base64 = e.target?.result as string;
+              const { schema } = view.state;
+              const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY });
+              if (coordinates) {
+                const node = schema.nodes.image.create({ src: base64 });
+                const transaction = view.state.tr.insert(coordinates.pos, node);
+                view.dispatch(transaction);
+              }
+            };
+            reader.readAsDataURL(file);
+            return true;
+          }
+        }
+        return false;
+      },
+      handlePaste: (view, event) => {
+        const items = event.clipboardData?.items;
+        if (items) {
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].type.startsWith('image/')) {
+              event.preventDefault();
+              const file = items[i].getAsFile();
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const base64 = e.target?.result as string;
+                  editor?.chain().focus().setImage({ src: base64 }).run();
+                };
+                reader.readAsDataURL(file);
+              }
+              return true;
+            }
+          }
+        }
+        return false;
       },
     },
   });
 
   const addImage = useCallback(() => {
-    const url = window.prompt('Введите URL изображения:');
-    if (url && editor) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file && editor) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const base64 = event.target?.result as string;
+          editor.chain().focus().setImage({ src: base64 }).run();
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    
+    input.click();
   }, [editor]);
 
   if (!editor) {
