@@ -493,7 +493,7 @@ const Index = () => {
           }]} />
 
             <h2 id="kak-zarabatyvat" className="text-3xl sm:text-4xl font-bold mt-16 mb-6 scroll-mt-20">
-              Как на этом зарабатывать: 9 способов
+              Как на этом зарабатывать: 8 способов
             </h2>
             
             <EditableText
