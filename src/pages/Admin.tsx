@@ -289,7 +289,7 @@ const Admin = () => {
                           <Button
                             size="icon"
                             variant="ghost"
-                            onClick={() => window.open("/articles", "_blank")}
+                            onClick={() => window.open(`/articles/${article.id}`, "_blank")}
                             title="Открыть на сайте"
                           >
                             <ExternalLink className="h-4 w-4" />
