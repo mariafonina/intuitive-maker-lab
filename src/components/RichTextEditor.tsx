@@ -127,13 +127,11 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const ToolbarButton = ({ 
     onClick, 
     isActive = false, 
-    icon: Icon, 
-    label 
+    icon: Icon
   }: { 
     onClick: () => void; 
     isActive?: boolean; 
-    icon: any; 
-    label: string;
+    icon: any;
   }) => (
     <Button
       type="button"
@@ -141,7 +139,6 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       size="sm"
       onClick={onClick}
       className={`h-9 w-9 p-0 ${isActive ? 'bg-muted' : ''}`}
-      title={label}
     >
       <Icon className="h-4 w-4" />
     </Button>
@@ -154,12 +151,10 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
           <ToolbarButton
             onClick={() => editor.chain().focus().undo().run()}
             icon={Undo}
-            label="Отменить"
           />
           <ToolbarButton
             onClick={() => editor.chain().focus().redo().run()}
             icon={Redo}
-            label="Повторить"
           />
         </div>
 
@@ -168,13 +163,11 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={() => editor.chain().focus().toggleBold().run()}
             isActive={editor.isActive('bold')}
             icon={Bold}
-            label="Жирный"
           />
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleItalic().run()}
             isActive={editor.isActive('italic')}
             icon={Italic}
-            label="Курсив"
           />
         </div>
 
@@ -183,19 +176,16 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             isActive={editor.isActive('heading', { level: 1 })}
             icon={Heading1}
-            label="Заголовок 1"
           />
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
             isActive={editor.isActive('heading', { level: 2 })}
             icon={Heading2}
-            label="Заголовок 2"
           />
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
             isActive={editor.isActive('heading', { level: 3 })}
             icon={Heading3}
-            label="Заголовок 3"
           />
         </div>
 
@@ -204,13 +194,11 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             isActive={editor.isActive('bulletList')}
             icon={List}
-            label="Маркированный список"
           />
           <ToolbarButton
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             isActive={editor.isActive('orderedList')}
             icon={ListOrdered}
-            label="Нумерованный список"
           />
         </div>
 
@@ -219,7 +207,6 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             isActive={editor.isActive('blockquote')}
             icon={Quote}
-            label="Цитата"
           />
         </div>
 
@@ -227,7 +214,6 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
           <ToolbarButton
             onClick={addImage}
             icon={ImageIcon}
-            label="Добавить изображение"
           />
         </div>
       </div>
