@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2 } from "lucide-react";
+import { Loader2, Clock } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
-import { ProgressBar } from "@/components/ProgressBar";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Article {
   id: string;
@@ -12,14 +13,10 @@ interface Article {
   created_at: string;
 }
 
-interface TocItem {
-  id: string;
-  text: string;
-}
-
 const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadArticles();
@@ -39,14 +36,6 @@ const Articles = () => {
     setLoading(false);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
   const calculateReadingTime = (content: string) => {
     const div = document.createElement("div");
     div.innerHTML = content;
@@ -56,96 +45,69 @@ const Articles = () => {
     return Math.ceil(wordCount / wordsPerMinute);
   };
 
-  const extractTableOfContents = (content: string): TocItem[] => {
+  const getExcerpt = (content: string, maxLength = 150) => {
     const div = document.createElement("div");
     div.innerHTML = content;
-    const h2Elements = div.querySelectorAll("h2");
-    
-    return Array.from(h2Elements).map((h2, index) => {
-      let id = h2.id || `heading-${index}`;
-      // If h2 doesn't have an id, we'll add it later
-      if (!h2.id) {
-        h2.id = id;
-      }
-      return {
-        id,
-        text: h2.textContent || ""
-      };
-    });
+    const text = div.innerText;
+    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
 
-  const addIdsToH2Elements = (content: string, toc: TocItem[]): string => {
-    const div = document.createElement("div");
-    div.innerHTML = content;
-    const h2Elements = div.querySelectorAll("h2");
-    
-    h2Elements.forEach((h2, index) => {
-      if (!h2.id && toc[index]) {
-        h2.id = toc[index].id;
-        h2.classList.add("scroll-mt-20");
-      }
-    });
-    
-    return div.innerHTML;
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <ProgressBar />
       
-      <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8">
+      <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <header className="text-center mb-12 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+            Статьи
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            Читайте наши статьи и гайды
+          </p>
+        </header>
+
         {articles.length === 0 ? (
           <p className="text-muted-foreground text-center">Статей пока нет</p>
         ) : (
-          <div className="space-y-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.map((article) => {
               const readingTime = calculateReadingTime(article.content);
-              const toc = extractTableOfContents(article.content);
-              const contentWithIds = addIdsToH2Elements(article.content, toc);
+              const excerpt = getExcerpt(article.content);
               
               return (
-                <article key={article.id} className="max-w-4xl mx-auto">
-                  {/* Header */}
-                  <header className="text-center mb-12 sm:mb-16">
+                <Card 
+                  key={article.id}
+                  className="cursor-pointer hover:shadow-lg transition-shadow"
+                  onClick={() => navigate(`/articles/${article.id}`)}
+                >
+                  <CardHeader>
                     {article.subtitle && (
-                      <p className="text-sm sm:text-base font-semibold text-primary mb-2 sm:mb-4">
+                      <CardDescription className="text-primary font-semibold mb-2">
                         {article.subtitle}
-                      </p>
+                      </CardDescription>
                     )}
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+                    <CardTitle className="text-xl line-clamp-2">
                       {article.title}
-                    </h1>
-                    <p className="text-sm sm:text-base text-muted-foreground">
-                      {readingTime > 0 && `Время на чтение: ~${readingTime} мин.`}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground line-clamp-3 mb-4">
+                      {excerpt}
                     </p>
-                  </header>
-
-                  {/* Table of Contents */}
-                  {toc.length > 0 && (
-                    <div className="my-8 sm:my-12 p-4 sm:p-6 bg-muted/50 rounded-2xl">
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4 sm:mb-6">Содержание</h3>
-                      <ul className="space-y-2 text-left list-none">
-                        {toc.map((item) => (
-                          <li key={item.id}>
-                            <a 
-                              href={`#${item.id}`} 
-                              className="text-sm text-primary hover:underline font-medium transition-colors"
-                            >
-                              {item.text}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Clock className="h-4 w-4 mr-1" />
+                      <span>~{readingTime} мин.</span>
                     </div>
-                  )}
-
-                  {/* Content */}
-                  <div 
-                    className="prose prose-lg max-w-none"
-                    dangerouslySetInnerHTML={{ __html: contentWithIds }}
-                  />
-                </article>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
