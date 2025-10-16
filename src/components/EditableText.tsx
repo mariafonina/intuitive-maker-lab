@@ -118,49 +118,106 @@ export const EditableText = ({
       editContent.substring(end);
 
     setEditContent(newText);
+    
+    // Set focus back and adjust cursor position
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + prefix.length + selectedText.length + suffix.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 0);
   };
 
   const renderContent = () => {
     if (!content) return null;
 
-    // Simple markdown-like rendering: **bold** and > quote
     const lines = content.split("\n");
-    return lines.map((line, index) => {
+    const elements: JSX.Element[] = [];
+    let orderedListItems: string[] = [];
+    let listStartIndex = -1;
+
+    const flushOrderedList = (currentIndex: number) => {
+      if (orderedListItems.length > 0) {
+        elements.push(
+          <ol key={`ol-${listStartIndex}`} className="space-y-2 mb-6 list-decimal list-inside">
+            {orderedListItems.map((item, idx) => (
+              <li
+                key={idx}
+                className="text-base sm:text-lg leading-relaxed text-muted-foreground"
+              >
+                {renderFormattedText(item)}
+              </li>
+            ))}
+          </ol>
+        );
+        orderedListItems = [];
+        listStartIndex = -1;
+      }
+    };
+
+    lines.forEach((line, index) => {
       // Check if line is a quote
       if (line.trim().startsWith(">")) {
+        flushOrderedList(index);
         const quoteText = line.trim().substring(1).trim();
-        return (
+        elements.push(
           <blockquote
             key={index}
             className="border-l-4 border-primary pl-4 sm:pl-6 italic text-base sm:text-lg text-muted-foreground my-4"
           >
-            {renderBoldText(quoteText)}
+            {renderFormattedText(quoteText)}
           </blockquote>
         );
+        return;
+      }
+
+      // Check if line is an ordered list item (1. text)
+      const orderedListMatch = line.trim().match(/^(\d+)\.\s+(.+)$/);
+      if (orderedListMatch) {
+        if (listStartIndex === -1) listStartIndex = index;
+        orderedListItems.push(orderedListMatch[2]);
+        return;
+      }
+
+      // If we were building a list and hit a non-list line, flush the list
+      if (orderedListItems.length > 0) {
+        flushOrderedList(index);
       }
 
       // Regular paragraph
       if (line.trim()) {
-        return (
+        elements.push(
           <p
             key={index}
             className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4"
           >
-            {renderBoldText(line)}
+            {renderFormattedText(line)}
           </p>
         );
+      } else {
+        elements.push(<br key={index} />);
       }
-
-      return <br key={index} />;
     });
+
+    // Flush any remaining list items
+    flushOrderedList(lines.length);
+
+    return elements;
   };
 
-  const renderBoldText = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
+  const renderFormattedText = (text: string) => {
+    // Split by both bold (**text**) and italic (*text*)
+    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+    
     return parts.map((part, index) => {
+      // Bold text
       if (part.startsWith("**") && part.endsWith("**")) {
         const boldText = part.slice(2, -2);
         return <strong key={index}>{boldText}</strong>;
+      }
+      // Italic text (but not bold)
+      if (part.startsWith("*") && part.endsWith("*") && !part.startsWith("**")) {
+        const italicText = part.slice(1, -1);
+        return <em key={index}>{italicText}</em>;
       }
       return <span key={index}>{part}</span>;
     });
@@ -192,10 +249,34 @@ export const EditableText = ({
             <Button
               size="sm"
               variant="outline"
+              onClick={() => insertFormatting("*", "*")}
+              type="button"
+            >
+              Курсив
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
               onClick={() => insertFormatting("> ", "")}
               type="button"
             >
               Цитата
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => {
+                const textarea = document.querySelector("textarea");
+                if (!textarea) return;
+                const start = textarea.selectionStart;
+                const lines = editContent.substring(0, start).split("\n");
+                const currentLineStart = editContent.lastIndexOf("\n", start - 1) + 1;
+                const prefix = currentLineStart === 0 ? "1. " : "\n1. ";
+                insertFormatting(prefix, "");
+              }}
+              type="button"
+            >
+              Нумерованный список
             </Button>
           </div>
           <Textarea
@@ -209,7 +290,13 @@ export const EditableText = ({
               <strong>**текст**</strong> - полужирный
             </p>
             <p>
+              <strong>*текст*</strong> - курсив
+            </p>
+            <p>
               <strong>&gt; текст</strong> - цитата (в начале строки)
+            </p>
+            <p>
+              <strong>1. текст</strong> - нумерованный список
             </p>
           </div>
           <div className="flex gap-2">

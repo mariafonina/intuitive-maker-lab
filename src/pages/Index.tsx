@@ -233,6 +233,19 @@ const Index = () => {
               className="my-8"
             />
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+              <EditableImage 
+                storageKey="initial-idea-photo-1"
+                placeholder="Добавить фото 1"
+                size="medium"
+              />
+              <EditableImage 
+                storageKey="initial-idea-photo-2"
+                placeholder="Добавить фото 2"
+                size="medium"
+              />
+            </div>
+
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Тогда же ко мне приходят ребята с идеей — выгрузить мою методологию в сервис с искусственным интеллектом.
             </p>
