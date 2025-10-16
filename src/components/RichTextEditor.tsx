@@ -16,7 +16,7 @@ import {
   Redo,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 interface RichTextEditorProps {
   content: string;
@@ -92,6 +92,13 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       },
     },
   });
+
+  // Синхронизация содержимого при изменении пропса content
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   const addImage = useCallback(() => {
     const input = document.createElement('input');
