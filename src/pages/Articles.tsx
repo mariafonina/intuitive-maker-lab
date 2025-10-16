@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
+import { ProgressBar } from "@/components/ProgressBar";
 
 interface Article {
   id: string;
@@ -40,37 +41,51 @@ const Articles = () => {
     );
   }
 
+  const calculateReadingTime = (content: string) => {
+    const div = document.createElement("div");
+    div.innerHTML = content;
+    const text = div.innerText;
+    const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
+    const wordsPerMinute = 230;
+    return Math.ceil(wordCount / wordsPerMinute);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="container mx-auto px-6 sm:px-12 lg:px-24 py-16 max-w-7xl">
+      <ProgressBar />
+      
+      <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8">
         {articles.length === 0 ? (
-          <p className="text-muted-foreground">Статей пока нет</p>
+          <p className="text-muted-foreground text-center">Статей пока нет</p>
         ) : (
-          <div className="space-y-16">
-            {articles.map((article) => (
-              <article key={article.id} className="space-y-6">
-                <div className="space-y-4">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-                    {article.title}
-                  </h1>
-                  <p className="text-sm text-muted-foreground">
-                    {new Date(article.created_at).toLocaleDateString("ru-RU", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-                </div>
-                <div 
-                  className="prose prose-gray dark:prose-invert max-w-none prose-lg"
-                  dangerouslySetInnerHTML={{ __html: article.content }}
-                />
-              </article>
-            ))}
+          <div className="space-y-32">
+            {articles.map((article) => {
+              const readingTime = calculateReadingTime(article.content);
+              
+              return (
+                <article key={article.id} className="max-w-4xl mx-auto">
+                  {/* Header */}
+                  <header className="text-center mb-12 sm:mb-16">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+                      {article.title}
+                    </h1>
+                    <p className="text-sm sm:text-base text-muted-foreground">
+                      {readingTime > 0 && `Время на чтение: ~${readingTime} мин.`}
+                    </p>
+                  </header>
+
+                  {/* Content */}
+                  <div 
+                    className="prose prose-lg max-w-none"
+                    dangerouslySetInnerHTML={{ __html: article.content }}
+                  />
+                </article>
+              );
+            })}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 };
