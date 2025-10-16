@@ -7,7 +7,7 @@ import { preventOrphans } from "@/lib/typography";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/vibecoding-platform.png";
 import talkscoreImage from "@/assets/talkscore-screenshot.png";
-import { ImageUpload } from "@/components/ImageUpload";
+
 import { EditableImage } from "@/components/EditableImage";
 const Index = () => {
   const [readingTime, setReadingTime] = useState(0);
@@ -604,14 +604,6 @@ const Index = () => {
           </div>
         </article>
 
-        {/* Image Upload Section */}
-        <section className="max-w-4xl mx-auto mt-16 mb-16">
-          <div className="bg-muted/30 rounded-2xl p-6 sm:p-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-center">Галерея изображений</h2>
-            <p className="text-muted-foreground text-center mb-8">Загружайте свои изображения в базу данных</p>
-            <ImageUpload />
-          </div>
-        </section>
       </main>
 
       <footer className="text-center py-12 border-t border-border mt-16">
