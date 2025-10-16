@@ -200,7 +200,7 @@ const Admin = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
           <Card>
             <CardHeader>
               <CardTitle>
@@ -253,7 +253,7 @@ const Admin = () => {
               <p className="text-muted-foreground">Нет статей</p>
             ) : (
               articles.map((article) => (
-                <Card key={article.id} className="hover:bg-muted/50 transition-colors">
+                <Card key={article.id} className="hover:bg-muted/50 transition-colors border-none shadow-none">
                   <CardContent className="py-3 px-4">
                     <div className="flex justify-between items-center gap-4">
                       <div className="flex-1 min-w-0">
