@@ -4,6 +4,7 @@ import { ProgressBar } from "@/components/ProgressBar";
 import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
 import { EditableImage } from "@/components/EditableImage";
+import { EditableText } from "@/components/EditableText";
 import { preventOrphans } from "@/lib/typography";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/vibecoding-platform.png";
@@ -87,23 +88,22 @@ const Index = () => {
 
           {/* Content */}
           <div className="prose prose-lg max-w-none">
-            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
-              Привет! Если ты это читаешь, поздравляю. Когда ты дочитаешь, твоя жизнь может измениться до
-              неузнаваемости, как и моя.
-            </p>
-            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
-              Этим летом я узнала про вайбкодинг, и теперь это моя самая любимая часть работы. Серьезно, я бы занималась
-              ТОЛЬКО ЭТИМ.
-            </p>
+            <EditableText
+              storageKey="intro-text"
+              defaultContent="Привет! Если ты это читаешь, поздравляю. Когда ты дочитаешь, твоя жизнь может измениться до неузнаваемости, как и моя.
+
+Этим летом я узнала про вайбкодинг, и теперь это моя самая любимая часть работы. Серьезно, я бы занималась ТОЛЬКО ЭТИМ."
+              placeholder="Введите вступительный текст..."
+            />
 
             <h2 id="predystoriya" className="text-3xl sm:text-4xl font-bold mt-12 sm:mt-16 mb-6 sm:mb-8 scroll-mt-20">
               Предыстория
             </h2>
-            <p id="krizis" className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
-              Несколько лет назад моим основным источником дохода были курсы и продюсирование курсов. Но в какой-то
-              момент я от этого выгорела. <strong>От слов конверсия и разговоров про охваты физически тошнило.</strong>{" "}
-              Я вышла из всех чатов с коллегами по рынку. И в целом заметила, что сам рынок стал довольно токсичен.
-            </p>
+            <EditableText
+              storageKey="predystoriya-text"
+              defaultContent="Несколько лет назад моим основным источником дохода были курсы и продюсирование курсов. Но в какой-то момент я от этого выгорела. **От слов конверсия и разговоров про охваты физически тошнило.** Я вышла из всех чатов с коллегами по рынку. И в целом заметила, что сам рынок стал довольно токсичен."
+              placeholder="Введите текст раздела предыстории..."
+            />
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-4">
               Тому есть несколько причин:

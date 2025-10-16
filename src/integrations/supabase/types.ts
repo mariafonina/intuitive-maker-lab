@@ -101,6 +101,30 @@ export type Database = {
         }
         Relationships: []
       }
+      site_texts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          storage_key: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: string
+          storage_key: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          storage_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
