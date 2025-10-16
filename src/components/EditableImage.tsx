@@ -3,6 +3,7 @@ import { ImagePlus } from "lucide-react";
 import { ImageGalleryDialog } from "./ImageGalleryDialog";
 import { Input } from "./ui/input";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdmin } from "@/contexts/AdminContext";
 
 interface EditableImageProps {
   placeholder?: string;
@@ -21,44 +22,17 @@ export const EditableImage = ({
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [currentSize, setCurrentSize] = useState<'small' | 'medium' | 'full'>(size);
   const [caption, setCaption] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  // Check admin status on mount
-  useEffect(() => {
-    checkAdminStatus();
-  }, []);
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  const { isAdmin, isLoading: isAdminLoading } = useAdmin();
 
   // Load image data from database on mount
   useEffect(() => {
     loadImageFromDB();
   }, [storageKey]);
 
-  const checkAdminStatus = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        setIsAdmin(false);
-        return;
-      }
-
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
-
-      setIsAdmin(!!roles);
-    } catch (error) {
-      console.error('Error checking admin status:', error);
-      setIsAdmin(false);
-    }
-  };
-
   // Fallback: seed from localStorage if DB is empty
   useEffect(() => {
-    if (!isLoading && !selectedImageUrl) {
+    if (!isImageLoading && !selectedImageUrl) {
       const lsUrl = localStorage.getItem(`image_${storageKey}`);
       const lsSize = (localStorage.getItem(`image_size_${storageKey}`) as 'small' | 'medium' | 'full') || size;
       const lsCaption = localStorage.getItem(`image_caption_${storageKey}`) || '';
@@ -79,7 +53,7 @@ export const EditableImage = ({
         setCaption(lsCaption);
       }
     }
-  }, [isLoading, selectedImageUrl, storageKey, size]);
+  }, [isImageLoading, selectedImageUrl, storageKey, size]);
 
   const loadImageFromDB = async () => {
     try {
@@ -101,7 +75,7 @@ export const EditableImage = ({
     } catch (error) {
       console.error('Error loading image:', error);
     } finally {
-      setIsLoading(false);
+      setIsImageLoading(false);
     }
   };
 

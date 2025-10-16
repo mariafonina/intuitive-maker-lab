@@ -3,6 +3,7 @@ import { Edit2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdmin } from "@/contexts/AdminContext";
 
 interface EditableTextProps {
   storageKey: string;
@@ -20,38 +21,12 @@ export const EditableText = ({
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState<string>(defaultContent);
   const [editContent, setEditContent] = useState<string>("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    checkAdminStatus();
-  }, []);
+  const [isContentLoading, setIsContentLoading] = useState(true);
+  const { isAdmin, isLoading: isAdminLoading } = useAdmin();
 
   useEffect(() => {
     loadContentFromDB();
   }, [storageKey]);
-
-  const checkAdminStatus = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        setIsAdmin(false);
-        return;
-      }
-
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
-
-      setIsAdmin(!!roles);
-    } catch (error) {
-      console.error("Error checking admin status:", error);
-      setIsAdmin(false);
-    }
-  };
 
   const loadContentFromDB = async () => {
     try {
@@ -73,7 +48,7 @@ export const EditableText = ({
     } catch (error) {
       console.error("Error loading text:", error);
     } finally {
-      setIsLoading(false);
+      setIsContentLoading(false);
     }
   };
 
@@ -223,7 +198,7 @@ export const EditableText = ({
     });
   };
 
-  if (isLoading) {
+  if (isAdminLoading || isContentLoading) {
     return null;
   }
 
