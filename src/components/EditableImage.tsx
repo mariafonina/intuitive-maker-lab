@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ImagePlus } from "lucide-react";
 import { ImageGalleryDialog } from "./ImageGalleryDialog";
 import { Input } from "./ui/input";
+import { supabase } from "@/integrations/supabase/client";
 
 interface EditableImageProps {
   placeholder?: string;
@@ -17,33 +18,85 @@ export const EditableImage = ({
   size = 'medium'
 }: EditableImageProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(() => {
-    // Загружаем сохраненное изображение из localStorage
-    return localStorage.getItem(`image_${storageKey}`) || null;
-  });
-  const [currentSize, setCurrentSize] = useState<'small' | 'medium' | 'full'>(() => {
-    return (localStorage.getItem(`image_size_${storageKey}`) as 'small' | 'medium' | 'full') || size;
-  });
-  const [caption, setCaption] = useState<string>(() => {
-    return localStorage.getItem(`image_caption_${storageKey}`) || '';
-  });
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  const [currentSize, setCurrentSize] = useState<'small' | 'medium' | 'full'>(size);
+  const [caption, setCaption] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleImageSelect = (url: string, newSize?: 'small' | 'medium' | 'full') => {
-    setSelectedImageUrl(url);
-    localStorage.setItem(`image_${storageKey}`, url);
-    
-    if (newSize) {
-      setCurrentSize(newSize);
-      localStorage.setItem(`image_size_${storageKey}`, newSize);
+  // Load image data from database on mount
+  useEffect(() => {
+    loadImageFromDB();
+  }, [storageKey]);
+
+  const loadImageFromDB = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_images')
+        .select('*')
+        .eq('storage_key', storageKey)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading image:', error);
+      }
+
+      if (data) {
+        setSelectedImageUrl(data.image_url);
+        setCurrentSize(data.image_size as 'small' | 'medium' | 'full');
+        setCaption(data.caption || '');
+      }
+    } catch (error) {
+      console.error('Error loading image:', error);
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsDialogOpen(false);
   };
 
-  const handleCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = async (url: string, newSize?: 'small' | 'medium' | 'full') => {
+    const finalSize = newSize || currentSize;
+    
+    setSelectedImageUrl(url);
+    setCurrentSize(finalSize);
+    setIsDialogOpen(false);
+
+    try {
+      // Try to update existing record first
+      const { error: updateError } = await supabase
+        .from('site_images')
+        .update({
+          image_url: url,
+          image_size: finalSize,
+        })
+        .eq('storage_key', storageKey);
+
+      // If no rows were updated, insert new record
+      if (updateError || updateError?.code === 'PGRST116') {
+        await supabase
+          .from('site_images')
+          .insert({
+            storage_key: storageKey,
+            image_url: url,
+            image_size: finalSize,
+            caption: caption,
+          });
+      }
+    } catch (error) {
+      console.error('Error saving image:', error);
+    }
+  };
+
+  const handleCaptionChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCaption = e.target.value;
     setCaption(newCaption);
-    localStorage.setItem(`image_caption_${storageKey}`, newCaption);
+
+    try {
+      await supabase
+        .from('site_images')
+        .update({ caption: newCaption })
+        .eq('storage_key', storageKey);
+    } catch (error) {
+      console.error('Error updating caption:', error);
+    }
   };
 
   const getSizeClasses = () => {

@@ -38,6 +38,36 @@ export type Database = {
         }
         Relationships: []
       }
+      site_images: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          image_size: string
+          image_url: string
+          storage_key: string
+          updated_at: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_size?: string
+          image_url: string
+          storage_key: string
+          updated_at?: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_size?: string
+          image_url?: string
+          storage_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
