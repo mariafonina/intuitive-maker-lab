@@ -258,7 +258,7 @@ const Admin = () => {
               <p className="text-muted-foreground">Нет статей</p>
             ) : (
               articles.map((article) => (
-                <Card key={article.id} className="hover:bg-muted/50 transition-colors">
+                <Card key={article.id} className="hover:bg-muted/50 transition-colors border-none shadow-none">
                   <CardContent className="py-4 px-6">
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-1 min-w-0">
