@@ -125,15 +125,6 @@ const ArticleView = () => {
       
       <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <Button 
-            onClick={() => navigate("/articles")}
-            variant="ghost"
-            className="mb-6"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Назад к статьям
-          </Button>
-
           <article>
             {/* Header */}
             <header className="text-center mb-12 sm:mb-16">
