@@ -3,6 +3,7 @@ import { Navigation } from "@/components/Navigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
+import { EditableImage } from "@/components/EditableImage";
 import { preventOrphans } from "@/lib/typography";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/vibecoding-platform.png";
@@ -226,9 +227,11 @@ const Index = () => {
               приложение в AppStore.
             </p>
 
-            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
-              [Здесь были скриншоты из процесса разработки приложения]
-            </p>
+            <EditableImage 
+              storageKey="app-development-screenshots"
+              placeholder="Добавить скриншоты из процесса разработки приложения"
+              className="my-8"
+            />
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
               Тогда же ко мне приходят ребята с идеей — выгрузить мою методологию в сервис с искусственным интеллектом.
@@ -271,9 +274,11 @@ const Index = () => {
 
             {/* Static Image Placeholder 1 */}
             <div className="my-8 sm:my-12">
-              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
-                [Здесь может быть изображение о вайбкодинге]
-              </p>
+              <EditableImage 
+                storageKey="vibecoding-intro"
+                placeholder="Добавить изображение о вайбкодинге"
+                className="my-8"
+              />
             </div>
 
             {/* Emoji Reactions */}
@@ -327,9 +332,11 @@ const Index = () => {
               </p>
               
               <div className="my-8">
-                <p className="text-base text-muted-foreground mb-6 italic text-center">
-                  [Пример интерфейса общения с ИИ]
-                </p>
+                <EditableImage 
+                  storageKey="ai-interface-example"
+                  placeholder="Добавить пример интерфейса общения с ИИ"
+                  className="my-8"
+                />
               </div>
             </div>
 
@@ -378,9 +385,11 @@ const Index = () => {
 
             {/* Static Image Placeholder 2 */}
             <div className="my-8 sm:my-12">
-              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
-                [Пример для команды]
-              </p>
+              <EditableImage 
+                storageKey="team-example"
+                placeholder="Добавить пример для команды"
+                className="my-8"
+              />
             </div>
 
             <h3 id="dlya-klientov" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
@@ -407,9 +416,11 @@ const Index = () => {
 
             {/* Static Image Placeholder 3 */}
             <div className="my-8 sm:my-12">
-              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
-                [Пример для клиентов]
-              </p>
+              <EditableImage 
+                storageKey="client-example"
+                placeholder="Добавить пример для клиентов"
+                className="my-8"
+              />
             </div>
 
             <h4 className="text-xl sm:text-2xl font-bold mt-8 mb-4">Пример нашей платформы для клиентов</h4>
@@ -419,9 +430,11 @@ const Index = () => {
 
             {/* Platform Screenshots */}
             <div className="flex flex-col gap-4 my-8">
-              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
-                [Примеры платформы для клиентов]
-              </p>
+              <EditableImage 
+                storageKey="platform-examples"
+                placeholder="Добавить примеры платформы для клиентов"
+                className="my-8"
+              />
             </div>
 
             <h3 id="dlya-sebya" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">
@@ -454,9 +467,11 @@ const Index = () => {
 
             {/* Static Image Placeholder 4 */}
             <div className="my-8 sm:my-12">
-              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6 italic text-center">
-                [Личный проект]
-              </p>
+              <EditableImage 
+                storageKey="personal-project"
+                placeholder="Добавить личный проект"
+                className="my-8"
+              />
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-8">
@@ -513,9 +528,11 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <p className="text-base text-muted-foreground mb-6 italic text-center">
-                [Успехи в вайбкодинге]
-              </p>
+              <EditableImage 
+                storageKey="vibecoding-success-1"
+                placeholder="Добавить успехи в вайбкодинге"
+                className="my-8"
+              />
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -523,9 +540,11 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <p className="text-base text-muted-foreground mb-6 italic text-center">
-                [Успехи в вайбкодинге - часть 2]
-              </p>
+              <EditableImage 
+                storageKey="vibecoding-success-2"
+                placeholder="Добавить успехи в вайбкодинге (часть 2)"
+                className="my-8"
+              />
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -533,9 +552,11 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <p className="text-base text-muted-foreground mb-6 italic text-center">
-                [Отзывы с мастер-класса]
-              </p>
+              <EditableImage 
+                storageKey="masterclass-reviews"
+                placeholder="Добавить отзывы с мастер-класса"
+                className="my-8"
+              />
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
@@ -574,9 +595,11 @@ const Index = () => {
             </p>
 
             <div className="my-8">
-              <p className="text-base text-muted-foreground mb-6 italic text-center">
-                [Опыт и лайфхаки]
-              </p>
+              <EditableImage 
+                storageKey="experience-lifehacks"
+                placeholder="Добавить опыт и лайфхаки"
+                className="my-8"
+              />
             </div>
 
             <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">Поэтому — проекту быть.</p>
