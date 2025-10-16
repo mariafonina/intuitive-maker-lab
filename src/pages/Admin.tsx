@@ -247,50 +247,37 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <h2 className="text-2xl font-bold">Статьи</h2>
             {articles.length === 0 ? (
               <p className="text-muted-foreground">Нет статей</p>
             ) : (
               articles.map((article) => (
-                <Card key={article.id}>
-                  <CardContent className="pt-6">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-lg">{article.title}</h3>
-                      <div className="flex gap-2">
+                <Card key={article.id} className="hover:bg-muted/50 transition-colors">
+                  <CardContent className="py-3 px-4">
+                    <div className="flex justify-between items-center gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium truncate">{article.title}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(article.created_at).toLocaleDateString("ru-RU")}
+                        </p>
+                      </div>
+                      <div className="flex gap-2 shrink-0">
                         <Button
                           size="icon"
-                          variant="outline"
+                          variant="ghost"
                           onClick={() => handleEdit(article)}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button
                           size="icon"
-                          variant="outline"
+                          variant="ghost"
                           onClick={() => handleDelete(article.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
-                    </div>
-                    <div 
-                      className="text-sm text-muted-foreground line-clamp-3 mb-2 prose prose-sm"
-                      dangerouslySetInnerHTML={{ __html: article.content }}
-                    />
-                    <div className="flex items-center gap-2 text-xs">
-                      <span
-                        className={`px-2 py-1 rounded ${
-                          article.published
-                            ? "bg-green-500/20 text-green-600"
-                            : "bg-gray-500/20 text-gray-600"
-                        }`}
-                      >
-                        {article.published ? "Опубликовано" : "Черновик"}
-                      </span>
-                      <span className="text-muted-foreground">
-                        {new Date(article.created_at).toLocaleDateString("ru-RU")}
-                      </span>
                     </div>
                   </CardContent>
                 </Card>

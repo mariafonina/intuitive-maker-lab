@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 
@@ -44,17 +43,17 @@ const Articles = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <h1 className="text-4xl font-bold mb-8">Статьи</h1>
-        
+      <div className="container mx-auto px-6 sm:px-12 lg:px-24 py-16 max-w-7xl">
         {articles.length === 0 ? (
           <p className="text-muted-foreground">Статей пока нет</p>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-16">
             {articles.map((article) => (
-              <Card key={article.id}>
-                <CardHeader>
-                  <CardTitle>{article.title}</CardTitle>
+              <article key={article.id} className="space-y-6">
+                <div className="space-y-4">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
+                    {article.title}
+                  </h1>
                   <p className="text-sm text-muted-foreground">
                     {new Date(article.created_at).toLocaleDateString("ru-RU", {
                       year: "numeric",
@@ -62,14 +61,12 @@ const Articles = () => {
                       day: "numeric",
                     })}
                   </p>
-                </CardHeader>
-                <CardContent>
-                  <div 
-                    className="prose prose-gray dark:prose-invert max-w-none"
-                    dangerouslySetInnerHTML={{ __html: article.content }}
-                  />
-                </CardContent>
-              </Card>
+                </div>
+                <div 
+                  className="prose prose-gray dark:prose-invert max-w-none prose-lg"
+                  dangerouslySetInnerHTML={{ __html: article.content }}
+                />
+              </article>
             ))}
           </div>
         )}
