@@ -2,6 +2,8 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Mark, mergeAttributes } from '@tiptap/core';
 import {
   Bold,
   Italic,
@@ -14,6 +16,7 @@ import {
   Image as ImageIcon,
   Undo,
   Redo,
+  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect } from 'react';
@@ -23,6 +26,42 @@ interface RichTextEditorProps {
   onChange: (content: string) => void;
 }
 
+// Declare module to extend TipTap commands
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    gradientText: {
+      toggleGradient: () => ReturnType;
+    };
+  }
+}
+
+// Custom gradient mark extension
+const GradientText = Mark.create({
+  name: 'gradientText',
+  
+  parseHTML() {
+    return [
+      {
+        tag: 'span[class~="bg-gradient-to-r"]',
+      },
+    ];
+  },
+  
+  renderHTML({ HTMLAttributes }) {
+    return ['span', mergeAttributes(HTMLAttributes, { 
+      class: 'bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent' 
+    }), 0];
+  },
+  
+  addCommands() {
+    return {
+      toggleGradient: () => ({ commands }) => {
+        return commands.toggleMark(this.name);
+      },
+    };
+  },
+});
+
 export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
@@ -31,6 +70,8 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
           levels: [1, 2, 3],
         },
       }),
+      TextStyle,
+      GradientText,
       Image.configure({
         inline: true,
         allowBase64: true,
@@ -168,6 +209,11 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={() => editor.chain().focus().toggleItalic().run()}
             isActive={editor.isActive('italic')}
             icon={Italic}
+          />
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleGradient().run()}
+            isActive={editor.isActive('gradientText')}
+            icon={Sparkles}
           />
         </div>
 

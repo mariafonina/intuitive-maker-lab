@@ -14,6 +14,7 @@ import { AdminSidebar } from "@/components/AdminSidebar";
 interface Article {
   id: string;
   title: string;
+  subtitle?: string;
   content: string;
   published: boolean;
   created_at: string;
@@ -25,6 +26,7 @@ const Admin = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
   const [currentSection, setCurrentSection] = useState("articles");
@@ -99,7 +101,7 @@ const Admin = () => {
       if (editingArticle) {
         const { error } = await supabase
           .from("articles")
-          .update({ title, content, published })
+          .update({ title, subtitle, content, published })
           .eq("id", editingArticle.id);
 
         if (error) throw error;
@@ -113,6 +115,7 @@ const Admin = () => {
           .from("articles")
           .insert({
             title,
+            subtitle,
             content,
             published,
             author_id: session.user.id,
@@ -140,6 +143,7 @@ const Admin = () => {
   const handleEdit = (article: Article) => {
     setEditingArticle(article);
     setTitle(article.title);
+    setSubtitle(article.subtitle || "");
     setContent(article.content);
     setPublished(article.published);
     setCurrentSection("new-article");
@@ -173,6 +177,7 @@ const Admin = () => {
   const resetForm = () => {
     setEditingArticle(null);
     setTitle("");
+    setSubtitle("");
     setContent("");
     setPublished(false);
   };
@@ -218,6 +223,15 @@ const Admin = () => {
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subtitle">Подпись (например: "Гайд Мари Афониной")</Label>
+                    <Input
+                      id="subtitle"
+                      value={subtitle}
+                      onChange={(e) => setSubtitle(e.target.value)}
+                      placeholder="Опционально"
                     />
                   </div>
                   <div className="space-y-2">
