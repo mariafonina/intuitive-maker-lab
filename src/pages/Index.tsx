@@ -673,8 +673,8 @@ const Index = () => {
       <footer className="text-center py-12 border-t border-border mt-16">
         <p className="text-muted-foreground">© 2025 Мари Афонина с ИИ С любовью</p>
         <p className="text-muted-foreground mt-2">
-          <a href="https://t.me/mari-zapuski" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-            t.me/mari-zapuski
+          <a href="https://t.me/mari_zapuski" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            t.me/mari_zapuski
           </a>
         </p>
       </footer>
