@@ -540,6 +540,13 @@ const Index = () => {
                   placeholder="Введите текст пункта 5..."
                   className="inline"
                 />
+                <div className="mt-4">
+                  <EditableImage 
+                    storageKey="student-testimonial-image"
+                    placeholder="Добавить скриншот отзыва ученицы"
+                    className="rounded-lg"
+                  />
+                </div>
               </li>
               
               <li className="text-base sm:text-lg leading-relaxed">
