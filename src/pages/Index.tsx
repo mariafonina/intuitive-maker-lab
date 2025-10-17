@@ -6,6 +6,7 @@ import { Poll } from "@/components/Poll";
 import { EditableImage } from "@/components/EditableImage";
 import { EditableText } from "@/components/EditableText";
 import { preventOrphans } from "@/lib/typography";
+import CountdownTimer from "@/components/CountdownTimer";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/vibecoding-platform.png";
 import talkscoreImage from "@/assets/talkscore-screenshot.png";
@@ -652,19 +653,8 @@ const Index = () => {
               />
             </div>
 
-            <EditableText
-              storageKey="final-section"
-              defaultContent="Поэтому — проекту быть.
-
-У меня еще День рождения на носу — 33 года. Делала опрос в своем тг-канале, собрала ВСЕ пожелания. Так что в честь Дня рождения — ждите вкусное предложение.
-
-Я создала этот гайд, потому что хочу, чтобы больше людей почувствовали ту свободу, которую чувствую я. Свободу создавать что угодно. Не зависеть от разработчиков, дизайнеров, бюджетов.
-
-Кстати, этот сайт я завайбкодила за 2 часа. Вы уже в первую неделю сможете также.
-
-**PS:** Через 6-12 месяцев этот навык будет стандартом. Сейчас еще можно быть среди первых 5%, кто использует это преимущество. Через год осваивать этот навык — догонять остальных 95%, у которых он есть."
-              placeholder="Введите текст..."
-            />
+            {/* Countdown Timer Section */}
+            <CountdownTimer />
           </div>
         </article>
 
