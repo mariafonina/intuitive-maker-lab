@@ -56,7 +56,7 @@ const CountdownTimer = () => {
       </h2>
 
       {/* Подзаголовок */}
-      <p className="text-lg md:text-xl text-muted-foreground mb-12 animate-fade-in">
+      <p className="text-lg md:text-xl text-muted-foreground mb-6 animate-fade-in">
         Старт продаж нового проекта в честь 33-летия Мари
       </p>
 
