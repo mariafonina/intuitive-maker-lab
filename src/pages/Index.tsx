@@ -653,8 +653,45 @@ const Index = () => {
               />
             </div>
 
+            <EditableText
+              storageKey="project-intro-before-countdown"
+              defaultContent="Поэтому — проекту быть.
+
+У меня еще День рождения на носу — 33 года. Делала опрос в своем тг-канале, собрала ВСЕ пожелания. Так что в честь Дня рождения — ждите невероятно вкусное предложение.
+
+Я создала этот гайд, потому что хочу, чтобы больше людей почувствовали ту свободу, которую чувствую я. Свободу создавать что угодно. Не зависеть от разработчиков, дизайнеров, бюджетов.
+
+В честь моего 33-летия готовлю проект, который:"
+              placeholder="Введите текст..."
+            />
+
+            <ul className="space-y-2 mb-6 list-none">
+              {[
+                "научит вас создавать личные и коммерческие проекты с нуля",
+                "покажет, как зарабатывать на вайбкодинге уже в процессе прохождения",
+                "даст доступ ко всем моим промтам, шаблонам и фишкам"
+              ].map((item, idx) => (
+                <li key={idx} className="relative pl-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
+                  <span className="absolute left-0 top-3 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <EditableText
+              storageKey="website-creation-note"
+              defaultContent="Кстати, этот сайт я завайбкодила за 10 минут. Вы уже в первую неделю сможете также."
+              placeholder="Введите текст..."
+            />
+
             {/* Countdown Timer Section */}
             <CountdownTimer />
+
+            <EditableText
+              storageKey="ps-section-after-countdown"
+              defaultContent="**PS:** Через 6-12 месяцев этот навык будет стандартом. Сейчас еще можно быть среди первых 5%, кто использует это преимущество. Через год осваивать этот навык — догонять остальных 95%, у которых он есть."
+              placeholder="Введите текст..."
+            />
           </div>
         </article>
 

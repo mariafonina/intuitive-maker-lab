@@ -48,7 +48,7 @@ const CountdownTimer = () => {
   return (
     <div className="my-16 text-center animate-fade-in">
       {/* Заголовок */}
-      <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+      <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-2">
         <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient">
           Вайбкодинг
         </span>{" "}
@@ -56,7 +56,7 @@ const CountdownTimer = () => {
       </h2>
 
       {/* Подзаголовок */}
-      <p className="text-lg md:text-xl text-muted-foreground mb-6 animate-fade-in">
+      <p className="text-lg md:text-xl text-muted-foreground mb-12 animate-fade-in">
         Старт продаж нового проекта в честь 33-летия Мари
       </p>
 
