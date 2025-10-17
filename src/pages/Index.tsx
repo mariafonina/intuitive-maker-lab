@@ -328,34 +328,6 @@ const Index = () => {
             <EditableText storageKey="dream-realization" defaultContent="Сейчас я как никогда близко к мечте из 2021 года. Каждую неделю (!!!) я создаю все новые и новые сервисы на свою платформу, которые помогают идти к большому видению: чтобы между экспертом и покупателем больше не нужны были посредники. Дополнительный бюджет, команда… Чтобы это стало простым и доступным, и талантливый человек мог много зарабатывать, даже не будучи предпринимателем, руководителем и управленцем от природы." placeholder="Введите текст..." />
 
 
-            <div className="my-8 sm:my-12 p-6 sm:p-8 bg-muted/30 rounded-2xl">
-              <h4 className="text-xl sm:text-2xl font-bold mb-6">Статистика опроса в моем инстаграм среди экспертов</h4>
-              <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
-                Только 5% активно используют вайбкодинг:
-              </p>
-              <div className="space-y-6">
-                {[{
-                text: "Да, люблю ❤️",
-                percent: 5
-              }, {
-                text: "Слышал, но не понимаю, что делать",
-                percent: 18
-              }, {
-                text: "Что это такое? 😳",
-                percent: 77
-              }].map((item, idx) => <div key={idx} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-base sm:text-lg text-foreground font-medium">{item.text}</span>
-                      <span className="text-2xl sm:text-3xl font-bold text-foreground ml-4">{item.percent}%</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-3 sm:h-4 overflow-hidden">
-                      <div className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-primary to-accent" style={{
-                    width: `${item.percent}%`
-                  }} />
-                    </div>
-                  </div>)}
-              </div>
-            </div>
 
             {/* Interactive Poll */}
             <Poll question="Вы дочитали почти до конца! 👏" options={[{
@@ -379,6 +351,35 @@ const Index = () => {
               
               <li className="text-base sm:text-lg leading-relaxed">
                 <EditableText storageKey="how-to-earn-2" defaultContent="Сейчас огромная конкуренция среди всех видов специалистов, услуг и обучений. Создать для клиентов дополнительную ценность: дашборды, красивые отчеты, сервисы — это способ выделиться из всех. Сейчас этого не делает практически НИКТО. Вот статистика опроса в моем инстаграм среди экспертов, только 5% активно используют вайбкодинг." placeholder="Введите текст пункта 2..." className="inline" />
+                
+                <div className="my-8 sm:my-12 p-6 sm:p-8 bg-muted/30 rounded-2xl">
+                  <h4 className="text-xl sm:text-2xl font-bold mb-6">Статистика опроса в моем инстаграм среди экспертов</h4>
+                  <p className="text-base sm:text-lg leading-relaxed text-muted-foreground mb-6">
+                    Только 5% активно используют вайбкодинг:
+                  </p>
+                  <div className="space-y-6">
+                    {[{
+                    text: "Да, люблю ❤️",
+                    percent: 5
+                  }, {
+                    text: "Слышал, но не понимаю, что делать",
+                    percent: 18
+                  }, {
+                    text: "Что это такое? 😳",
+                    percent: 77
+                  }].map((item, idx) => <div key={idx} className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-base sm:text-lg text-foreground font-medium">{item.text}</span>
+                          <span className="text-2xl sm:text-3xl font-bold text-foreground ml-4">{item.percent}%</span>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-3 sm:h-4 overflow-hidden">
+                          <div className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-primary to-accent" style={{
+                        width: `${item.percent}%`
+                      }} />
+                        </div>
+                      </div>)}
+                  </div>
+                </div>
               </li>
               
               <li className="text-base sm:text-lg leading-relaxed">
