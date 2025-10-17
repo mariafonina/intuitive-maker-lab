@@ -12,17 +12,7 @@ import talkscoreImage from "@/assets/talkscore-screenshot.png";
 
 
 const Index = () => {
-  const [readingTime, setReadingTime] = useState(0);
-  useEffect(() => {
-    const article = document.querySelector("article");
-    if (article) {
-      const text = article.innerText;
-      const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
-      const wordsPerMinute = 230;
-      const time = Math.ceil(wordCount / wordsPerMinute);
-      setReadingTime(time);
-    }
-  }, []);
+  const readingTime = 9;
   
   return (
     <div className="min-h-screen bg-background">
@@ -57,11 +47,14 @@ const Index = () => {
               id: "predystoriya",
               text: "Предыстория"
             }, {
-              id: "krizis",
-              text: "Кризис в инфобизнесе"
+              id: "davnyaya-mechta",
+              text: "Давняя мечта"
             }, {
               id: "razrabotka-ranishe",
-              text: "Как мы раньше занимались разработкой"
+              text: "Кризис смыслов, 2022"
+            }, {
+              id: "year-2023",
+              text: "2023 год"
             }, {
               id: "chto-takoe-vibecoding",
               text: "Что такое вайбкодинг"
@@ -131,7 +124,7 @@ const Index = () => {
                 </li>)}
             </ul>
 
-            <h3 className="text-2xl sm:text-3xl font-bold mt-12 mb-6">Давняя мечта</h3>
+            <h3 id="davnyaya-mechta" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">Давняя мечта</h3>
 
             <EditableText
               storageKey="dream-section"
@@ -198,7 +191,7 @@ const Index = () => {
               placeholder="Введите текст..."
             />
 
-            <h3 className="text-2xl sm:text-3xl font-bold mt-12 mb-6">2023 год</h3>
+            <h3 id="year-2023" className="text-2xl sm:text-3xl font-bold mt-12 mb-6 scroll-mt-20">2023 год</h3>
             <EditableText
               storageKey="year-2023"
               defaultContent="**Я все-таки решаюсь и вкладываю 12 млн руб в разработку приложения.** Мы работаем с командой подрядчиков 9 месяцев, результат примерно никакой. Много ошибок, багов, в итоге мы даже не выгружаем приложение в AppStore."
@@ -679,6 +672,11 @@ const Index = () => {
 
       <footer className="text-center py-12 border-t border-border mt-16">
         <p className="text-muted-foreground">© 2025 Мари Афонина с ИИ С любовью</p>
+        <p className="text-muted-foreground mt-2">
+          <a href="https://t.me/mari-zapuski" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            t.me/mari-zapuski
+          </a>
+        </p>
       </footer>
     </div>
   );
