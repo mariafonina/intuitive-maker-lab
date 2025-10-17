@@ -48,7 +48,7 @@ const CountdownTimer = () => {
   return (
     <div className="my-16 text-center animate-fade-in">
       {/* Заголовок */}
-      <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-2">
+      <h2 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-1">
         <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient">
           Вайбкодинг
         </span>{" "}
