@@ -33,10 +33,9 @@ const ArticleView = () => {
     if (!id) return;
 
     const { data, error } = await supabase
-      .from("articles")
+      .from("articles_public")
       .select("*")
       .eq("id", id)
-      .eq("published", true)
       .single();
 
     if (!error && data) {

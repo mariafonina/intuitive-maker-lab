@@ -148,7 +148,36 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      articles_public: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          id: string | null
+          published: boolean | null
+          subtitle: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          id?: string | null
+          published?: boolean | null
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          id?: string | null
+          published?: boolean | null
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {

@@ -24,9 +24,8 @@ const Articles = () => {
 
   const loadArticles = async () => {
     const { data, error } = await supabase
-      .from("articles")
+      .from("articles_public")
       .select("*")
-      .eq("published", true)
       .order("created_at", { ascending: false });
 
     if (!error && data) {
