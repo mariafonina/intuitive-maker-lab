@@ -5,7 +5,6 @@ import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
 import { EditableImage } from "@/components/EditableImage";
 import { EditableText } from "@/components/EditableText";
-import { preventOrphans } from "@/lib/typography";
 import CountdownTimer from "@/components/CountdownTimer";
 import heroImage from "@/assets/hero-vibecoding.jpg";
 import platformImage from "@/assets/vibecoding-platform.png";
