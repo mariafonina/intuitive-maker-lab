@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { ImagePlus } from "lucide-react";
+import { ImagePlus, X } from "lucide-react";
 import { ImageGalleryDialog } from "./ImageGalleryDialog";
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdmin } from "@/contexts/AdminContext";
 
@@ -126,6 +127,21 @@ export const EditableImage = ({
     }
   };
 
+  const handleDeleteImage = async () => {
+    try {
+      await supabase
+        .from('site_images')
+        .delete()
+        .eq('storage_key', storageKey);
+      
+      setSelectedImageUrl(null);
+      setCaption('');
+      setCurrentSize(size);
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
+  };
+
   const getSizeClasses = () => {
     switch (currentSize) {
       case 'small':
@@ -170,9 +186,20 @@ export const EditableImage = ({
             alt={caption || "Selected content"} 
             className="w-full h-full object-contain bg-muted"
           />
-          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
             <p className="text-white text-sm font-medium">Изменить изображение</p>
           </div>
+          <Button
+            variant="destructive"
+            size="icon"
+            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteImage();
+            }}
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
         <Input
           type="text"
