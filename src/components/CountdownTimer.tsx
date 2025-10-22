@@ -62,8 +62,23 @@ const CountdownTimer = () => {
 
       {/* Таймер */}
       {timeLeft.expired ? (
-        <div className="text-4xl md:text-6xl font-light tracking-wider text-primary animate-scale-in">
-          Продажи открыты!
+        <div className="animate-scale-in">
+          <div className="text-4xl md:text-6xl font-light tracking-wider text-primary mb-8">
+            Продажи открыты!
+          </div>
+          <Button
+            asChild
+            size="lg"
+            className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-white font-semibold px-10 py-6 text-lg"
+          >
+            <a
+              href="https://labs.mashtab.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Занять место
+            </a>
+          </Button>
         </div>
       ) : (
         <>
