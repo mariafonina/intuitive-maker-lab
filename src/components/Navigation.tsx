@@ -20,7 +20,7 @@ export const Navigation = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Научиться вайбкодить
+          Научиться<span className="hidden sm:inline"> вайбкодить</span>
         </a>
       </Button>
     </nav>
