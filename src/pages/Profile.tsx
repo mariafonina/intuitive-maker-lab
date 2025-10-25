@@ -3,6 +3,15 @@ import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ProgressBar";
 import mariPhoto from "@/assets/mari-photo.jpeg";
 import bookCover from "@/assets/book-cover.png";
+import logoSber from "@/assets/logo-sber.png";
+import logoHse from "@/assets/logo-hse.png";
+import logoRosatom from "@/assets/logo-rosatom.png";
+import logoDetiBabochki from "@/assets/logo-deti-babochki.png";
+import logoMgu from "@/assets/logo-mgu.png";
+import logoNobelFest from "@/assets/logo-nobel-fest.png";
+import logoRgsu from "@/assets/logo-rgsu.png";
+import logoUnesco from "@/assets/logo-unesco.png";
+import logoRbk from "@/assets/logo-rbk.png";
 
 export default function Profile() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -159,38 +168,65 @@ export default function Profile() {
             
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoSber} alt="Сбербанк" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">Сбербанк</p>
                 <p className="mt-2 text-sm text-muted-foreground">Приглашенный спикер (корпоративный тренинг, выступление на онлайн-конференции Сбера)</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoHse} alt="ВШЭ" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">Высшая Школа Экономики</p>
                 <p className="mt-2 text-sm text-muted-foreground">Урок для студентов по продюсированию</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoRosatom} alt="Росатом" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">Росатом</p>
                 <p className="mt-2 text-sm text-muted-foreground">Наставник в проекте для вожатых (2021-2022)</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoDetiBabochki} alt="Фонд Дети-бабочки" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">Фонд "Дети-бабочки"</p>
                 <p className="mt-2 text-sm text-muted-foreground">Спикер благотворительного форума</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoMgu} alt="МГУ" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">МГУ</p>
                 <p className="mt-2 text-sm text-muted-foreground">Организатор набора студентов и обучения от академиков МГУ (2023-2024)</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoNobelFest} alt="Nobel Fest" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">Нобель фест</p>
                 <p className="mt-2 text-sm text-muted-foreground">Приглашенный участник (2023)</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoRgsu} alt="РГСУ" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">РГСУ</p>
                 <p className="mt-2 text-sm text-muted-foreground">Соавтор учебного пособия по маркетингу (2024)</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoUnesco} alt="UNESCO" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">Юнеско</p>
                 <p className="mt-2 text-sm text-muted-foreground">Участник съезда по бизнес-образованию (2024)</p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <div className="mb-4 flex h-16 items-center justify-center">
+                  <img src={logoRbk} alt="РБК" className="h-full w-auto object-contain" />
+                </div>
                 <p className="font-semibold">РБК</p>
                 <p className="mt-2 text-sm text-muted-foreground">Лидер рейтинга онлайн-школ с крупнейшей выручкой за квартал (2021)</p>
               </div>
