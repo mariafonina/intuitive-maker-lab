@@ -338,32 +338,6 @@ export default function Profile() {
           </Button>
         </section>
 
-        {/* СЕКЦИЯ: EMAIL ПОДПИСКА */}
-        <section id="newsletter" className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
-          <h2 className="text-4xl font-bold tracking-tight md:text-5xl">История любви и первых больших денег</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
-            Подпишитесь на e-mail рассылку. Каждый день в 9:00 по мск получайте по 1 части истории от Мари Афониной.
-          </p>
-
-          <form action="#" method="POST" className="mt-12 mx-auto max-w-md">
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <label htmlFor="email-address" className="sr-only">E-mail</label>
-              <input 
-                type="email" 
-                name="email-address" 
-                id="email-address" 
-                autoComplete="email" 
-                required 
-                className="flex-1 rounded-lg border border-input bg-background px-5 py-3 text-lg placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" 
-                placeholder="Ваш e-mail"
-              />
-              <Button type="submit" className="sm:w-auto">
-                Подписаться
-              </Button>
-            </div>
-          </form>
-        </section>
-
         {/* СЕКЦИЯ: FAQ */}
         <section id="faq" className="bg-muted/30">
           <div className="mx-auto max-w-3xl px-6 py-24 md:py-32">
