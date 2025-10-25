@@ -78,6 +78,17 @@ export default function Profile() {
           <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Мари Афонина</h1>
           <h2 className="mt-4 text-2xl text-muted-foreground md:text-3xl">продюсер, IT-предприниматель</h2>
           
+          {/* Цитата-миссия */}
+          <div className="mx-auto mt-16 max-w-3xl animate-fade-in md:mt-20">
+            <blockquote className="relative rounded-3xl border-2 border-primary/20 bg-gradient-to-br from-card/80 to-card/40 p-8 shadow-xl backdrop-blur-sm md:p-12">
+              <div className="absolute -left-4 -top-4 text-6xl font-bold text-primary/30 md:text-7xl">«</div>
+              <p className="relative text-lg leading-relaxed text-foreground md:text-xl md:leading-relaxed">
+                Моя миссия — делать предпринимателей свободнее, а их работу легче. Уже 11 лет я тружусь в этом направлении. Моя большая цель — чтобы между человеком и его бизнесом не стояло никаких сложностей, больших затрат и нагрузки. Весь мой путь про то, что я уже для этого сделала и делаю. Добро пожаловать на мой личный сайт!
+              </p>
+              <div className="absolute -bottom-4 -right-4 text-6xl font-bold text-primary/30 md:text-7xl">»</div>
+            </blockquote>
+          </div>
+          
           <div className="mt-24 space-y-20 md:space-y-32">
             {/* Блок 1: Запуски */}
             <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16">
@@ -180,15 +191,6 @@ export default function Profile() {
                 <p className="mt-2 text-sm text-muted-foreground">Участник съезда по бизнес-образованию (2024)</p>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* СЕКЦИЯ: МИССИЯ */}
-        <section className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
-          <div className="rounded-3xl border border-border bg-card/50 p-8 shadow-lg backdrop-blur-sm md:p-12">
-            <p className="text-xl leading-relaxed text-foreground md:text-2xl md:leading-relaxed">
-              Моя миссия — делать предпринимателей свободнее, а их работу легче. Уже 11 лет я тружусь в этом направлении. Моя большая цель — чтобы между человеком и его бизнесом не стояло никаких сложностей, больших затрат и нагрузки. Весь мой путь про то, что я уже для этого сделала и делаю. Добро пожаловать на мой личный сайт!
-            </p>
           </div>
         </section>
 
