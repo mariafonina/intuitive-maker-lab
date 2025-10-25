@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ProgressBar";
 import mariPhoto from "@/assets/mari-photo.jpeg";
+import bookCover from "@/assets/book-cover.jpg";
 
 export default function Profile() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -265,6 +266,16 @@ export default function Profile() {
         {/* СЕКЦИЯ: АНТИКРИЗИСНАЯ КНИГА */}
         <section id="book" className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
           <h2 className="text-4xl font-bold tracking-tight md:text-6xl">Антикризисная книга</h2>
+          
+          {/* Обложка книги */}
+          <div className="mt-12 mb-8 mx-auto max-w-sm">
+            <img 
+              src={bookCover} 
+              alt="Антикризисная книга - обложка" 
+              className="w-full rounded-xl shadow-2xl"
+            />
+          </div>
+
           <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted-foreground md:text-xl">
             <p>В каком случае эта книга действительно поможет?</p>
             <p>Ты столкнулся с одним из видов кризиса реализации — я выделяю 6 основных: нет денег, выгорание, кризис с соцсетями, кризис быстрого роста, кризис смыслов, падение результатов и репутации.</p>
