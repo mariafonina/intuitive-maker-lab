@@ -190,6 +190,10 @@ export default function Profile() {
                 <p className="font-semibold">Юнеско</p>
                 <p className="mt-2 text-sm text-muted-foreground">Участник съезда по бизнес-образованию (2024)</p>
               </div>
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+                <p className="font-semibold">РБК</p>
+                <p className="mt-2 text-sm text-muted-foreground">Лидер рейтинга онлайн-школ с крупнейшей выручкой за квартал (2021)</p>
+              </div>
             </div>
           </div>
         </section>
