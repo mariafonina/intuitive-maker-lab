@@ -183,6 +183,15 @@ export default function Profile() {
           </div>
         </section>
 
+        {/* СЕКЦИЯ: МИССИЯ */}
+        <section className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
+          <div className="rounded-3xl border border-border bg-card/50 p-8 shadow-lg backdrop-blur-sm md:p-12">
+            <p className="text-xl leading-relaxed text-foreground md:text-2xl md:leading-relaxed">
+              Моя миссия — делать предпринимателей свободнее, а их работу легче. Уже 11 лет я тружусь в этом направлении. Моя большая цель — чтобы между человеком и его бизнесом не стояло никаких сложностей, больших затрат и нагрузки. Весь мой путь про то, что я уже для этого сделала и делаю. Добро пожаловать на мой личный сайт!
+            </p>
+          </div>
+        </section>
+
         {/* СЕКЦИЯ: ПРОЕКТЫ */}
         <section id="projects" className="bg-muted/30">
           <div className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
