@@ -17,7 +17,7 @@ export const ProgressBar = () => {
   }, []);
 
   return (
-    <div className="fixed top-16 left-0 w-full h-1.5 z-50 bg-muted">
+    <div className="fixed top-16 left-0 w-full h-2.5 z-50 bg-muted">
       <div
         className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-150"
         style={{ width: `${progress}%` }}
