@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { ProgressBar } from "@/components/ProgressBar";
 import mariPhoto from "@/assets/mari-photo.jpeg";
 
 export default function Profile() {
@@ -20,6 +21,9 @@ export default function Profile() {
 
   return (
     <div className="bg-background text-foreground">
+      {/* ПРОГРЕСС-БАР */}
+      <ProgressBar />
+      
       {/* НАВИГАЦИЯ */}
       <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-lg">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
