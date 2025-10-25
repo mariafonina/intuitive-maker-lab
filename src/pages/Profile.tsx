@@ -470,6 +470,17 @@ export default function Profile() {
 
               <div className="rounded-3xl bg-card p-8 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
+                  <p className="text-sm text-muted-foreground mb-2">С вопросами по покупке проектов</p>
+                  <h3 className="text-2xl font-bold mb-2">Whatsapp менеджера продаж</h3>
+                  <p className="text-xl">Консультация по продуктам</p>
+                </div>
+                <Button asChild size="lg" className="md:min-w-[200px]">
+                  <a href="https://wa.me/" target="_blank" rel="noopener noreferrer">Связаться</a>
+                </Button>
+              </div>
+
+              <div className="rounded-3xl bg-card p-8 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
                   <p className="text-sm text-muted-foreground mb-2">Для партнеров</p>
                   <h3 className="text-2xl font-bold mb-2">Сотрудничество</h3>
                   <p className="text-xl">Написать в службу заботы</p>
