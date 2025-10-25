@@ -107,7 +107,7 @@ export default function Profile() {
             </div>
 
             {/* Блок 3: Проекты */}
-            <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16" id="projects">
+            <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16">
               <div className="h-80 w-full rounded-2xl bg-muted shadow-lg md:h-96"></div>
               <div className="text-left">
                 <h3 className="text-3xl font-bold tracking-tight md:text-4xl">Проекты</h3>
@@ -121,7 +121,7 @@ export default function Profile() {
             </div>
 
             {/* Блок 4: Личное */}
-            <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16" id="book">
+            <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-16">
               <div className="text-left md:order-1">
                 <h3 className="text-3xl font-bold tracking-tight md:text-4xl">Личное</h3>
                 <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
@@ -180,6 +180,100 @@ export default function Profile() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* СЕКЦИЯ: ПРОЕКТЫ */}
+        <section id="projects" className="bg-muted/30">
+          <div className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
+            <h2 className="text-4xl font-bold tracking-tight md:text-6xl">Проекты</h2>
+            <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl">
+              Все мои проекты отвечают одной миссии: помогать онлайн-предпринимателям стать свободными и прибыльными. Я иду к тому, чтобы между предпринимателем и клиентов не стояло сложных программ, огромных команд и затрат.
+            </p>
+
+            <div className="mt-16 space-y-12">
+              {/* Раздел "Сейчас в продаже" */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Сейчас в продаже</h3>
+                <div className="mt-6 rounded-2xl border border-border bg-card p-8 text-left shadow-lg">
+                  <h4 className="text-2xl font-bold">ЛАБС</h4>
+                  <p className="mt-3 text-lg text-muted-foreground">Проект по искусственному интеллекту и вайбкодингу.</p>
+                  <p className="mt-6 font-medium">Стоимость: 33 300 руб.</p>
+                  <p className="text-sm text-muted-foreground">Пройдет: 2-23 ноября</p>
+                  <Button className="mt-6">
+                    Занять место
+                  </Button>
+                </div>
+              </div>
+
+              {/* Раздел "Расписание 2025" */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Расписание 2025</h3>
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+                  {/* Карточка 1 */}
+                  <div className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+                    <h4 className="text-xl font-bold">Экспресс-продажи</h4>
+                    <p className="mt-2 text-muted-foreground">Игра в телеграм для тех, кто продает онлайн. 7 дней с ежедневными заданиями от Мари...</p>
+                    <p className="mt-4 font-medium">4 990 руб.</p>
+                    <p className="text-sm text-muted-foreground">Старт: 12.11.2025</p>
+                    <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
+                  </div>
+                  {/* Карточка 2 */}
+                  <div className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+                    <h4 className="text-xl font-bold">ТОП</h4>
+                    <p className="mt-2 text-muted-foreground">Мини-курс по коротким роликам + игра</p>
+                    <p className="mt-4 font-medium">от 14 990 руб.</p>
+                    <p className="text-sm text-muted-foreground">Старт: 4.12.2025</p>
+                    <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
+                  </div>
+                  {/* Карточка 3 */}
+                  <div className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+                    <h4 className="text-xl font-bold">Мастер-класс SOLD OUT</h4>
+                    <p className="mt-2 text-muted-foreground">Мастер-класс для экспертов, как сделать SOLD OUT и продать все места...</p>
+                    <p className="mt-4 font-medium">2 990 руб.</p>
+                    <p className="text-sm text-muted-foreground">Старт: 22.12.2025</p>
+                    <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Раздел "Планы на 2026" */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Планы на 2026</h3>
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {/* Карточка 1 */}
+                  <div className="rounded-2xl border border-border bg-card/80 p-6 text-left opacity-70 shadow-sm">
+                    <h4 className="text-xl font-bold">Масштаб-7</h4>
+                    <p className="mt-2 text-muted-foreground">Платформа для обучения и работы в онлайне. Для продюсеров и экспертного бизнеса.</p>
+                    <p className="mt-4 font-medium">129 990-230 000 руб.</p>
+                    <p className="text-sm text-muted-foreground">Ожидается: февраль-2026</p>
+                    <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
+                  </div>
+                  {/* Карточка 2 */}
+                  <div className="rounded-2xl border border-border bg-card/80 p-6 text-left opacity-70 shadow-sm">
+                    <h4 className="text-xl font-bold">ДОМ</h4>
+                    <p className="mt-2 text-muted-foreground">Сервисы для онлайн-продаж и комьюнити по подписке</p>
+                    <p className="mt-4 font-medium">до 5 000 руб. в месяц</p>
+                    <p className="text-sm text-muted-foreground">Ожидается: январь-2026</p>
+                    <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* СЕКЦИЯ: АНТИКРИЗИСНАЯ КНИГА */}
+        <section id="book" className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
+          <h2 className="text-4xl font-bold tracking-tight md:text-6xl">Антикризисная книга</h2>
+          <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted-foreground md:text-xl">
+            <p>В каком случае эта книга действительно поможет?</p>
+            <p>Ты столкнулся с одним из видов кризиса реализации — я выделяю 6 основных: нет денег, выгорание, кризис с соцсетями, кризис быстрого роста, кризис смыслов, падение результатов и репутации.</p>
+            <p>Если произошло что-то из этого, и нужен спасательный круг, это он и есть. Хватайся. Он не только поможет тебе выбраться из воды, но и поможет увидеть в кризисе новые возможности. Ведь после каждого кризиса я росла.</p>
+            <p className="font-medium text-foreground">Приятного чтения и успешного выхода из турбулентности!</p>
+          </div>
+          <Button className="mt-12" size="lg">
+            Читать бесплатно
+          </Button>
         </section>
 
         {/* СЕКЦИЯ: EMAIL ПОДПИСКА */}
