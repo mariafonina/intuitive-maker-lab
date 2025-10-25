@@ -167,63 +167,63 @@ export default function Profile() {
             <h3 className="mb-12 text-center text-3xl font-bold md:text-4xl">Коллаборации и выступления</h3>
             
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoSber} alt="Сбербанк" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">Сбербанк</p>
                 <p className="mt-2 text-sm text-muted-foreground">Приглашенный спикер (корпоративный тренинг, выступление на онлайн-конференции Сбера)</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoHse} alt="ВШЭ" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">Высшая Школа Экономики</p>
                 <p className="mt-2 text-sm text-muted-foreground">Урок для студентов по продюсированию</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoRosatom} alt="Росатом" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">Росатом</p>
                 <p className="mt-2 text-sm text-muted-foreground">Наставник в проекте для вожатых (2021-2022)</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoDetiBabochki} alt="Фонд Дети-бабочки" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">Фонд "Дети-бабочки"</p>
                 <p className="mt-2 text-sm text-muted-foreground">Спикер благотворительного форума</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoMgu} alt="МГУ" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">МГУ</p>
                 <p className="mt-2 text-sm text-muted-foreground">Организатор набора студентов и обучения от академиков МГУ (2023-2024)</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoNobelFest} alt="Nobel Fest" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">Нобель фест</p>
                 <p className="mt-2 text-sm text-muted-foreground">Приглашенный участник (2023)</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoRgsu} alt="РГСУ" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">РГСУ</p>
                 <p className="mt-2 text-sm text-muted-foreground">Соавтор учебного пособия по маркетингу (2024)</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoUnesco} alt="UNESCO" className="h-full w-auto object-contain" />
                 </div>
                 <p className="font-semibold">Юнеско</p>
                 <p className="mt-2 text-sm text-muted-foreground">Участник съезда по бизнес-образованию (2024)</p>
               </div>
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md">
+              <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoRbk} alt="РБК" className="h-full w-auto object-contain" />
                 </div>
@@ -246,7 +246,7 @@ export default function Profile() {
               {/* Раздел "Сейчас в продаже" */}
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Сейчас в продаже</h3>
-                <div className="mt-6 rounded-2xl border border-border bg-card p-8 text-left shadow-lg">
+                <div className="mt-6 rounded-2xl bg-card p-8 text-left shadow-lg">
                   <h4 className="text-2xl font-bold">ЛАБС</h4>
                   <p className="mt-3 text-lg text-muted-foreground">Проект по искусственному интеллекту и вайбкодингу.</p>
                   <p className="mt-6 font-medium">Стоимость: 33 300 руб.</p>
@@ -262,7 +262,7 @@ export default function Profile() {
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Расписание 2025</h3>
                 <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
                   {/* Карточка 1 */}
-                  <div className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+                  <div className="rounded-2xl bg-card p-6 text-left shadow-sm">
                     <h4 className="text-xl font-bold">Экспресс-продажи</h4>
                     <p className="mt-2 text-muted-foreground">Игра в телеграм для тех, кто продает онлайн. 7 дней с ежедневными заданиями от Мари...</p>
                     <p className="mt-4 font-medium">4 990 руб.</p>
@@ -270,7 +270,7 @@ export default function Profile() {
                     <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
                   </div>
                   {/* Карточка 2 */}
-                  <div className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+                  <div className="rounded-2xl bg-card p-6 text-left shadow-sm">
                     <h4 className="text-xl font-bold">ТОП</h4>
                     <p className="mt-2 text-muted-foreground">Мини-курс по коротким роликам + игра</p>
                     <p className="mt-4 font-medium">от 14 990 руб.</p>
@@ -278,7 +278,7 @@ export default function Profile() {
                     <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
                   </div>
                   {/* Карточка 3 */}
-                  <div className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+                  <div className="rounded-2xl bg-card p-6 text-left shadow-sm">
                     <h4 className="text-xl font-bold">Мастер-класс SOLD OUT</h4>
                     <p className="mt-2 text-muted-foreground">Мастер-класс для экспертов, как сделать SOLD OUT и продать все места...</p>
                     <p className="mt-4 font-medium">2 990 руб.</p>
@@ -293,7 +293,7 @@ export default function Profile() {
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Планы на 2026</h3>
                 <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* Карточка 1 */}
-                  <div className="rounded-2xl border border-border bg-card/80 p-6 text-left opacity-70 shadow-sm">
+                  <div className="rounded-2xl bg-card/80 p-6 text-left opacity-70 shadow-sm">
                     <h4 className="text-xl font-bold">Масштаб-7</h4>
                     <p className="mt-2 text-muted-foreground">Платформа для обучения и работы в онлайне. Для продюсеров и экспертного бизнеса.</p>
                     <p className="mt-4 font-medium">129 990-230 000 руб.</p>
@@ -301,7 +301,7 @@ export default function Profile() {
                     <a href="#" className="mt-4 inline-block text-lg font-medium text-primary hover:underline">В предзапись &rarr;</a>
                   </div>
                   {/* Карточка 2 */}
-                  <div className="rounded-2xl border border-border bg-card/80 p-6 text-left opacity-70 shadow-sm">
+                  <div className="rounded-2xl bg-card/80 p-6 text-left opacity-70 shadow-sm">
                     <h4 className="text-xl font-bold">ДОМ</h4>
                     <p className="mt-2 text-muted-foreground">Сервисы для онлайн-продаж и комьюнити по подписке</p>
                     <p className="mt-4 font-medium">до 5 000 руб. в месяц</p>
