@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ProgressBar";
 import mariPhoto from "@/assets/mari-photo.jpeg";
-import bookCover from "@/assets/book-cover.jpg";
+import bookCover from "@/assets/book-cover.png";
 
 export default function Profile() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
