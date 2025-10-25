@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import mariPhoto from "@/assets/mari-photo.jpeg";
 
 export default function Profile() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -65,7 +66,9 @@ export default function Profile() {
       <main>
         {/* СЕКЦИЯ: ОБО МНЕ */}
         <section id="about" className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
-          <div className="mx-auto mb-6 h-32 w-32 rounded-full bg-muted shadow-md md:mb-8 md:h-40 md:w-40"></div>
+          <div className="mx-auto mb-6 h-32 w-32 rounded-full bg-muted shadow-md md:mb-8 md:h-40 md:w-40 overflow-hidden">
+            <img src={mariPhoto} alt="Мари Афонина" className="h-full w-full object-cover" />
+          </div>
 
           <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Мари Афонина</h1>
           <h2 className="mt-4 text-2xl text-muted-foreground md:text-3xl">продюсер, IT-предприниматель</h2>
