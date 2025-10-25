@@ -429,32 +429,80 @@ export default function Profile() {
           </div>
         </section>
 
-        {/* СЕКЦИЯ: КОНТАКТЫ */}
-        <section id="contacts" className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-          <h2 className="text-center text-4xl font-bold tracking-tight md:text-6xl">Контакты и ссылки</h2>
+        {/* СЕКЦИЯ: ССЫЛКИ НА СОЦСЕТИ */}
+        <section id="social" className="mx-auto max-w-6xl px-6 py-24 md:py-32">
+          <h2 className="text-4xl font-bold tracking-tight md:text-5xl mb-16">Ссылки на соцсети</h2>
 
-          <div className="mt-16 grid grid-cols-1 gap-12 border-t border-border pt-16 md:grid-cols-3 md:gap-8 md:text-left text-center">
-            <div>
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Ссылки на соцсети</h4>
-              <div className="mt-4 flex flex-col space-y-3">
-                <a href="https://t.me/mari_zapuski" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-primary transition-colors">Телеграм-канал: mari_zapuski</a>
-                <a href="#" className="text-foreground/70 hover:text-primary transition-colors">Личный телеграм-канал: mari_vse</a>
-                <a href="https://t.me/mari_vakansii" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-primary transition-colors">Чат вакансий в онлайне: mari_vakansii</a>
-                <a href="#" className="text-foreground/70 hover:text-primary transition-colors">Чат вакансий в ИИ: vakansii_chatgpt</a>
-                <a href="#" className="text-foreground/70 hover:text-primary transition-colors">Инстаграм: mariafonina</a>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <a href="https://t.me/mari_zapuski" target="_blank" rel="noopener noreferrer" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
+              <h3 className="text-xl font-semibold mb-3">Телеграм-канал</h3>
+              <p className="text-2xl font-bold mb-2">@mari_zapuski</p>
+              <p className="text-muted-foreground">Основной канал о запусках</p>
+            </a>
+
+            <a href="#" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
+              <h3 className="text-xl font-semibold mb-3">Личный телеграм-канал</h3>
+              <p className="text-2xl font-bold mb-2">@mari_vse</p>
+              <p className="text-muted-foreground">Личные мысли и инсайты</p>
+            </a>
+
+            <a href="https://t.me/mari_vakansii" target="_blank" rel="noopener noreferrer" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
+              <h3 className="text-xl font-semibold mb-3">Чат вакансий в онлайне</h3>
+              <p className="text-2xl font-bold mb-2">@mari_vakansii</p>
+              <p className="text-muted-foreground">185 000 участников</p>
+            </a>
+
+            <a href="#" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
+              <h3 className="text-xl font-semibold mb-3">Чат вакансий в ИИ</h3>
+              <p className="text-2xl font-bold mb-2">@vakansii_chatgpt</p>
+              <p className="text-muted-foreground">Вакансии в сфере AI</p>
+            </a>
+
+            <a href="#" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md md:col-span-1">
+              <h3 className="text-xl font-semibold mb-3">Инстаграм</h3>
+              <p className="text-2xl font-bold mb-2">@mariafonina</p>
+              <p className="text-muted-foreground">Визуальный контент</p>
+            </a>
+          </div>
+        </section>
+
+        {/* СЕКЦИЯ: КОНТАКТЫ */}
+        <section id="contacts" className="bg-muted/30">
+          <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
+            <h2 className="text-4xl font-bold tracking-tight md:text-5xl mb-16">Контакты для связи</h2>
+
+            <div className="space-y-6">
+              <div className="rounded-3xl bg-card p-8 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">По любым вопросам</p>
+                  <h3 className="text-2xl font-bold mb-2">E-mail</h3>
+                  <p className="text-xl">zapusk@mariafonina.ru</p>
+                </div>
+                <Button asChild size="lg" className="md:min-w-[200px]">
+                  <a href="mailto:zapusk@mariafonina.ru">Связаться</a>
+                </Button>
               </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Контакты для связи</h4>
-              <div className="mt-4 flex flex-col space-y-3">
-                <a href="mailto:zapusk@mariafonina.ru" className="text-foreground/70 hover:text-primary transition-colors">E-mail (по любым вопросам): zapusk@mariafonina.ru</a>
-                <a href="#" className="text-foreground/70 hover:text-primary transition-colors">Служба заботы: @mashtab_sherif</a>
+
+              <div className="rounded-3xl bg-card p-8 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">По любым вопросам</p>
+                  <h3 className="text-2xl font-bold mb-2">Служба заботы</h3>
+                  <p className="text-xl">@mashtab_sherif</p>
+                </div>
+                <Button asChild size="lg" className="md:min-w-[200px]">
+                  <a href="https://t.me/mashtab_sherif" target="_blank" rel="noopener noreferrer">Связаться</a>
+                </Button>
               </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Сотрудничество</h4>
-              <div className="mt-4 flex flex-col space-y-3">
-                <a href="mailto:zapusk@mariafonina.ru" className="text-foreground/70 hover:text-primary transition-colors">zapusk@mariafonina.ru</a>
+
+              <div className="rounded-3xl bg-card p-8 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Для партнеров</p>
+                  <h3 className="text-2xl font-bold mb-2">Сотрудничество</h3>
+                  <p className="text-xl">Написать в службу заботы</p>
+                </div>
+                <Button asChild size="lg" className="md:min-w-[200px]">
+                  <a href="https://t.me/mashtab_sherif" target="_blank" rel="noopener noreferrer">Связаться</a>
+                </Button>
               </div>
             </div>
           </div>
