@@ -8,6 +8,7 @@ import { MainNavigation } from "@/components/MainNavigation";
 import { usePageView } from "@/hooks/useAnalytics";
 import { Article } from "@/types/article";
 import { createExcerpt, formatDate, calculateReadingTime } from "@/lib/formatters";
+import articleImage from "@/assets/article-lovable-services.png";
 
 const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -89,9 +90,16 @@ const Articles = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Специальная карточка для гайда по вайбкодингу */}
           <Card 
-            className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card border-2 border-primary/20"
+            className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card overflow-hidden"
             onClick={() => navigate('/articles/vibecoding-guide')}
           >
+            <div className="w-full h-48 overflow-hidden">
+              <img 
+                src={articleImage} 
+                alt="Что такое вайбкодинг и с чем его едят"
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+              />
+            </div>
             <CardHeader>
               <CardDescription className="text-primary font-semibold mb-2 text-sm uppercase tracking-wider">
                 Гайд Мари Афониной
