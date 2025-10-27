@@ -11,10 +11,15 @@ const processRawHTML = (content: string): string => {
   rawHTMLBlocks.forEach((block) => {
     const htmlContent = block.getAttribute('data-raw-html');
     if (htmlContent) {
+      // Декодируем HTML entities
+      const textarea = document.createElement('textarea');
+      textarea.innerHTML = htmlContent;
+      const decodedHTML = textarea.value;
+      
       // Создаем контейнер для рендеринга
       const container = document.createElement('div');
       container.className = 'my-8 w-full';
-      container.innerHTML = htmlContent;
+      container.innerHTML = decodedHTML;
       block.replaceWith(container);
     }
   });

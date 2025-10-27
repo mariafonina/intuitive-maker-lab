@@ -199,6 +199,24 @@
   font-weight: 600;
 }
 
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+.prose blockquote {
+  border-left: 4px solid hsl(var(--primary));
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: hsl(var(--muted-foreground));
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
