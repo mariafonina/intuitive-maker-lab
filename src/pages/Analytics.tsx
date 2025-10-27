@@ -6,6 +6,14 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Eye, MousePointer, Smartphone, Monitor, Tablet } from "lucide-react";
 import { AdminSidebar } from "@/components/AdminSidebar";
 
+interface PageConversion {
+  page_path: string;
+  views: number;
+  clicks: number;
+  purchaseClicks: number;
+  conversionRate: number;
+}
+
 interface AnalyticsData {
   totalPageViews: number;
   totalClicks: number;
@@ -13,6 +21,7 @@ interface AnalyticsData {
   deviceBreakdown: { device_type: string; count: number }[];
   topPages: { page_path: string; count: number }[];
   purchaseClicks: number;
+  pageConversions: PageConversion[];
 }
 
 const Analytics = () => {
@@ -25,6 +34,7 @@ const Analytics = () => {
     deviceBreakdown: [],
     topPages: [],
     purchaseClicks: 0,
+    pageConversions: [],
   });
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -119,6 +129,57 @@ const Analytics = () => {
         return acc;
       }, []).sort((a, b) => b.count - a.count).slice(0, 5) || [];
 
+      // Конверсия по страницам (исключаем админские)
+      const { data: allViews } = await supabase
+        .from("page_views")
+        .select("page_path")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
+
+      const { data: allClicks } = await supabase
+        .from("button_clicks")
+        .select("page_path, button_type")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
+
+      // Группируем просмотры по страницам
+      const viewsByPage = (allViews || []).reduce((acc: Record<string, number>, curr) => {
+        const path = curr.page_path || '/';
+        acc[path] = (acc[path] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Группируем клики по страницам
+      const clicksByPage = (allClicks || []).reduce((acc: Record<string, { total: number; purchase: number }>, curr) => {
+        const path = curr.page_path || '/';
+        if (!acc[path]) {
+          acc[path] = { total: 0, purchase: 0 };
+        }
+        acc[path].total++;
+        if (curr.button_type === 'purchase') {
+          acc[path].purchase++;
+        }
+        return acc;
+      }, {});
+
+      // Создаем массив конверсий по страницам
+      const pageConversions: PageConversion[] = Object.keys(viewsByPage)
+        .map(path => {
+          const views = viewsByPage[path] || 0;
+          const clicks = clicksByPage[path]?.total || 0;
+          const purchaseClicks = clicksByPage[path]?.purchase || 0;
+          const conversionRate = views > 0 ? (purchaseClicks / views) * 100 : 0;
+
+          return {
+            page_path: path,
+            views,
+            clicks,
+            purchaseClicks,
+            conversionRate: Math.round(conversionRate * 100) / 100,
+          };
+        })
+        .sort((a, b) => b.views - a.views);
+
       const conversionRate = viewsCount ? ((purchaseCount || 0) / viewsCount) * 100 : 0;
 
       setData({
@@ -128,6 +189,7 @@ const Analytics = () => {
         deviceBreakdown,
         topPages: pageCount,
         purchaseClicks: purchaseCount || 0,
+        pageConversions,
       });
     } catch (error) {
       console.error("Error loading analytics:", error);
@@ -237,6 +299,57 @@ const Analytics = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Конверсия по страницам */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>Конверсия по страницам</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-3 px-4 font-medium">Страница</th>
+                      <th className="text-right py-3 px-4 font-medium">Просмотры</th>
+                      <th className="text-right py-3 px-4 font-medium">Клики</th>
+                      <th className="text-right py-3 px-4 font-medium">Клики на покупку</th>
+                      <th className="text-right py-3 px-4 font-medium">Конверсия</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.pageConversions.length === 0 ? (
+                      <tr>
+                        <td colSpan={5} className="text-center py-8 text-muted-foreground">
+                          Нет данных
+                        </td>
+                      </tr>
+                    ) : (
+                      data.pageConversions.map((page, index) => (
+                        <tr key={index} className="border-b hover:bg-muted/50">
+                          <td className="py-3 px-4 font-mono text-sm">{page.page_path}</td>
+                          <td className="text-right py-3 px-4">{page.views}</td>
+                          <td className="text-right py-3 px-4">{page.clicks}</td>
+                          <td className="text-right py-3 px-4 font-medium text-primary">
+                            {page.purchaseClicks}
+                          </td>
+                          <td className="text-right py-3 px-4">
+                            <span className={`font-semibold ${
+                              page.conversionRate > 5 ? 'text-green-600' :
+                              page.conversionRate > 2 ? 'text-yellow-600' :
+                              'text-muted-foreground'
+                            }`}>
+                              {page.conversionRate}%
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Устройства и топ страниц */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
