@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, ArrowLeft } from "lucide-react";
-import { Navigation } from "@/components/Navigation";
+import { Loader2 } from "lucide-react";
+import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
-import { Button } from "@/components/ui/button";
 
 interface Article {
   id: string;
@@ -97,17 +96,10 @@ const ArticleView = () => {
   if (!article) {
     return (
       <div className="min-h-screen bg-background">
-        <Navigation />
-        <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8 text-center">
+        <MainNavigation />
+        <ProgressBar topOffset="top-20" />
+        <main className="pt-32 px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-muted-foreground">Статья не найдена</p>
-          <Button 
-            onClick={() => navigate("/articles")}
-            className="mt-4"
-            variant="outline"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Вернуться к статьям
-          </Button>
         </main>
       </div>
     );
@@ -119,10 +111,10 @@ const ArticleView = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
-      <ProgressBar />
+      <MainNavigation />
+      <ProgressBar topOffset="top-20" />
       
-      <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8">
+      <main className="pt-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <article>
             {/* Header */}

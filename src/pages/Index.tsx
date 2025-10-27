@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigation } from "@/components/Navigation";
+import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
@@ -12,8 +12,8 @@ import talkscoreImage from "@/assets/talkscore-screenshot.png";
 const Index = () => {
   const readingTime = 9;
   return <div className="min-h-screen bg-background">
-      <Navigation />
-      <ProgressBar />
+      <MainNavigation />
+      <ProgressBar topOffset="top-20" />
 
       <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8">
         <article className="max-w-4xl mx-auto">

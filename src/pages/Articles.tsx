@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Clock, ArrowLeft } from "lucide-react";
+import { Loader2, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ProgressBar";
+import { MainNavigation } from "@/components/MainNavigation";
 
 interface Article {
   id: string;
@@ -62,19 +62,8 @@ const Articles = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <ProgressBar />
-      
-      {/* НАВИГАЦИЯ */}
-      <header className="fixed top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-lg h-20">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 h-full">
-          <a href="/profile" className="text-lg font-bold">@mariafonina</a>
-          
-          <Button variant="ghost" onClick={() => navigate('/profile')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Назад
-          </Button>
-        </nav>
-      </header>
+      <ProgressBar topOffset="top-20" />
+      <MainNavigation />
       
       <main className="pt-32 px-6 max-w-6xl mx-auto pb-24">
         <header className="text-center mb-16">
