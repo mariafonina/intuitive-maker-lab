@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -86,9 +86,9 @@ export const ImageUpload = () => {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     loadImages();
-  });
+  }, []);
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
