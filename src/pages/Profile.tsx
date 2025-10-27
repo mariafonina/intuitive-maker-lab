@@ -295,7 +295,7 @@ export default function Profile() {
               <p className="text-muted-foreground">Вакансии в сфере AI</p>
             </a>
 
-            <a href="https://instagram.com/mariafonina" target="_blank" rel="noopener noreferrer" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md md:col-span-1">
+            <a href="https://www.instagram.com/mariafonina/" target="_blank" rel="noopener noreferrer" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md md:col-span-1">
               <h3 className="text-xl font-semibold mb-3">Инстаграм</h3>
               <p className="text-2xl font-bold mb-2">@mariafonina</p>
               <p className="text-muted-foreground">Визуальный контент</p>
