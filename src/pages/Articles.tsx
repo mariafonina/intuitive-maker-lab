@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Clock } from "lucide-react";
+import { Loader2, Clock, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ProgressBar";
@@ -12,6 +12,7 @@ import { createExcerpt, formatDate, calculateReadingTime } from "@/lib/formatter
 const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [viewCounts, setViewCounts] = useState<Record<string, number>>({});
   const navigate = useNavigate();
   
   usePageView(); // Трекинг просмотра страницы
@@ -21,6 +22,7 @@ const Articles = () => {
   }, []);
 
   const loadArticles = async () => {
+    // Загружаем статьи
     const { data, error } = await supabase
       .from("articles_public")
       .select("*")
@@ -28,6 +30,34 @@ const Articles = () => {
 
     if (!error && data) {
       setArticles(data);
+    }
+
+    // Загружаем просмотры статей
+    const { data: viewsData } = await supabase
+      .from("page_views")
+      .select("page_path");
+
+    if (viewsData) {
+      // Подсчитываем просмотры для каждой статьи
+      const counts: Record<string, number> = {
+        "vibecoding-guide": 0, // Для основного гайда
+      };
+
+      viewsData.forEach((view) => {
+        const path = view.page_path;
+        // Извлекаем slug из пути типа "/articles/slug"
+        const match = path.match(/^\/articles\/([^/]+)$/);
+        if (match) {
+          const slug = match[1];
+          counts[slug] = (counts[slug] || 0) + 1;
+        }
+        // Также считаем просмотры главной страницы как просмотры гайда
+        if (path === "/" || path === "") {
+          counts["vibecoding-guide"] = (counts["vibecoding-guide"] || 0) + 1;
+        }
+      });
+
+      setViewCounts(counts);
     }
 
     setLoading(false);
@@ -74,9 +104,17 @@ const Articles = () => {
               <p className="text-muted-foreground line-clamp-3 mb-6 text-lg leading-relaxed">
                 Подробный гайд о вайбкодинге, новом способе создания приложений с помощью искусственного интеллекта.
               </p>
-              <div className="flex items-center text-sm text-muted-foreground">
-                <Clock className="h-4 w-4 mr-2" />
-                <span>~9 мин. чтения</span>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center">
+                  <Clock className="h-4 w-4 mr-2" />
+                  <span>~9 мин. чтения</span>
+                </div>
+                {viewCounts["vibecoding-guide"] > 0 && (
+                  <div className="flex items-center">
+                    <Eye className="h-4 w-4 mr-2" />
+                    <span>{viewCounts["vibecoding-guide"]} просмотров</span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -85,12 +123,14 @@ const Articles = () => {
           {articles.map((article) => {
             const readingTime = calculateReadingTime(article.content);
             const excerpt = createExcerpt(article.content);
+            const articleSlug = article.slug || article.id;
+            const viewCount = viewCounts[articleSlug] || 0;
             
             return (
               <Card 
                 key={article.id}
                 className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card overflow-hidden"
-                onClick={() => navigate(`/articles/${article.slug || article.id}`)}
+                onClick={() => navigate(`/articles/${articleSlug}`)}
               >
                 {article.og_image && (
                   <div className="w-full h-48 overflow-hidden">
@@ -116,9 +156,17 @@ const Articles = () => {
                   <p className="text-muted-foreground line-clamp-3 mb-6 text-lg leading-relaxed">
                     {excerpt}
                   </p>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Clock className="h-4 w-4 mr-2" />
-                    <span>~{readingTime} мин. чтения</span>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-2" />
+                      <span>~{readingTime} мин. чтения</span>
+                    </div>
+                    {viewCount > 0 && (
+                      <div className="flex items-center">
+                        <Eye className="h-4 w-4 mr-2" />
+                        <span>{viewCount} просмотров</span>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
