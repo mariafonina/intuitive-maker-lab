@@ -52,3 +52,21 @@ export const pluralize = (count: number, singular: string, few: string, many: st
     return many;
   }
 };
+
+/**
+ * Форматирует числа с пробелами между разрядами
+ * Например: 33300 -> "33 300", "33300 руб." -> "33 300 руб."
+ */
+export const formatPrice = (price: string): string => {
+  // Разделяем число и текст (например "33300 руб.")
+  const match = price.match(/^(\d+)(.*)$/);
+  
+  if (!match) return price;
+  
+  const [, number, suffix] = match;
+  
+  // Добавляем пробелы между разрядами (справа налево по 3 цифры)
+  const formattedNumber = number.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  
+  return formattedNumber + suffix;
+};

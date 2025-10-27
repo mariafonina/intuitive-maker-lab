@@ -7,6 +7,7 @@ import { Calendar, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { trackButtonClick } from "@/hooks/useAnalytics";
+import { formatPrice } from "@/lib/formatters";
 
 interface OfferCardProps {
   offer: {
@@ -85,16 +86,16 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
   };
 
   return (
-    <Card className="overflow-hidden border-2 border-primary/20">
-      <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10">
-        <CardTitle className="text-2xl">{offer.title}</CardTitle>
-        <CardDescription className="text-lg font-semibold flex items-center gap-2">
-          {offer.price}
+    <Card className="overflow-hidden border-2 border-primary/20 bg-gradient-to-br from-background to-primary/5">
+      <CardHeader className="text-center pb-4">
+        <CardTitle className="text-2xl sm:text-3xl mb-2">{offer.title}</CardTitle>
+        <CardDescription className="text-xl sm:text-2xl font-bold text-primary">
+          {formatPrice(offer.price)}
         </CardDescription>
       </CardHeader>
-      <CardContent className="pt-6 space-y-6">
-        {!compact && (
-          <p className="text-foreground whitespace-pre-wrap">{offer.description}</p>
+      <CardContent className="pt-2 space-y-6">
+        {!compact && offer.description && (
+          <p className="text-center text-muted-foreground">{offer.description}</p>
         )}
 
         {mode === "presale" && (
@@ -148,9 +149,11 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" size="lg">
-                  Записаться в предзапись
-                </Button>
+                <div className="flex justify-center">
+                  <Button type="submit" size="lg" className="px-12">
+                    Записаться в предзапись
+                  </Button>
+                </div>
               </form>
             ) : (
               <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg text-center">
@@ -164,17 +167,19 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
 
         {mode === "open" && (
           <div className="space-y-4">
-            <Button onClick={handlePurchase} className="w-full" size="lg">
-              Занять место
-            </Button>
-            <div className="text-sm text-muted-foreground space-y-1">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>Старт: {format(new Date(offer.start_date), "d MMMM yyyy", { locale: ru })}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>Окончание: {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}</span>
+            <div className="flex flex-col items-center gap-4">
+              <Button onClick={handlePurchase} size="lg" className="px-12">
+                Занять место
+              </Button>
+              <div className="text-sm text-muted-foreground text-center space-y-1">
+                <div className="flex items-center justify-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  <span>Старт: {format(new Date(offer.start_date), "d MMMM yyyy", { locale: ru })}</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  <span>Окончание: {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -187,13 +192,15 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
                 🎉 Мы только начали, вы ещё можете присоединиться!
               </p>
             </div>
-            <Button onClick={handlePurchase} className="w-full" size="lg">
-              Занять место
-            </Button>
-            <div className="text-sm text-muted-foreground space-y-1">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>Окончание: {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}</span>
+            <div className="flex flex-col items-center gap-4">
+              <Button onClick={handlePurchase} size="lg" className="px-12">
+                Занять место
+              </Button>
+              <div className="text-sm text-muted-foreground text-center">
+                <div className="flex items-center justify-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  <span>Окончание: {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -235,9 +242,11 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" size="lg" variant="secondary">
-                  Записаться в предзапись
-                </Button>
+                <div className="flex justify-center">
+                  <Button type="submit" size="lg" variant="secondary" className="px-12">
+                    Записаться в предзапись
+                  </Button>
+                </div>
               </form>
             ) : (
               <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg text-center">
