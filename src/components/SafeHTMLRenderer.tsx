@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { sanitizeEmbedHtml } from '@/lib/sanitize';
 
 interface SafeHTMLRendererProps {
   html: string;
@@ -9,56 +10,21 @@ interface SafeHTMLRendererProps {
  * Компонент для безопасного рендеринга HTML кода
  * Используется для embed-контента (iframe, видео и т.д.)
  * 
- * ВАЖНО: Используется только в контексте админской панели,
- * где доверенные пользователи вставляют контент
+ * ВАЖНО: Использует DOMPurify для надежной санитизации
  */
 export const SafeHTMLRenderer = ({ html, className = '' }: SafeHTMLRendererProps) => {
-  // Базовая санитизация для защиты от явных XSS
   const sanitizedHTML = useMemo(() => {
-    // Разрешаем только безопасные теги для embed-контента
-    const allowedTags = ['div', 'iframe', 'video', 'audio', 'source', 'embed', 'object', 'param'];
-    const allowedAttributes = [
-      'src', 'width', 'height', 'style', 'class', 
-      'frameborder', 'allowfullscreen', 'webkitallowfullscreen', 
-      'mozallowfullscreen', 'allow', 'title', 'loading'
-    ];
+    const cleaned = sanitizeEmbedHtml(html);
     
-    // Создаем временный DOM элемент для парсинга
+    // Добавляем loading="eager" для iframe после санитизации
     const temp = document.createElement('div');
-    temp.innerHTML = html;
+    temp.innerHTML = cleaned;
     
-    // Проверяем все элементы
-    const elements = temp.querySelectorAll('*');
-    elements.forEach((el) => {
-      const tagName = el.tagName.toLowerCase();
-      
-      // Удаляем недопустимые теги
-      if (!allowedTags.includes(tagName)) {
-        el.remove();
-        return;
-      }
-      
-      // Удаляем недопустимые атрибуты
-      const attrs = Array.from(el.attributes);
-      attrs.forEach((attr) => {
-        if (!allowedAttributes.includes(attr.name.toLowerCase())) {
-          el.removeAttribute(attr.name);
-        }
-      });
-      
-      // Проверяем src на подозрительные протоколы
-      const src = el.getAttribute('src');
-      if (src && !src.match(/^(https?:\/\/|\/\/)/i)) {
-        el.removeAttribute('src');
-      }
-
-      // Добавляем eager loading для iframe
-      if (tagName === 'iframe') {
-        el.setAttribute('loading', 'eager');
-        // Устанавливаем минимальную высоту для предотвращения layout shift
-        if (!el.getAttribute('height')) {
-          el.setAttribute('style', (el.getAttribute('style') || '') + 'min-height: 400px;');
-        }
+    const iframes = temp.querySelectorAll('iframe');
+    iframes.forEach((iframe) => {
+      iframe.setAttribute('loading', 'eager');
+      if (!iframe.getAttribute('height')) {
+        iframe.setAttribute('style', (iframe.getAttribute('style') || '') + 'min-height: 400px;');
       }
     });
     

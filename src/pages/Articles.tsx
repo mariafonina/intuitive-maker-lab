@@ -9,6 +9,7 @@ import { usePageView } from "@/hooks/useAnalytics";
 import { Article } from "@/types/article";
 import { createExcerpt, formatDate, calculateReadingTime } from "@/lib/formatters";
 import articleImage from "@/assets/article-lovable-services.png";
+import { sanitizeArticleHtml } from "@/lib/sanitize";
 
 const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -157,7 +158,7 @@ const Articles = () => {
                   )}
                   <CardTitle 
                     className="text-2xl line-clamp-2 font-bold"
-                    dangerouslySetInnerHTML={{ __html: article.title }}
+                    dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(article.title) }}
                   />
                 </CardHeader>
                 <CardContent>

@@ -1,6 +1,7 @@
 import { OfferShortcode } from "@/components/OfferShortcode";
 import { SafeHTMLRenderer } from "@/components/SafeHTMLRenderer";
 import { applyTypography } from "@/lib/typography";
+import { sanitizeArticleHtml } from "@/lib/sanitize";
 
 // Функция для обработки Raw HTML блоков
 const processRawHTML = (content: string): { 
@@ -103,7 +104,7 @@ const renderHTMLContent = (
     parts.push(
       <div 
         key={`text-${baseKey}`}
-        dangerouslySetInnerHTML={{ __html: applyTypography(htmlContent) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(applyTypography(htmlContent)) }}
         className="prose prose-slate max-w-none dark:prose-invert"
       />
     );
@@ -125,7 +126,7 @@ const renderHTMLContent = (
         parts.push(
           <div 
             key={`text-${baseKey}-${partIndex++}`}
-            dangerouslySetInnerHTML={{ __html: applyTypography(beforeContent) }}
+            dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(applyTypography(beforeContent)) }}
             className="prose prose-slate max-w-none dark:prose-invert"
           />
         );
@@ -165,7 +166,7 @@ const renderHTMLContent = (
     parts.push(
       <div 
         key={`text-${baseKey}-${partIndex}`}
-        dangerouslySetInnerHTML={{ __html: applyTypography(remainingContent) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(applyTypography(remainingContent)) }}
         className="prose prose-slate max-w-none dark:prose-invert"
       />
     );

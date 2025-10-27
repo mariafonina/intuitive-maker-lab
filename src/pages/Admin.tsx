@@ -18,6 +18,7 @@ import { useAdmin } from "@/contexts/AdminContext";
 import { useAdminArticles, type Article } from "@/hooks/useAdminArticles";
 import { ArticleImageUpload } from "@/components/ArticleImageUpload";
 import { formatDate } from "@/lib/formatters";
+import { sanitizeArticleHtml } from "@/lib/sanitize";
 import { TOAST_MESSAGES } from "@/lib/messages";
 
 const Admin = () => {
@@ -284,7 +285,7 @@ const Admin = () => {
                       <div className="flex-1 min-w-0">
                         <h3 
                           className="font-semibold text-lg mb-1"
-                          dangerouslySetInnerHTML={{ __html: article.title }}
+                          dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(article.title) }}
                         />
                         <p className="text-sm text-muted-foreground">
                           {formatDate(article.created_at)} • {article.published ? "Опубликовано" : "Черновик"}

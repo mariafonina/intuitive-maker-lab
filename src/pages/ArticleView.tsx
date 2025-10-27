@@ -10,6 +10,7 @@ import { renderContentWithShortcodes } from "@/utils/renderContent";
 import { Article } from "@/types/article";
 import { isUUID } from "@/lib/validators";
 import { stripHtmlTags } from "@/lib/formatters";
+import { sanitizeArticleHtml } from "@/lib/sanitize";
 
 interface TocItem {
   id: string;
@@ -209,7 +210,7 @@ const ArticleView = () => {
               )}
               <h1 
                 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6"
-                dangerouslySetInnerHTML={{ __html: article.title }}
+                dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(article.title) }}
               />
               <p className="text-sm sm:text-base text-muted-foreground">
                 {readingTime > 0 && `Время на чтение: ~${readingTime} мин.`}
