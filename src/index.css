@@ -337,8 +337,8 @@ All colors MUST be HSL.
     scroll-padding-top: 5rem;
   }
 
-  /* Prevent orphans in text */
-  p, li, blockquote {
+  /* Prevent orphans in text - умный перенос строк */
+  p, li, blockquote, h1, h2, h3, h4, h5, h6, span, a {
     text-wrap: pretty;
   }
 }

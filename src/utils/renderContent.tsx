@@ -1,5 +1,6 @@
 import { OfferShortcode } from "@/components/OfferShortcode";
 import { SafeHTMLRenderer } from "@/components/SafeHTMLRenderer";
+import { applyTypography } from "@/lib/typography";
 
 // Функция для обработки Raw HTML блоков
 const processRawHTML = (content: string): { 
@@ -102,7 +103,7 @@ const renderHTMLContent = (
     parts.push(
       <div 
         key={`text-${baseKey}`}
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
+        dangerouslySetInnerHTML={{ __html: applyTypography(htmlContent) }}
         className="prose prose-slate max-w-none dark:prose-invert"
       />
     );
@@ -124,7 +125,7 @@ const renderHTMLContent = (
         parts.push(
           <div 
             key={`text-${baseKey}-${partIndex++}`}
-            dangerouslySetInnerHTML={{ __html: beforeContent }}
+            dangerouslySetInnerHTML={{ __html: applyTypography(beforeContent) }}
             className="prose prose-slate max-w-none dark:prose-invert"
           />
         );
@@ -164,7 +165,7 @@ const renderHTMLContent = (
     parts.push(
       <div 
         key={`text-${baseKey}-${partIndex}`}
-        dangerouslySetInnerHTML={{ __html: remainingContent }}
+        dangerouslySetInnerHTML={{ __html: applyTypography(remainingContent) }}
         className="prose prose-slate max-w-none dark:prose-invert"
       />
     );
