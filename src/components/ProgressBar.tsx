@@ -6,14 +6,22 @@ export const ProgressBar = () => {
   useEffect(() => {
     const updateProgress = () => {
       const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (window.scrollY / scrollTotal) * 100;
+      if (scrollTotal <= 0) {
+        setProgress(0);
+        return;
+      }
+      const scrolled = Math.min(Math.max((window.scrollY / scrollTotal) * 100, 0), 100);
       setProgress(scrolled);
     };
 
     window.addEventListener("scroll", updateProgress);
+    window.addEventListener("resize", updateProgress);
     updateProgress();
 
-    return () => window.removeEventListener("scroll", updateProgress);
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
   }, []);
 
   return (
