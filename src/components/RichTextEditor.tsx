@@ -1,6 +1,7 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { Mark, mergeAttributes, Node } from '@tiptap/core';
@@ -20,6 +21,7 @@ import {
   Code,
   Brackets,
   FileCode,
+  Link as LinkIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useState } from 'react';
@@ -32,6 +34,8 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface RichTextEditorProps {
   content: string;
@@ -135,6 +139,8 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isHTMLDialogOpen, setIsHTMLDialogOpen] = useState(false);
   const [htmlCode, setHtmlCode] = useState('');
+  const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
+  const [linkUrl, setLinkUrl] = useState('');
 
   const editor = useEditor({
     extensions: [
@@ -156,6 +162,14 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       TextStyle,
       GradientText,
       RawHTML,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          class: 'text-primary underline hover:text-accent transition-colors',
+        },
+      }),
       Image.configure({
         inline: true,
         allowBase64: true,
@@ -260,6 +274,20 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
     }
   }, [editor, htmlCode]);
 
+  const handleSetLink = useCallback(() => {
+    if (editor && linkUrl.trim()) {
+      editor.chain().focus().setLink({ href: linkUrl }).run();
+      setLinkUrl('');
+      setIsLinkDialogOpen(false);
+    }
+  }, [editor, linkUrl]);
+
+  const handleOpenLinkDialog = useCallback(() => {
+    const previousUrl = editor?.getAttributes('link').href || '';
+    setLinkUrl(previousUrl);
+    setIsLinkDialogOpen(true);
+  }, [editor]);
+
   if (!editor) {
     return null;
   }
@@ -313,6 +341,11 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={() => editor.chain().focus().toggleGradient().run()}
             isActive={editor.isActive('gradientText')}
             icon={Sparkles}
+          />
+          <ToolbarButton
+            onClick={handleOpenLinkDialog}
+            isActive={editor.isActive('link')}
+            icon={LinkIcon}
           />
         </div>
 
@@ -414,6 +447,48 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             </Button>
             <Button onClick={handleInsertHTML}>
               Вставить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isLinkDialogOpen} onOpenChange={setIsLinkDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Добавить ссылку</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <div className="space-y-2">
+              <Label htmlFor="link-url">URL</Label>
+              <Input
+                id="link-url"
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                placeholder="https://example.com"
+                type="url"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleSetLink();
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                if (editor?.isActive('link')) {
+                  editor.chain().focus().unsetLink().run();
+                }
+                setIsLinkDialogOpen(false);
+              }}
+            >
+              Удалить ссылку
+            </Button>
+            <Button onClick={handleSetLink}>
+              Сохранить
             </Button>
           </DialogFooter>
         </DialogContent>
