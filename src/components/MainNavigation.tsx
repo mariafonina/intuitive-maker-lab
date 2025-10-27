@@ -75,8 +75,19 @@ export const MainNavigation = () => {
           >
             Контакты
           </a>
-          <Button asChild variant="gradient" size="sm" onClick={() => trackButtonClick('Научиться вайбкодить (хедер)', 'purchase')}>
-            <a href="https://labs.mashtab.io?utm_source=main_site_mari" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
+          <Button 
+            asChild 
+            variant="gradient" 
+            size="sm"
+          >
+            <a 
+              href="https://labs.mashtab.io?utm_source=main_site_mari" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => trackButtonClick('Научиться вайбкодить (хедер)', 'purchase')}
+            >
+              Научиться вайбкодить
+            </a>
           </Button>
         </div>
 
@@ -115,8 +126,18 @@ export const MainNavigation = () => {
           >
             Контакты
           </a>
-          <Button asChild variant="gradient" onClick={() => trackButtonClick('Научиться вайбкодить (мобильное меню)', 'purchase')}>
-            <a href="https://labs.mashtab.io?utm_source=main_site_mari" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
+          <Button 
+            asChild 
+            variant="gradient"
+          >
+            <a 
+              href="https://labs.mashtab.io?utm_source=main_site_mari" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => trackButtonClick('Научиться вайбкодить (мобильное меню)', 'purchase')}
+            >
+              Научиться вайбкодить
+            </a>
           </Button>
         </div>
       )}

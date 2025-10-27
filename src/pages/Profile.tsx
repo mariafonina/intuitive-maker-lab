@@ -201,9 +201,15 @@ export default function Profile() {
                     asChild 
                     variant="gradient" 
                     className="mt-6"
-                    onClick={() => trackButtonClick('Занять место ЛАБС', 'purchase')}
                   >
-                    <a href="https://labs.mashtab.io?utm_source=main_site_mari" target="_blank" rel="noopener noreferrer">Занять место</a>
+                    <a 
+                      href="https://labs.mashtab.io?utm_source=main_site_mari" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      onClick={() => trackButtonClick('Занять место ЛАБС', 'purchase')}
+                    >
+                      Занять место
+                    </a>
                   </Button>
                 </div>
               </div>

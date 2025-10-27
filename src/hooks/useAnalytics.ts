@@ -40,6 +40,8 @@ export const trackButtonClick = async (
   buttonType: 'purchase' | 'contact' | 'link' = 'link'
 ) => {
   try {
+    console.log('Tracking button click:', { buttonName, buttonType, path: window.location.pathname });
+    
     await supabase.from('button_clicks').insert({
       button_name: buttonName,
       page_path: window.location.pathname,
