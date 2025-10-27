@@ -89,9 +89,18 @@ const Articles = () => {
             return (
               <Card 
                 key={article.id}
-                className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card"
+                className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card overflow-hidden"
                 onClick={() => navigate(`/articles/${article.slug || article.id}`)}
               >
+                {article.og_image && (
+                  <div className="w-full h-48 overflow-hidden">
+                    <img 
+                      src={article.og_image} 
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    />
+                  </div>
+                )}
                 <CardHeader>
                   {article.subtitle && (
                     <CardDescription className="text-primary font-semibold mb-2 text-sm uppercase tracking-wider">
