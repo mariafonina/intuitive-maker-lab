@@ -22,6 +22,7 @@ interface AnalyticsData {
   topPages: { page_path: string; count: number }[];
   purchaseClicks: number;
   pageConversions: PageConversion[];
+  utmSources: { utm_source: string; count: number }[];
 }
 
 const Analytics = () => {
@@ -35,6 +36,7 @@ const Analytics = () => {
     topPages: [],
     purchaseClicks: 0,
     pageConversions: [],
+    utmSources: [],
   });
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -180,6 +182,22 @@ const Analytics = () => {
         })
         .sort((a, b) => b.views - a.views);
 
+      // UTM sources анализ
+      const { data: utmData } = await supabase
+        .from("page_views")
+        .select("utm_source")
+        .not("utm_source", "is", null);
+
+      const utmSources = utmData?.reduce((acc: any[], curr) => {
+        const existing = acc.find(item => item.utm_source === curr.utm_source);
+        if (existing) {
+          existing.count++;
+        } else {
+          acc.push({ utm_source: curr.utm_source || 'direct', count: 1 });
+        }
+        return acc;
+      }, []).sort((a, b) => b.count - a.count) || [];
+
       const conversionRate = viewsCount ? ((purchaseCount || 0) / viewsCount) * 100 : 0;
 
       setData({
@@ -190,6 +208,7 @@ const Analytics = () => {
         topPages: pageCount,
         purchaseClicks: purchaseCount || 0,
         pageConversions,
+        utmSources,
       });
     } catch (error) {
       console.error("Error loading analytics:", error);
@@ -348,6 +367,44 @@ const Analytics = () => {
                   </tbody>
                 </table>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Источники трафика (UTM) */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>Источники трафика (UTM)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {data.utmSources.length === 0 ? (
+                <p className="text-center py-8 text-muted-foreground">
+                  Нет данных по UTM-меткам
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  {data.utmSources.map((source, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <span className="text-sm font-medium">{source.utm_source}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-48 bg-muted rounded-full h-2">
+                          <div
+                            className="bg-primary h-2 rounded-full"
+                            style={{
+                              width: `${(source.count / data.totalPageViews) * 100}%`
+                            }}
+                          />
+                        </div>
+                        <span className="text-sm font-medium w-12 text-right">
+                          {source.count}
+                        </span>
+                        <span className="text-xs text-muted-foreground w-12 text-right">
+                          {Math.round((source.count / data.totalPageViews) * 100)}%
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
 

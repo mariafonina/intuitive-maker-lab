@@ -19,11 +19,24 @@ export const usePageView = () => {
   useEffect(() => {
     const trackPageView = async () => {
       try {
+        // Extract UTM parameters from URL
+        const searchParams = new URLSearchParams(location.search);
+        const utmSource = searchParams.get('utm_source');
+        const utmMedium = searchParams.get('utm_medium');
+        const utmCampaign = searchParams.get('utm_campaign');
+        const utmTerm = searchParams.get('utm_term');
+        const utmContent = searchParams.get('utm_content');
+
         await supabase.from('page_views').insert({
           page_path: location.pathname,
           user_agent: navigator.userAgent,
           device_type: getDeviceType(),
           referrer: document.referrer || null,
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+          utm_term: utmTerm,
+          utm_content: utmContent,
         });
       } catch (error) {
         console.error('Error tracking page view:', error);
@@ -31,7 +44,7 @@ export const usePageView = () => {
     };
 
     trackPageView();
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 };
 
 export const trackButtonClick = async (
