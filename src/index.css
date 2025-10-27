@@ -217,6 +217,45 @@
   line-height: 1.75;
 }
 
+/* Embedded content (iframes, videos, etc.) */
+.prose iframe,
+.embedded-content-preview iframe,
+.raw-html-block iframe {
+  width: 100%;
+  border: none;
+  border-radius: 0.75rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive iframe containers */
+.prose [style*="position: relative"],
+.embedded-content-preview [style*="position: relative"] {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+/* Loom embed specific styles */
+.prose iframe[src*="loom.com"],
+.embedded-content-preview iframe[src*="loom.com"] {
+  min-height: 400px;
+}
+
+/* YouTube/Vimeo embed styles */
+.prose iframe[src*="youtube.com"],
+.prose iframe[src*="vimeo.com"],
+.embedded-content-preview iframe[src*="youtube.com"],
+.embedded-content-preview iframe[src*="vimeo.com"] {
+  min-height: 400px;
+}
+
+@media (max-width: 640px) {
+  .prose iframe,
+  .embedded-content-preview iframe {
+    min-height: 250px;
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */

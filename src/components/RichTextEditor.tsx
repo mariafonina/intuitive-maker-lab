@@ -110,8 +110,13 @@ const RawHTML = Node.create({
   renderHTML({ HTMLAttributes }) {
     return ['div', mergeAttributes(HTMLAttributes, {
       'data-raw-html': HTMLAttributes.html,
-      class: 'raw-html-block my-4',
-    })];
+      class: 'raw-html-block my-4 p-4 bg-muted/30 rounded-lg border-2 border-dashed border-primary/30',
+    }), ['div', { 
+      class: 'text-xs text-muted-foreground mb-2 font-mono' 
+    }, '📋 Embedded HTML Code'], ['div', {
+      class: 'embedded-content-preview',
+      innerHTML: HTMLAttributes.html,
+    }]];
   },
   
   addCommands() {
