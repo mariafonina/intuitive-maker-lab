@@ -315,9 +315,6 @@ export default function Profile() {
                   <h3 className="text-2xl font-bold mb-2">E-mail</h3>
                   <p className="text-xl">zapusk@mariafonina.ru</p>
                 </div>
-                <Button asChild size="lg" className="md:min-w-[200px]">
-                  <a href="mailto:zapusk@mariafonina.ru">Связаться</a>
-                </Button>
               </div>
 
               <div className="rounded-3xl bg-card p-8 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-6">
