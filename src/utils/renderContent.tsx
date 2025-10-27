@@ -37,17 +37,32 @@ const processRawHTML = (content: string): {
 
 // Функция для парсинга и рендера контента со шорткодами
 export const renderContentWithShortcodes = (content: string) => {
-  // Сначала обрабатываем Raw HTML блоки
-  const { content: processedContent, htmlBlocks } = processRawHTML(content);
-  
-  // Паттерн для поиска [offer id="xxx"] или [offer id="xxx" compact]
+  // Сначала ищем шорткоды в оригинальном контенте
   const offerPattern = /\[offer\s+id="([^"]+)"(\s+compact)?\]/g;
+  const offerMatches: Array<{ match: RegExpExecArray; offerId: string; isCompact: boolean }> = [];
+  let offerMatch;
+  
+  while ((offerMatch = offerPattern.exec(content)) !== null) {
+    offerMatches.push({
+      match: offerMatch,
+      offerId: offerMatch[1],
+      isCompact: !!offerMatch[2]
+    });
+  }
+  
+  console.log('Found offer shortcodes:', offerMatches.length);
+  
+  // Потом обрабатываем Raw HTML блоки
+  const { content: processedContent, htmlBlocks } = processRawHTML(content);
   
   const parts: (string | JSX.Element)[] = [];
   let lastIndex = 0;
-  let match;
   let key = 0;
 
+  // Снова ищем шорткоды в обработанном контенте
+  offerPattern.lastIndex = 0; // Reset regex
+  let match;
+  
   while ((match = offerPattern.exec(processedContent)) !== null) {
     // Добавляем текст до шорткода
     if (match.index > lastIndex) {
