@@ -176,7 +176,7 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
         {mode === "open" && (
           <div className="space-y-4">
             <div className="flex flex-col items-center gap-4">
-              <Button onClick={handlePurchase} size="lg" className="px-12">
+              <Button onClick={handlePurchase} size="lg" variant="gradient" className="px-12">
                 Занять место
               </Button>
               <div className="text-sm text-muted-foreground text-center space-y-1">
@@ -201,7 +201,7 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
               </p>
             </div>
             <div className="flex flex-col items-center gap-4">
-              <Button onClick={handlePurchase} size="lg" className="px-12">
+              <Button onClick={handlePurchase} size="lg" variant="gradient" className="px-12">
                 Занять место
               </Button>
               <div className="text-sm text-muted-foreground text-center">
