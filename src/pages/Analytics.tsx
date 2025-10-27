@@ -19,6 +19,8 @@ interface AnalyticsData {
   uniqueSessions: number;
   totalClicks: number;
   conversionRate: number;
+  avgScrollDepth: number;
+  avgTimeOnPage: number;
   deviceBreakdown: { device_type: string; count: number }[];
   topPages: { page_path: string; count: number; uniqueSessions: number }[];
   purchaseClicks: number;
@@ -35,6 +37,8 @@ const Analytics = () => {
     uniqueSessions: 0,
     totalClicks: 0,
     conversionRate: 0,
+    avgScrollDepth: 0,
+    avgTimeOnPage: 0,
     deviceBreakdown: [],
     topPages: [],
     purchaseClicks: 0,
@@ -296,11 +300,28 @@ const Analytics = () => {
         ? (uniquePurchaseSessions / uniqueSessions) * 100 
         : 0;
 
+      // Средняя глубина прокрутки и время на странице
+      let engagementQuery = supabase.from("page_views").select("scroll_depth, time_on_page");
+      if (startDate) {
+        engagementQuery = engagementQuery.gte("created_at", startDate);
+      }
+      const { data: engagementData } = await engagementQuery;
+
+      const avgScrollDepth = engagementData && engagementData.length > 0
+        ? Math.round(engagementData.reduce((sum, row) => sum + (row.scroll_depth || 0), 0) / engagementData.length)
+        : 0;
+
+      const avgTimeOnPage = engagementData && engagementData.length > 0
+        ? Math.round(engagementData.reduce((sum, row) => sum + (row.time_on_page || 0), 0) / engagementData.length)
+        : 0;
+
       setData({
         totalPageViews: viewsCount || 0,
         uniqueSessions: uniqueSessions,
         totalClicks: clicksCount || 0,
         conversionRate: Math.round(conversionRate * 100) / 100,
+        avgScrollDepth,
+        avgTimeOnPage,
         deviceBreakdown,
         topPages: pageCount,
         purchaseClicks: purchaseCount || 0,
@@ -470,6 +491,38 @@ const Analytics = () => {
                 <div className="text-2xl font-bold">{data.conversionRate}%</div>
                 <p className="text-xs text-muted-foreground">
                   % посетителей → покупка
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Средняя прокрутка
+                </CardTitle>
+                <span className="text-xl">📜</span>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{data.avgScrollDepth}%</div>
+                <p className="text-xs text-muted-foreground">
+                  глубина чтения
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Среднее время
+                </CardTitle>
+                <span className="text-xl">⏱️</span>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {Math.floor(data.avgTimeOnPage / 60)}:{String(data.avgTimeOnPage % 60).padStart(2, '0')}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  время на странице
                 </p>
               </CardContent>
             </Card>

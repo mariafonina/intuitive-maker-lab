@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { rateLimiter, debounce } from '@/lib/rateLimiter';
@@ -30,6 +30,10 @@ const getSessionId = (): string => {
 
 export const usePageView = () => {
   const location = useLocation();
+  const [maxScrollDepth, setMaxScrollDepth] = useState(0);
+  const pageEntryTime = useRef<number>(Date.now());
+  const pageViewId = useRef<string | null>(null);
+
   const debouncedTrackRef = useRef(
     debounce((pathname: string, search: string) => {
       // Rate limiting: максимум 1 page view в 2 секунды для одной страницы
@@ -53,11 +57,62 @@ export const usePageView = () => {
         utm_campaign: searchParams.get('utm_campaign'),
         utm_term: searchParams.get('utm_term'),
         utm_content: searchParams.get('utm_content'),
+        scroll_depth: 0,
+        time_on_page: 0,
+      }).select('id').single().then(({ data }) => {
+        if (data) {
+          pageViewId.current = data.id;
+        }
       });
     }, 500)
   );
 
+  // Отслеживание глубины прокрутки
   useEffect(() => {
+    const handleScroll = debounce(() => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const scrollPercentage = Math.round((scrollTop / (documentHeight - windowHeight)) * 100);
+      
+      if (scrollPercentage > maxScrollDepth) {
+        setMaxScrollDepth(Math.min(scrollPercentage, 100));
+      }
+    }, 200);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [maxScrollDepth]);
+
+  // Обновление метрик при уходе со страницы
+  useEffect(() => {
+    const updateMetrics = () => {
+      if (!pageViewId.current) return;
+
+      const timeOnPage = Math.round((Date.now() - pageEntryTime.current) / 1000);
+      
+      supabase
+        .from('page_views')
+        .update({
+          scroll_depth: maxScrollDepth,
+          time_on_page: timeOnPage,
+        })
+        .eq('id', pageViewId.current);
+    };
+
+    window.addEventListener('beforeunload', updateMetrics);
+    return () => {
+      updateMetrics();
+      window.removeEventListener('beforeunload', updateMetrics);
+    };
+  }, [maxScrollDepth]);
+
+  useEffect(() => {
+    // Сброс метрик при смене страницы
+    pageEntryTime.current = Date.now();
+    setMaxScrollDepth(0);
+    pageViewId.current = null;
+    
     // Debounced tracking для предотвращения множественных вызовов при быстрой навигации
     debouncedTrackRef.current(location.pathname, location.search);
   }, [location.pathname, location.search]);

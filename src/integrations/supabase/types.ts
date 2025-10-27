@@ -156,7 +156,9 @@ export type Database = {
           id: string
           page_path: string
           referrer: string | null
+          scroll_depth: number | null
           session_id: string | null
+          time_on_page: number | null
           user_agent: string | null
           utm_campaign: string | null
           utm_content: string | null
@@ -170,7 +172,9 @@ export type Database = {
           id?: string
           page_path: string
           referrer?: string | null
+          scroll_depth?: number | null
           session_id?: string | null
+          time_on_page?: number | null
           user_agent?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
@@ -184,7 +188,9 @@ export type Database = {
           id?: string
           page_path?: string
           referrer?: string | null
+          scroll_depth?: number | null
           session_id?: string | null
+          time_on_page?: number | null
           user_agent?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
