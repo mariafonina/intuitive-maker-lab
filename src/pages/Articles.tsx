@@ -75,45 +75,66 @@ const Articles = () => {
           </p>
         </header>
 
-        {articles.length === 0 ? (
-          <p className="text-muted-foreground text-center text-lg">Статей пока нет</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => {
-              const readingTime = calculateReadingTime(article.content);
-              const excerpt = getExcerpt(article.content);
-              
-              return (
-                <Card 
-                  key={article.id}
-                  className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card"
-                  onClick={() => navigate(`/articles/${article.id}`)}
-                >
-                  <CardHeader>
-                    {article.subtitle && (
-                      <CardDescription className="text-primary font-semibold mb-2 text-sm uppercase tracking-wider">
-                        {article.subtitle}
-                      </CardDescription>
-                    )}
-                    <CardTitle 
-                      className="text-2xl line-clamp-2 font-bold"
-                      dangerouslySetInnerHTML={{ __html: article.title }}
-                    />
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground line-clamp-3 mb-6 text-lg leading-relaxed">
-                      {excerpt}
-                    </p>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-2" />
-                      <span>~{readingTime} мин. чтения</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Специальная карточка для гайда по вайбкодингу */}
+          <Card 
+            className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card border-2 border-primary/20"
+            onClick={() => navigate('/articles/vibecoding-guide')}
+          >
+            <CardHeader>
+              <CardDescription className="text-primary font-semibold mb-2 text-sm uppercase tracking-wider">
+                Гайд Мари Афониной
+              </CardDescription>
+              <CardTitle className="text-2xl font-bold">
+                Что такое вайбкодинг и с чем его едят
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground line-clamp-3 mb-6 text-lg leading-relaxed">
+                Подробный гайд о вайбкодинге, новом способе создания приложений с помощью искусственного интеллекта.
+              </p>
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Clock className="h-4 w-4 mr-2" />
+                <span>~9 мин. чтения</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Остальные статьи из базы данных */}
+          {articles.map((article) => {
+            const readingTime = calculateReadingTime(article.content);
+            const excerpt = getExcerpt(article.content);
+            
+            return (
+              <Card 
+                key={article.id}
+                className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card"
+                onClick={() => navigate(`/articles/${article.id}`)}
+              >
+                <CardHeader>
+                  {article.subtitle && (
+                    <CardDescription className="text-primary font-semibold mb-2 text-sm uppercase tracking-wider">
+                      {article.subtitle}
+                    </CardDescription>
+                  )}
+                  <CardTitle 
+                    className="text-2xl line-clamp-2 font-bold"
+                    dangerouslySetInnerHTML={{ __html: article.title }}
+                  />
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground line-clamp-3 mb-6 text-lg leading-relaxed">
+                    {excerpt}
+                  </p>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="h-4 w-4 mr-2" />
+                    <span>~{readingTime} мин. чтения</span>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
       </main>
     </div>
   );
