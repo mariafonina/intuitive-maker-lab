@@ -63,6 +63,7 @@ export type Database = {
           created_at: string | null
           id: string
           page_path: string
+          session_id: string | null
         }
         Insert: {
           button_name: string
@@ -70,6 +71,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           page_path: string
+          session_id?: string | null
         }
         Update: {
           button_name?: string
@@ -77,6 +79,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           page_path?: string
+          session_id?: string | null
         }
         Relationships: []
       }
@@ -153,6 +156,7 @@ export type Database = {
           id: string
           page_path: string
           referrer: string | null
+          session_id: string | null
           user_agent: string | null
           utm_campaign: string | null
           utm_content: string | null
@@ -166,6 +170,7 @@ export type Database = {
           id?: string
           page_path: string
           referrer?: string | null
+          session_id?: string | null
           user_agent?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
@@ -179,6 +184,7 @@ export type Database = {
           id?: string
           page_path?: string
           referrer?: string | null
+          session_id?: string | null
           user_agent?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
@@ -306,6 +312,10 @@ export type Database = {
       }
     }
     Functions: {
+      check_analytics_rate_limit: {
+        Args: { p_seconds: number; p_session_id: string; p_table: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

@@ -14,6 +14,20 @@ const getDeviceType = () => {
   return 'desktop';
 };
 
+// Генерируем или получаем session_id из sessionStorage
+const getSessionId = (): string => {
+  const SESSION_KEY = 'analytics_session_id';
+  let sessionId = sessionStorage.getItem(SESSION_KEY);
+  
+  if (!sessionId) {
+    // Генерируем уникальный ID сессии
+    sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+    sessionStorage.setItem(SESSION_KEY, sessionId);
+  }
+  
+  return sessionId;
+};
+
 export const usePageView = () => {
   const location = useLocation();
   const debouncedTrackRef = useRef(
@@ -26,8 +40,10 @@ export const usePageView = () => {
       }
 
       const searchParams = new URLSearchParams(search);
+      const sessionId = getSessionId();
       
       supabase.from('page_views').insert({
+        session_id: sessionId,
         page_path: pathname,
         user_agent: navigator.userAgent,
         device_type: getDeviceType(),
@@ -59,9 +75,11 @@ export const trackButtonClick = async (
       return;
     }
 
-    console.log('Tracking button click:', { buttonName, buttonType, path: window.location.pathname });
+    const sessionId = getSessionId();
+    console.log('Tracking button click:', { buttonName, buttonType, path: window.location.pathname, sessionId });
     
     await supabase.from('button_clicks').insert({
+      session_id: sessionId,
       button_name: buttonName,
       page_path: window.location.pathname,
       button_type: buttonType,

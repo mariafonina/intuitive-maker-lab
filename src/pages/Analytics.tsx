@@ -16,10 +16,11 @@ interface PageConversion {
 
 interface AnalyticsData {
   totalPageViews: number;
+  uniqueSessions: number;
   totalClicks: number;
   conversionRate: number;
   deviceBreakdown: { device_type: string; count: number }[];
-  topPages: { page_path: string; count: number }[];
+  topPages: { page_path: string; count: number; uniqueSessions: number }[];
   purchaseClicks: number;
   pageConversions: PageConversion[];
   utmSources: { utm_source: string; count: number }[];
@@ -31,6 +32,7 @@ const Analytics = () => {
   const [dateFilter, setDateFilter] = useState<'today' | 'week' | 'month' | 'all'>('week');
   const [data, setData] = useState<AnalyticsData>({
     totalPageViews: 0,
+    uniqueSessions: 0,
     totalClicks: 0,
     conversionRate: 0,
     deviceBreakdown: [],
@@ -118,6 +120,16 @@ const Analytics = () => {
       }
       const { count: viewsCount } = await viewsQuery;
 
+      // Получаем количество уникальных сессий
+      let uniqueSessionsQuery = supabase
+        .from("page_views")
+        .select("session_id");
+      if (startDate) {
+        uniqueSessionsQuery = uniqueSessionsQuery.gte("created_at", startDate);
+      }
+      const { data: sessionsData } = await uniqueSessionsQuery;
+      const uniqueSessions = new Set(sessionsData?.map(s => s.session_id).filter(Boolean)).size;
+
       // Создаем базовый query builder для button_clicks
       let clicksQuery = supabase.from("button_clicks").select("*", { count: 'exact', head: true });
       if (startDate) {
@@ -172,7 +184,7 @@ const Analytics = () => {
       // Конверсия по страницам (исключаем админские)
       let allViewsQuery = supabase
         .from("page_views")
-        .select("page_path")
+        .select("page_path, session_id")
         .not("page_path", "like", "%/admin%")
         .not("page_path", "like", "%/auth%");
       if (startDate) {
@@ -182,7 +194,7 @@ const Analytics = () => {
 
       let allClicksQuery = supabase
         .from("button_clicks")
-        .select("page_path, button_type")
+        .select("page_path, button_type, session_id")
         .not("page_path", "like", "%/admin%")
         .not("page_path", "like", "%/auth%");
       if (startDate) {
@@ -190,41 +202,55 @@ const Analytics = () => {
       }
       const { data: allClicks } = await allClicksQuery;
 
-      // Группируем просмотры по страницам
-      const viewsByPage = (allViews || []).reduce((acc: Record<string, number>, curr) => {
+      // Группируем УНИКАЛЬНЫЕ СЕССИИ по страницам
+      const uniqueSessionsByPage = (allViews || []).reduce((acc: Record<string, Set<string>>, curr) => {
         const path = curr.page_path || '/';
-        acc[path] = (acc[path] || 0) + 1;
+        if (!acc[path]) {
+          acc[path] = new Set();
+        }
+        if (curr.session_id) {
+          acc[path].add(curr.session_id);
+        }
         return acc;
       }, {});
 
-      // Группируем клики по страницам
-      const clicksByPage = (allClicks || []).reduce((acc: Record<string, { total: number; purchase: number }>, curr) => {
+      // Группируем клики и уникальные сессии с покупками по страницам
+      const clicksByPage = (allClicks || []).reduce((acc: Record<string, { 
+        total: number; 
+        purchase: number;
+        purchaseSessions: Set<string>;
+      }>, curr) => {
         const path = curr.page_path || '/';
         if (!acc[path]) {
-          acc[path] = { total: 0, purchase: 0 };
+          acc[path] = { total: 0, purchase: 0, purchaseSessions: new Set() };
         }
         acc[path].total++;
         if (curr.button_type === 'purchase') {
           acc[path].purchase++;
+          if (curr.session_id) {
+            acc[path].purchaseSessions.add(curr.session_id);
+          }
         }
         return acc;
       }, {});
 
       // Создаем массив конверсий по страницам
-      const pageConversions: PageConversion[] = Object.keys(viewsByPage)
+      // Конверсия = % уникальных сессий, которые сделали покупку
+      const pageConversions: PageConversion[] = Object.keys(uniqueSessionsByPage)
         .map(path => {
-          const views = viewsByPage[path] || 0;
+          const uniqueSessionsCount = uniqueSessionsByPage[path].size;
           const clicks = clicksByPage[path]?.total || 0;
           const purchaseClicks = clicksByPage[path]?.purchase || 0;
+          const uniquePurchaseSessions = clicksByPage[path]?.purchaseSessions.size || 0;
           
-          // Конверсия не может быть больше 100%
-          // Это случается если один пользователь кликнул несколько раз
-          const rawConversionRate = views > 0 ? (purchaseClicks / views) * 100 : 0;
-          const conversionRate = Math.min(rawConversionRate, 100);
+          // Правильная конверсия: % уникальных сессий, которые совершили покупку
+          const conversionRate = uniqueSessionsCount > 0 
+            ? (uniquePurchaseSessions / uniqueSessionsCount) * 100 
+            : 0;
 
           return {
             page_path: path,
-            views,
+            views: uniqueSessionsCount,
             clicks,
             purchaseClicks,
             conversionRate: Math.round(conversionRate * 100) / 100,
@@ -252,10 +278,27 @@ const Analytics = () => {
         return acc;
       }, []).sort((a, b) => b.count - a.count) || [];
 
-      const conversionRate = viewsCount ? Math.min(((purchaseCount || 0) / viewsCount) * 100, 100) : 0;
+      // Получаем уникальные сессии, которые совершили покупку
+      let purchaseSessionsQuery = supabase
+        .from("button_clicks")
+        .select("session_id")
+        .eq("button_type", "purchase");
+      if (startDate) {
+        purchaseSessionsQuery = purchaseSessionsQuery.gte("created_at", startDate);
+      }
+      const { data: purchaseSessionsData } = await purchaseSessionsQuery;
+      const uniquePurchaseSessions = new Set(
+        purchaseSessionsData?.map(s => s.session_id).filter(Boolean)
+      ).size;
+
+      // Правильная конверсия: % уникальных сессий, которые совершили покупку
+      const conversionRate = uniqueSessions > 0 
+        ? (uniquePurchaseSessions / uniqueSessions) * 100 
+        : 0;
 
       setData({
         totalPageViews: viewsCount || 0,
+        uniqueSessions: uniqueSessions,
         totalClicks: clicksCount || 0,
         conversionRate: Math.round(conversionRate * 100) / 100,
         deviceBreakdown,
@@ -359,14 +402,29 @@ const Analytics = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Просмотры страниц
+                  Уникальные посетители
+                </CardTitle>
+                <Eye className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{data.uniqueSessions}</div>
+                <p className="text-xs text-muted-foreground">
+                  Уникальных сессий
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Всего просмотров
                 </CardTitle>
                 <Eye className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{data.totalPageViews}</div>
                 <p className="text-xs text-muted-foreground">
-                  Всего просмотров
+                  Включая повторные
                 </p>
               </CardContent>
             </Card>
@@ -411,7 +469,7 @@ const Analytics = () => {
               <CardContent>
                 <div className="text-2xl font-bold">{data.conversionRate}%</div>
                 <p className="text-xs text-muted-foreground">
-                  Просмотры → Покупки
+                  % посетителей → покупка
                 </p>
               </CardContent>
             </Card>
@@ -428,9 +486,9 @@ const Analytics = () => {
                   <thead>
                     <tr className="border-b">
                       <th className="text-left py-3 px-4 font-medium">Страница</th>
-                      <th className="text-right py-3 px-4 font-medium">Просмотры</th>
-                      <th className="text-right py-3 px-4 font-medium">Клики</th>
-                      <th className="text-right py-3 px-4 font-medium">Клики на покупку</th>
+                      <th className="text-right py-3 px-4 font-medium">Уник. посетители</th>
+                      <th className="text-right py-3 px-4 font-medium">Всего кликов</th>
+                      <th className="text-right py-3 px-4 font-medium">Кликов на покупку</th>
                       <th className="text-right py-3 px-4 font-medium">Конверсия</th>
                     </tr>
                   </thead>
