@@ -19,8 +19,10 @@ interface OfferFormProps {
     description: string;
     price: string;
     sales_start_date: string;
+    sales_end_date: string;
     start_date: string;
     end_date: string;
+    offer_url: string;
   };
   onSuccess: () => void;
 }
@@ -31,8 +33,12 @@ export const OfferForm = ({ offer, onSuccess }: OfferFormProps) => {
   const [title, setTitle] = useState(offer?.title || "");
   const [description, setDescription] = useState(offer?.description || "");
   const [price, setPrice] = useState(offer?.price || "");
+  const [offerUrl, setOfferUrl] = useState(offer?.offer_url || "");
   const [salesStartDate, setSalesStartDate] = useState<Date | undefined>(
     offer?.sales_start_date ? new Date(offer.sales_start_date) : undefined
+  );
+  const [salesEndDate, setSalesEndDate] = useState<Date | undefined>(
+    offer?.sales_end_date ? new Date(offer.sales_end_date) : undefined
   );
   const [startDate, setStartDate] = useState<Date | undefined>(
     offer?.start_date ? new Date(offer.start_date) : undefined
@@ -44,7 +50,7 @@ export const OfferForm = ({ offer, onSuccess }: OfferFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!title || !description || !price || !salesStartDate || !startDate || !endDate) {
+    if (!title || !description || !price || !offerUrl || !salesStartDate || !salesEndDate || !startDate || !endDate) {
       toast({
         title: "Ошибка",
         description: "Заполните все поля",
@@ -60,7 +66,9 @@ export const OfferForm = ({ offer, onSuccess }: OfferFormProps) => {
         title,
         description,
         price,
+        offer_url: offerUrl,
         sales_start_date: salesStartDate.toISOString(),
+        sales_end_date: salesEndDate.toISOString(),
         start_date: startDate.toISOString(),
         end_date: endDate.toISOString(),
       };
@@ -132,6 +140,16 @@ export const OfferForm = ({ offer, onSuccess }: OfferFormProps) => {
       </div>
 
       <div className="space-y-2">
+        <Label htmlFor="offer_url">Ссылка на предложение</Label>
+        <Input
+          id="offer_url"
+          value={offerUrl}
+          onChange={(e) => setOfferUrl(e.target.value)}
+          placeholder="https://example.com"
+        />
+      </div>
+
+      <div className="space-y-2">
         <Label>Дата старта продаж</Label>
         <Popover>
           <PopoverTrigger asChild>
@@ -151,6 +169,32 @@ export const OfferForm = ({ offer, onSuccess }: OfferFormProps) => {
               mode="single"
               selected={salesStartDate}
               onSelect={setSalesStartDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div className="space-y-2">
+        <Label>Дата закрытия продаж</Label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                "w-full justify-start text-left font-normal",
+                !salesEndDate && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {salesEndDate ? format(salesEndDate, "d MMMM yyyy", { locale: ru }) : "Выберите дату"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={salesEndDate}
+              onSelect={setSalesEndDate}
               initialFocus
             />
           </PopoverContent>

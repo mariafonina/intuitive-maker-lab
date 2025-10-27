@@ -101,7 +101,9 @@ export type Database = {
           description: string
           end_date: string
           id: string
+          offer_url: string
           price: string
+          sales_end_date: string
           sales_start_date: string
           start_date: string
           title: string
@@ -112,7 +114,9 @@ export type Database = {
           description: string
           end_date: string
           id?: string
+          offer_url?: string
           price: string
+          sales_end_date?: string
           sales_start_date: string
           start_date: string
           title: string
@@ -123,7 +127,9 @@ export type Database = {
           description?: string
           end_date?: string
           id?: string
+          offer_url?: string
           price?: string
+          sales_end_date?: string
           sales_start_date?: string
           start_date?: string
           title?: string

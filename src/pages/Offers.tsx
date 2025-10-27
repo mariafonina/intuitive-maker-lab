@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, DollarSign } from "lucide-react";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
 import { MainNavigation } from "@/components/MainNavigation";
 import { usePageView } from "@/hooks/useAnalytics";
+import { OfferCard } from "@/components/OfferCard";
 
 interface Offer {
   id: string;
@@ -13,8 +10,10 @@ interface Offer {
   description: string;
   price: string;
   sales_start_date: string;
+  sales_end_date: string;
   start_date: string;
   end_date: string;
+  offer_url: string;
 }
 
 const Offers = () => {
@@ -56,45 +55,13 @@ const Offers = () => {
           {loading ? (
             <div className="text-center py-12">Загрузка...</div>
           ) : offers.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <p className="text-muted-foreground">
-                  Пока нет активных предложений
-                </p>
-              </CardContent>
-            </Card>
+            <div className="text-center py-12 text-muted-foreground">
+              Пока нет активных предложений
+            </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-8">
               {offers.map((offer) => (
-                <Card key={offer.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">{offer.title}</CardTitle>
-                    <CardDescription className="text-lg flex items-center gap-2">
-                      <DollarSign className="h-5 w-5" />
-                      {offer.price}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-foreground whitespace-pre-wrap">
-                      {offer.description}
-                    </p>
-                    
-                    <div className="space-y-2 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        <span>
-                          Старт продаж: {format(new Date(offer.sales_start_date), "d MMMM yyyy", { locale: ru })}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        <span>
-                          Период: {format(new Date(offer.start_date), "d MMMM yyyy", { locale: ru })} - {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <OfferCard key={offer.id} offer={offer} />
               ))}
             </div>
           )}

@@ -15,8 +15,10 @@ interface Offer {
   description: string;
   price: string;
   sales_start_date: string;
+  sales_end_date: string;
   start_date: string;
   end_date: string;
+  offer_url: string;
 }
 
 export const OffersManager = () => {

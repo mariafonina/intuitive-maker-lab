@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { usePageView } from "@/hooks/useAnalytics";
+import { renderContentWithShortcodes } from "@/utils/renderContent";
 
 interface Article {
   id: string;
@@ -156,10 +157,9 @@ const ArticleView = () => {
             )}
 
             {/* Content */}
-            <div 
-              className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: contentWithIds }}
-            />
+            <div className="max-w-none">
+              {renderContentWithShortcodes(contentWithIds)}
+            </div>
           </article>
         </div>
       </main>

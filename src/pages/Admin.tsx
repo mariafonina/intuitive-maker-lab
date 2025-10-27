@@ -13,6 +13,7 @@ import { TitleEditor } from "@/components/TitleEditor";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { ImageUpload } from "@/components/ImageUpload";
 import { OffersManager } from "@/components/OffersManager";
+import { OffersList } from "@/components/OffersList";
 
 interface Article {
   id: string;
@@ -216,7 +217,7 @@ const Admin = () => {
       
       <div className="flex-1 p-8">
         {currentSection === "new-article" && (
-          <div className="max-w-4xl">
+          <div className="max-w-4xl space-y-6">
             <Card className="border-none shadow-none">
               <CardHeader>
                 <CardTitle>
@@ -270,6 +271,8 @@ const Admin = () => {
                 </form>
               </CardContent>
             </Card>
+
+            <OffersList />
           </div>
         )}
 
