@@ -277,7 +277,7 @@ export default function Profile() {
               <p className="text-muted-foreground">Основной канал о запусках</p>
             </a>
 
-            <a href="#" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
+            <a href="https://t.me/mari_vse" target="_blank" rel="noopener noreferrer" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
               <h3 className="text-xl font-semibold mb-3">Личный телеграм-канал</h3>
               <p className="text-2xl font-bold mb-2">@mari_vse</p>
               <p className="text-muted-foreground">Личные мысли и инсайты</p>
@@ -289,13 +289,13 @@ export default function Profile() {
               <p className="text-muted-foreground">185 000 участников</p>
             </a>
 
-            <a href="#" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
+            <a href="https://t.me/vakansii_chatgpt" target="_blank" rel="noopener noreferrer" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md">
               <h3 className="text-xl font-semibold mb-3">Чат вакансий в ИИ</h3>
               <p className="text-2xl font-bold mb-2">@vakansii_chatgpt</p>
               <p className="text-muted-foreground">Вакансии в сфере AI</p>
             </a>
 
-            <a href="#" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md md:col-span-1">
+            <a href="https://instagram.com/mariafonina" target="_blank" rel="noopener noreferrer" className="rounded-3xl bg-card p-8 shadow-sm transition-all hover:shadow-md md:col-span-1">
               <h3 className="text-xl font-semibold mb-3">Инстаграм</h3>
               <p className="text-2xl font-bold mb-2">@mariafonina</p>
               <p className="text-muted-foreground">Визуальный контент</p>
