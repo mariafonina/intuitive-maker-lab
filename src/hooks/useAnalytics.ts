@@ -202,12 +202,15 @@ export const trackFunnelEvent = async (
     const sessionId = getSessionId();
     console.log('Tracking funnel event:', { eventName, path: window.location.pathname, sessionId });
     
-    await supabase.from('funnel_events').insert({
+    const { error } = await supabase.from('funnel_events').insert({
       session_id: sessionId,
       page_path: window.location.pathname,
       event_name: eventName,
       event_data: eventData || null,
     });
+    if (error) {
+      console.error('Error inserting funnel event:', error);
+    }
   } catch (error) {
     console.error('Error tracking funnel event:', error);
   }
@@ -228,12 +231,15 @@ export const trackButtonClick = async (
     const sessionId = getSessionId();
     console.log('Tracking button click:', { buttonName, buttonType, path: window.location.pathname, sessionId });
     
-    await supabase.from('button_clicks').insert({
+    const { error } = await supabase.from('button_clicks').insert({
       session_id: sessionId,
       button_name: buttonName,
       page_path: window.location.pathname,
       button_type: buttonType,
     });
+    if (error) {
+      console.error('Error inserting button click:', error);
+    }
   } catch (error) {
     console.error('Error tracking button click:', error);
   }

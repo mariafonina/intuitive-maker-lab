@@ -134,7 +134,11 @@ const Analytics = () => {
       const startDate = getStartDate();
       
       // Создаем базовый query builder для page_views
-      let viewsQuery = supabase.from("page_views").select("*", { count: 'exact', head: true });
+      let viewsQuery = supabase
+        .from("page_views")
+        .select("*", { count: 'exact', head: true })
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         viewsQuery = viewsQuery.gte("created_at", startDate);
       }
@@ -143,7 +147,9 @@ const Analytics = () => {
       // Получаем количество уникальных сессий (fallback для старых записей без session_id)
       let uniqueSessionsQuery = supabase
         .from("page_views")
-        .select("id, session_id");
+        .select("id, session_id")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         uniqueSessionsQuery = uniqueSessionsQuery.gte("created_at", startDate);
       }
@@ -153,24 +159,41 @@ const Analytics = () => {
       ).size;
 
       // Создаем базовый query builder для button_clicks
-      let clicksQuery = supabase.from("button_clicks").select("*", { count: 'exact', head: true });
+      let clicksListQuery = supabase
+        .from("button_clicks")
+        .select("page_path, button_name, session_id")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
-        clicksQuery = clicksQuery.gte("created_at", startDate);
+        clicksListQuery = clicksListQuery.gte("created_at", startDate);
       }
-      const { count: clicksCount } = await clicksQuery;
+      const { data: clicksList } = await clicksListQuery;
+      const totalClicksUnique = new Set(
+        (clicksList || []).map((c: any) => `${c.session_id || 'nosession'}|${c.button_name}|${c.page_path}`)
+      ).size;
 
       // Получаем клики по кнопкам покупки
-      let purchaseQuery = supabase
+      let purchaseListQuery = supabase
         .from("button_clicks")
-        .select("*", { count: 'exact', head: true })
-        .eq("button_type", "purchase");
+        .select("session_id, page_path")
+        .eq("button_type", "purchase")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
-        purchaseQuery = purchaseQuery.gte("created_at", startDate);
+        purchaseListQuery = purchaseListQuery.gte("created_at", startDate);
       }
-      const { count: purchaseCount } = await purchaseQuery;
+      const { data: purchaseList } = await purchaseListQuery;
+      const purchaseCountUnique = new Set(
+        (purchaseList || []).map((c: any) => c.session_id).filter(Boolean)
+      ).size;
 
       // Распределение по устройствам
-      let devicesQuery = supabase.from("page_views").select("device_type").order("device_type");
+      let devicesQuery = supabase
+        .from("page_views")
+        .select("device_type")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%")
+        .order("device_type");
       if (startDate) {
         devicesQuery = devicesQuery.gte("created_at", startDate);
       }
@@ -187,7 +210,12 @@ const Analytics = () => {
       }, []) || [];
 
       // Топ страниц
-      let pagesQuery = supabase.from("page_views").select("page_path").order("created_at", { ascending: false });
+      let pagesQuery = supabase
+        .from("page_views")
+        .select("page_path")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%")
+        .order("created_at", { ascending: false });
       if (startDate) {
         pagesQuery = pagesQuery.gte("created_at", startDate);
       }
@@ -284,7 +312,9 @@ const Analytics = () => {
       let utmQuery = supabase
         .from("page_views")
         .select("utm_source")
-        .not("utm_source", "is", null);
+        .not("utm_source", "is", null)
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         utmQuery = utmQuery.gte("created_at", startDate);
       }
@@ -304,7 +334,9 @@ const Analytics = () => {
       let purchaseSessionsQuery = supabase
         .from("button_clicks")
         .select("session_id")
-        .eq("button_type", "purchase");
+        .eq("button_type", "purchase")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         purchaseSessionsQuery = purchaseSessionsQuery.gte("created_at", startDate);
       }
@@ -319,7 +351,11 @@ const Analytics = () => {
         : 0;
 
       // Средняя глубина прокрутки и время на странице
-      let engagementQuery = supabase.from("page_views").select("scroll_depth, time_on_page");
+      let engagementQuery = supabase
+        .from("page_views")
+        .select("scroll_depth, time_on_page")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         engagementQuery = engagementQuery.gte("created_at", startDate);
       }
@@ -337,7 +373,9 @@ const Analytics = () => {
       let bounceQuery = supabase
         .from("page_views")
         .select("*", { count: 'exact', head: true })
-        .eq("is_bounce", true);
+        .eq("is_bounce", true)
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         bounceQuery = bounceQuery.gte("created_at", startDate);
       }
@@ -348,7 +386,9 @@ const Analytics = () => {
       let returningQuery = supabase
         .from("page_views")
         .select("*", { count: 'exact', head: true })
-        .eq("is_returning", true);
+        .eq("is_returning", true)
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         returningQuery = returningQuery.gte("created_at", startDate);
       }
@@ -359,7 +399,9 @@ const Analytics = () => {
       let landingQuery = supabase
         .from("page_views")
         .select("page_path")
-        .eq("pages_in_session", 1);
+        .eq("pages_in_session", 1)
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         landingQuery = landingQuery.gte("created_at", startDate);
       }
@@ -378,7 +420,9 @@ const Analytics = () => {
       // Exit Pages - последние страницы (те, после которых is_bounce или макс pages_in_session в сессии)
       let exitQuery = supabase
         .from("page_views")
-        .select("page_path, is_bounce");
+        .select("page_path, is_bounce")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         exitQuery = exitQuery.gte("created_at", startDate);
       }
@@ -396,7 +440,11 @@ const Analytics = () => {
         }, []).sort((a, b) => b.count - a.count).slice(0, 10) || [];
 
       // Funnel Steps - анализ воронки из funnel_events
-      let funnelQuery = supabase.from("funnel_events").select("event_name");
+      let funnelQuery = supabase
+        .from("funnel_events")
+        .select("event_name")
+        .not("page_path", "like", "%/admin%")
+        .not("page_path", "like", "%/auth%");
       if (startDate) {
         funnelQuery = funnelQuery.gte("created_at", startDate);
       }
@@ -419,7 +467,7 @@ const Analytics = () => {
       setData({
         totalPageViews: viewsCount || 0,
         uniqueSessions: uniqueSessions,
-        totalClicks: clicksCount || 0,
+        totalClicks: totalClicksUnique,
         conversionRate: Math.round(conversionRate * 100) / 100,
         avgScrollDepth,
         avgTimeOnPage,
@@ -429,7 +477,7 @@ const Analytics = () => {
         topPages: pageCount,
         landingPages,
         exitPages,
-        purchaseClicks: purchaseCount || 0,
+        purchaseClicks: purchaseCountUnique,
         pageConversions,
         utmSources,
         funnelSteps,
