@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
@@ -88,6 +89,13 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
   return (
     <Card className="overflow-hidden border-2 border-primary/20 bg-gradient-to-br from-background to-primary/5">
       <CardHeader className="text-center pb-4">
+        {(mode === "open" || mode === "started") && (
+          <div className="flex justify-center mb-3">
+            <Badge variant="default" className="px-4 py-1 text-sm font-semibold">
+              🔥 Сейчас в продаже
+            </Badge>
+          </div>
+        )}
         <CardTitle className="text-2xl sm:text-3xl mb-2">{offer.title}</CardTitle>
         <CardDescription className="text-xl sm:text-2xl font-bold text-primary">
           {formatPrice(offer.price)}
