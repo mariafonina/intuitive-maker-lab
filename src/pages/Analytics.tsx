@@ -28,6 +28,7 @@ interface AnalyticsData {
 const Analytics = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [dateFilter, setDateFilter] = useState<'today' | 'week' | 'month' | 'all'>('week');
   const [data, setData] = useState<AnalyticsData>({
     totalPageViews: 0,
     totalClicks: 0,
@@ -44,6 +45,12 @@ const Analytics = () => {
   useEffect(() => {
     checkAdminAndLoadData();
   }, []);
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadAnalytics();
+    }
+  }, [dateFilter]);
 
   const checkAdminAndLoadData = async () => {
     try {
@@ -83,27 +90,57 @@ const Analytics = () => {
 
   const loadAnalytics = async () => {
     try {
-      // Получаем общее количество просмотров
-      const { count: viewsCount } = await supabase
-        .from("page_views")
-        .select("*", { count: 'exact', head: true });
+      // Определяем дату начала фильтра
+      const getStartDate = () => {
+        const now = new Date();
+        switch (dateFilter) {
+          case 'today':
+            now.setHours(0, 0, 0, 0);
+            return now.toISOString();
+          case 'week':
+            now.setDate(now.getDate() - 7);
+            return now.toISOString();
+          case 'month':
+            now.setDate(now.getDate() - 30);
+            return now.toISOString();
+          case 'all':
+          default:
+            return null;
+        }
+      };
 
-      // Получаем общее количество кликов
-      const { count: clicksCount } = await supabase
-        .from("button_clicks")
-        .select("*", { count: 'exact', head: true });
+      const startDate = getStartDate();
+      
+      // Создаем базовый query builder для page_views
+      let viewsQuery = supabase.from("page_views").select("*", { count: 'exact', head: true });
+      if (startDate) {
+        viewsQuery = viewsQuery.gte("created_at", startDate);
+      }
+      const { count: viewsCount } = await viewsQuery;
+
+      // Создаем базовый query builder для button_clicks
+      let clicksQuery = supabase.from("button_clicks").select("*", { count: 'exact', head: true });
+      if (startDate) {
+        clicksQuery = clicksQuery.gte("created_at", startDate);
+      }
+      const { count: clicksCount } = await clicksQuery;
 
       // Получаем клики по кнопкам покупки
-      const { count: purchaseCount } = await supabase
+      let purchaseQuery = supabase
         .from("button_clicks")
         .select("*", { count: 'exact', head: true })
         .eq("button_type", "purchase");
+      if (startDate) {
+        purchaseQuery = purchaseQuery.gte("created_at", startDate);
+      }
+      const { count: purchaseCount } = await purchaseQuery;
 
       // Распределение по устройствам
-      const { data: devices } = await supabase
-        .from("page_views")
-        .select("device_type")
-        .order("device_type");
+      let devicesQuery = supabase.from("page_views").select("device_type").order("device_type");
+      if (startDate) {
+        devicesQuery = devicesQuery.gte("created_at", startDate);
+      }
+      const { data: devices } = await devicesQuery;
 
       const deviceBreakdown = devices?.reduce((acc: any[], curr) => {
         const existing = acc.find(item => item.device_type === curr.device_type);
@@ -116,10 +153,11 @@ const Analytics = () => {
       }, []) || [];
 
       // Топ страниц
-      const { data: pages } = await supabase
-        .from("page_views")
-        .select("page_path")
-        .order("created_at", { ascending: false });
+      let pagesQuery = supabase.from("page_views").select("page_path").order("created_at", { ascending: false });
+      if (startDate) {
+        pagesQuery = pagesQuery.gte("created_at", startDate);
+      }
+      const { data: pages } = await pagesQuery;
 
       const pageCount = pages?.reduce((acc: any[], curr) => {
         const existing = acc.find(item => item.page_path === curr.page_path);
@@ -132,17 +170,25 @@ const Analytics = () => {
       }, []).sort((a, b) => b.count - a.count).slice(0, 5) || [];
 
       // Конверсия по страницам (исключаем админские)
-      const { data: allViews } = await supabase
+      let allViewsQuery = supabase
         .from("page_views")
         .select("page_path")
         .not("page_path", "like", "%/admin%")
         .not("page_path", "like", "%/auth%");
+      if (startDate) {
+        allViewsQuery = allViewsQuery.gte("created_at", startDate);
+      }
+      const { data: allViews } = await allViewsQuery;
 
-      const { data: allClicks } = await supabase
+      let allClicksQuery = supabase
         .from("button_clicks")
         .select("page_path, button_type")
         .not("page_path", "like", "%/admin%")
         .not("page_path", "like", "%/auth%");
+      if (startDate) {
+        allClicksQuery = allClicksQuery.gte("created_at", startDate);
+      }
+      const { data: allClicks } = await allClicksQuery;
 
       // Группируем просмотры по страницам
       const viewsByPage = (allViews || []).reduce((acc: Record<string, number>, curr) => {
@@ -170,7 +216,11 @@ const Analytics = () => {
           const views = viewsByPage[path] || 0;
           const clicks = clicksByPage[path]?.total || 0;
           const purchaseClicks = clicksByPage[path]?.purchase || 0;
-          const conversionRate = views > 0 ? (purchaseClicks / views) * 100 : 0;
+          
+          // Конверсия не может быть больше 100%
+          // Это случается если один пользователь кликнул несколько раз
+          const rawConversionRate = views > 0 ? (purchaseClicks / views) * 100 : 0;
+          const conversionRate = Math.min(rawConversionRate, 100);
 
           return {
             page_path: path,
@@ -183,10 +233,14 @@ const Analytics = () => {
         .sort((a, b) => b.views - a.views);
 
       // UTM sources анализ
-      const { data: utmData } = await supabase
+      let utmQuery = supabase
         .from("page_views")
         .select("utm_source")
         .not("utm_source", "is", null);
+      if (startDate) {
+        utmQuery = utmQuery.gte("created_at", startDate);
+      }
+      const { data: utmData } = await utmQuery;
 
       const utmSources = utmData?.reduce((acc: any[], curr) => {
         const existing = acc.find(item => item.utm_source === curr.utm_source);
@@ -198,7 +252,7 @@ const Analytics = () => {
         return acc;
       }, []).sort((a, b) => b.count - a.count) || [];
 
-      const conversionRate = viewsCount ? ((purchaseCount || 0) / viewsCount) * 100 : 0;
+      const conversionRate = viewsCount ? Math.min(((purchaseCount || 0) / viewsCount) * 100, 100) : 0;
 
       setData({
         totalPageViews: viewsCount || 0,
@@ -254,7 +308,51 @@ const Analytics = () => {
       
       <main className="flex-1 p-8 ml-64">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8">Аналитика</h1>
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-3xl font-bold">Аналитика</h1>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setDateFilter('today')}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  dateFilter === 'today' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted hover:bg-muted/80'
+                }`}
+              >
+                Сегодня
+              </button>
+              <button
+                onClick={() => setDateFilter('week')}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  dateFilter === 'week' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted hover:bg-muted/80'
+                }`}
+              >
+                7 дней
+              </button>
+              <button
+                onClick={() => setDateFilter('month')}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  dateFilter === 'month' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted hover:bg-muted/80'
+                }`}
+              >
+                30 дней
+              </button>
+              <button
+                onClick={() => setDateFilter('all')}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  dateFilter === 'all' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted hover:bg-muted/80'
+                }`}
+              >
+                Всё время
+              </button>
+            </div>
+          </div>
 
           {/* Основные метрики */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
