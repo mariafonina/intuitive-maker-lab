@@ -21,7 +21,6 @@ export default defineConfig(({ mode }) => ({
     modulePreload: {
       polyfill: true,
     },
-    cssMinify: 'lightningcss',
   },
   optimizeDeps: {
     esbuildOptions: {
