@@ -17,6 +17,8 @@ import {
   Undo,
   Redo,
   Sparkles,
+  Code,
+  Brackets,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useState } from 'react';
@@ -71,6 +73,16 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       StarterKit.configure({
         heading: {
           levels: [1, 2, 3],
+        },
+        codeBlock: {
+          HTMLAttributes: {
+            class: 'code-block',
+          },
+        },
+        code: {
+          HTMLAttributes: {
+            class: 'inline-code',
+          },
         },
       }),
       TextStyle,
@@ -263,6 +275,16 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             isActive={editor.isActive('blockquote')}
             icon={Quote}
+          />
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            isActive={editor.isActive('code')}
+            icon={Code}
+          />
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            isActive={editor.isActive('codeBlock')}
+            icon={Brackets}
           />
         </div>
 
