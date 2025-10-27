@@ -47,6 +47,30 @@ export type Database = {
         }
         Relationships: []
       }
+      button_clicks: {
+        Row: {
+          button_name: string
+          button_type: string | null
+          created_at: string | null
+          id: string
+          page_path: string
+        }
+        Insert: {
+          button_name: string
+          button_type?: string | null
+          created_at?: string | null
+          id?: string
+          page_path: string
+        }
+        Update: {
+          button_name?: string
+          button_type?: string | null
+          created_at?: string | null
+          id?: string
+          page_path?: string
+        }
+        Relationships: []
+      }
       images: {
         Row: {
           filename: string
@@ -68,6 +92,33 @@ export type Database = {
           storage_path?: string
           uploaded_at?: string | null
           url?: string
+        }
+        Relationships: []
+      }
+      page_views: {
+        Row: {
+          created_at: string | null
+          device_type: string | null
+          id: string
+          page_path: string
+          referrer: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          device_type?: string | null
+          id?: string
+          page_path: string
+          referrer?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          device_type?: string | null
+          id?: string
+          page_path?: string
+          referrer?: string | null
+          user_agent?: string | null
         }
         Relationships: []
       }

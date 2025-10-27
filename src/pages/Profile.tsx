@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Button } from "@/components/ui/button";
+import { usePageView, trackButtonClick } from "@/hooks/useAnalytics";
 import mariPhoto from "@/assets/mari-photo.jpeg";
 import bookCover from "@/assets/book-cover.png";
 import logoSber from "@/assets/logo-sber.png";
@@ -15,6 +16,8 @@ import logoUnesco from "@/assets/logo-unesco.png";
 import logoRbk from "@/assets/logo-rbk.png";
 
 export default function Profile() {
+  usePageView(); // Трекинг просмотра страницы
+
   return (
     <div className="bg-background text-foreground">
       {/* ПРОГРЕСС-БАР */}
@@ -178,7 +181,12 @@ export default function Profile() {
                   <p className="mt-3 text-lg text-muted-foreground">Проект по искусственному интеллекту и вайбкодингу.</p>
                   <p className="mt-6 font-medium">Стоимость: 33 300 руб.</p>
                   <p className="text-sm text-muted-foreground">Пройдет: 2-23 ноября</p>
-                  <Button asChild variant="gradient" className="mt-6">
+                  <Button 
+                    asChild 
+                    variant="gradient" 
+                    className="mt-6"
+                    onClick={() => trackButtonClick('Занять место ЛАБС', 'purchase')}
+                  >
                     <a href="https://labs.mashtab.io?utm_source=main_site_mari" target="_blank" rel="noopener noreferrer">Занять место</a>
                   </Button>
                 </div>
@@ -269,7 +277,7 @@ export default function Profile() {
                   <h3 className="text-2xl font-bold mb-2">Служба заботы</h3>
                   <p className="text-xl">@mashtab_sherif</p>
                 </div>
-                <Button asChild size="lg" className="md:min-w-[200px]">
+                <Button asChild size="lg" className="md:min-w-[200px]" onClick={() => trackButtonClick('Служба заботы', 'contact')}>
                   <a href="https://t.me/mashtab_sherif" target="_blank" rel="noopener noreferrer">Связаться</a>
                 </Button>
               </div>
@@ -280,8 +288,13 @@ export default function Profile() {
                   <h3 className="text-2xl font-bold mb-2">Whatsapp менеджера продаж</h3>
                   <p className="text-xl">Консультация по продуктам</p>
                 </div>
-                <Button asChild size="lg" className="md:min-w-[200px]">
-                  <a href="https://wa.me/" target="_blank" rel="noopener noreferrer">Связаться</a>
+                <Button 
+                  asChild 
+                  size="lg" 
+                  className="md:min-w-[200px]"
+                  onClick={() => trackButtonClick('WhatsApp менеджера продаж', 'contact')}
+                >
+                  <a href="https://wa.me/79003192155?text=Узнать%20про%20услуги%20Мари" target="_blank" rel="noopener noreferrer">Связаться</a>
                 </Button>
               </div>
 
@@ -291,7 +304,7 @@ export default function Profile() {
                   <h3 className="text-2xl font-bold mb-2">Сотрудничество</h3>
                   <p className="text-xl">@mashtab_sherif</p>
                 </div>
-                <Button asChild size="lg" className="md:min-w-[200px]">
+                <Button asChild size="lg" className="md:min-w-[200px]" onClick={() => trackButtonClick('Сотрудничество', 'contact')}>
                   <a href="https://t.me/mashtab_sherif" target="_blank" rel="noopener noreferrer">Связаться</a>
                 </Button>
               </div>

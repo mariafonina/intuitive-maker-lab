@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
+import { usePageView } from "@/hooks/useAnalytics";
 
 interface Article {
   id: string;
@@ -23,6 +24,8 @@ const ArticleView = () => {
   const navigate = useNavigate();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  usePageView(); // Трекинг просмотра страницы
 
   useEffect(() => {
     loadArticle();

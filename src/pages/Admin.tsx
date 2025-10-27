@@ -203,7 +203,13 @@ const Admin = () => {
     <div className="min-h-screen bg-background flex">
       <AdminSidebar
         currentSection={currentSection}
-        onSectionChange={setCurrentSection}
+        onSectionChange={(section) => {
+          if (section === 'analytics') {
+            navigate('/admin/analytics');
+          } else {
+            setCurrentSection(section);
+          }
+        }}
         onLogout={handleLogout}
       />
       

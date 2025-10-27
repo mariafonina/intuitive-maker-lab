@@ -6,6 +6,7 @@ import { AdminProvider } from "@/contexts/AdminContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
+import Analytics from "./pages/Analytics";
 import Articles from "./pages/Articles";
 import ArticleView from "./pages/ArticleView";
 import Profile from "./pages/Profile";
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/articles/vibecoding-guide" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/analytics" element={<Analytics />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:id" element={<ArticleView />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

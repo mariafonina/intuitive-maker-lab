@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
+import { usePageView } from "@/hooks/useAnalytics";
 import { ChatBubble } from "@/components/ChatBubble";
 import { Poll } from "@/components/Poll";
 import { EditableImage } from "@/components/EditableImage";
@@ -11,6 +12,8 @@ import platformImage from "@/assets/vibecoding-platform.png";
 import talkscoreImage from "@/assets/talkscore-screenshot.png";
 const Index = () => {
   const readingTime = 9;
+  usePageView(); // Трекинг просмотра страницы
+  
   return <div className="min-h-screen bg-background">
       <MainNavigation />
       <ProgressBar topOffset="top-20" />

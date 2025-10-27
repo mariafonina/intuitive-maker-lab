@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { trackButtonClick } from "@/hooks/useAnalytics";
 
 export const Navigation = () => {
   return (
@@ -12,6 +13,7 @@ export const Navigation = () => {
       <Button 
         asChild
         className="bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary transition-all duration-500 rounded-full font-semibold px-6 shadow-lg hover:shadow-xl"
+        onClick={() => trackButtonClick('Научиться вайбкодить (навигация гайда)', 'purchase')}
       >
         <a
           href="https://labs.mashtab.io?utm_source=main_site_mari"

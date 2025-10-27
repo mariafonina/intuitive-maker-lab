@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProgressBar } from "@/components/ProgressBar";
 import { MainNavigation } from "@/components/MainNavigation";
+import { usePageView } from "@/hooks/useAnalytics";
 
 interface Article {
   id: string;
@@ -18,6 +19,8 @@ const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  
+  usePageView(); // Трекинг просмотра страницы
 
   useEffect(() => {
     loadArticles();
