@@ -14,7 +14,7 @@ export const Navigation = () => {
         className="bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary transition-all duration-500 rounded-full font-semibold px-6 shadow-lg hover:shadow-xl"
       >
         <a
-          href="https://labs.mashtab.io/?utm_source=gide&utm_medium=gide&utm_campaign=%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8F"
+          href="https://labs.mashtab.io?utm_source=main_site_mari"
           target="_blank"
           rel="noopener noreferrer"
         >

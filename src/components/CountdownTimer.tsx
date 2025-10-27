@@ -72,7 +72,7 @@ const CountdownTimer = () => {
             className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-white font-semibold px-10 py-6 text-lg"
           >
             <a
-              href="https://labs.mashtab.io/"
+              href="https://labs.mashtab.io?utm_source=main_site_mari"
               target="_blank"
               rel="noopener noreferrer"
             >
