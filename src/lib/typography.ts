@@ -88,6 +88,7 @@ const applyTypographyToText = (text: string): string => {
 /**
  * Добавляет неразрывные пробелы после предлогов и союзов
  * Работает с HTML, не ломая теги
+ * Также добавляет loading="eager" для изображений для быстрой загрузки
  */
 export const applyTypography = (html: string): string => {
   if (!html || typeof html !== 'string') return html;
@@ -99,6 +100,14 @@ export const applyTypography = (html: string): string => {
   const processed = nodes.map(node => {
     if (node.type === 'text') {
       return applyTypographyToText(node.content);
+    }
+    // Добавляем loading="eager" к img тегам для предзагрузки
+    if (node.type === 'tag' && node.content.startsWith('<img')) {
+      // Проверяем, есть ли уже атрибут loading
+      if (!node.content.includes('loading=')) {
+        // Добавляем loading="eager" перед закрывающим >
+        return node.content.replace(/>$/, ' loading="eager">');
+      }
     }
     return node.content;
   });

@@ -51,6 +51,15 @@ export const SafeHTMLRenderer = ({ html, className = '' }: SafeHTMLRendererProps
       if (src && !src.match(/^(https?:\/\/|\/\/)/i)) {
         el.removeAttribute('src');
       }
+
+      // Добавляем eager loading для iframe
+      if (tagName === 'iframe') {
+        el.setAttribute('loading', 'eager');
+        // Устанавливаем минимальную высоту для предотвращения layout shift
+        if (!el.getAttribute('height')) {
+          el.setAttribute('style', (el.getAttribute('style') || '') + 'min-height: 400px;');
+        }
+      }
     });
     
     return temp.innerHTML;

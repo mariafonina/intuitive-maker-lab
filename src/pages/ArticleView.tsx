@@ -21,6 +21,7 @@ const ArticleView = () => {
   const navigate = useNavigate();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
+  const [contentReady, setContentReady] = useState(false);
   
   usePageView(); // Трекинг просмотра страницы
 
@@ -49,6 +50,61 @@ const ArticleView = () => {
 
     setLoading(false);
   };
+
+  // Функция для ожидания загрузки всех медиа элементов
+  useEffect(() => {
+    if (!article || loading) return;
+
+    const waitForContent = async () => {
+      // Небольшая задержка для рендера DOM
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Находим все iframe и изображения в контенте
+      const iframes = document.querySelectorAll('article iframe');
+      const images = document.querySelectorAll('article img');
+      
+      const promises: Promise<void>[] = [];
+
+      // Ждем загрузки всех iframe
+      iframes.forEach((iframe) => {
+        promises.push(
+          new Promise<void>((resolve) => {
+            iframe.addEventListener('load', () => resolve(), { once: true });
+            // Таймаут на случай если iframe не загрузится
+            setTimeout(() => resolve(), 3000);
+          })
+        );
+      });
+
+      // Ждем загрузки всех изображений
+      images.forEach((img) => {
+        promises.push(
+          new Promise<void>((resolve) => {
+            if ((img as HTMLImageElement).complete) {
+              resolve();
+            } else {
+              img.addEventListener('load', () => resolve());
+              img.addEventListener('error', () => resolve());
+              // Таймаут на случай если изображение не загрузится
+              setTimeout(() => resolve(), 3000);
+            }
+          })
+        );
+      });
+
+      // Если нет медиа элементов, показываем сразу
+      if (promises.length === 0) {
+        setContentReady(true);
+        return;
+      }
+
+      // Ждем все элементы
+      await Promise.all(promises);
+      setContentReady(true);
+    };
+
+    waitForContent();
+  }, [article, loading]);
 
   const calculateReadingTime = (content: string) => {
     const div = document.createElement("div");
@@ -91,7 +147,7 @@ const ArticleView = () => {
     return div.innerHTML;
   };
 
-  if (loading) {
+  if (loading || !contentReady) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
