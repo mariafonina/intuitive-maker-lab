@@ -118,7 +118,7 @@ export default function Profile() {
               </li>
               <li className="flex items-start gap-4">
                 <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
-                <span>Создатель чата Мари про вакансии (<span className="font-bold text-xl text-foreground">185 000 участников</span>, <a href="https://t.me/mari_vakansii" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://t.me/mari_vakansii</a>).</span>
+                <span>Создатель чата Мари про вакансии (<span className="font-bold text-xl text-foreground">185 000 участников</span>).</span>
               </li>
               <li className="flex items-start gap-4">
                 <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
