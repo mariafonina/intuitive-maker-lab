@@ -26,7 +26,7 @@ export const MainNavigation = () => {
   }, [location.pathname]);
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-lg h-20">
+    <header className="fixed top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-lg h-16">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 h-full">
         <a href="/" className="text-lg font-bold">@mariafonina</a>
 

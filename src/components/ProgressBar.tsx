@@ -29,7 +29,7 @@ export const ProgressBar = ({ topOffset = "top-16" }: ProgressBarProps) => {
   }, []);
 
   return (
-    <div className={`fixed ${topOffset} left-0 w-full h-1.5 z-50 bg-muted`}>
+    <div className={`fixed ${topOffset} left-0 w-full h-1 z-50 bg-transparent`}>
       <div
         className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-150"
         style={{ width: `${progress}%` }}

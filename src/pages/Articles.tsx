@@ -66,7 +66,7 @@ const Articles = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <ProgressBar topOffset="top-20" />
+      <ProgressBar topOffset="top-16" />
       <MainNavigation />
       
       <main className="pt-32 px-6 max-w-6xl mx-auto pb-24">

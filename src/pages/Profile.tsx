@@ -21,7 +21,7 @@ export default function Profile() {
   return (
     <div className="bg-background text-foreground">
       {/* ПРОГРЕСС-БАР */}
-      <ProgressBar topOffset="top-20" />
+      <ProgressBar topOffset="top-16" />
       
       {/* НАВИГАЦИЯ */}
       <MainNavigation />

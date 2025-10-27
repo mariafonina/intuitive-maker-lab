@@ -113,7 +113,7 @@ const ArticleView = () => {
     return (
       <div className="min-h-screen bg-background">
         <MainNavigation />
-        <ProgressBar topOffset="top-20" />
+        <ProgressBar topOffset="top-16" />
         <main className="pt-32 px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-muted-foreground">Статья не найдена</p>
         </main>
@@ -149,7 +149,7 @@ const ArticleView = () => {
 
       <div className="min-h-screen bg-background">
         <MainNavigation />
-        <ProgressBar topOffset="top-20" />
+        <ProgressBar topOffset="top-16" />
         
         <main className="pt-32 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
