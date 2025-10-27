@@ -44,11 +44,16 @@ const isReturningVisitor = (): boolean => {
 };
 
 // Подсчет страниц в сессии
+const COUNT_KEY = 'analytics_page_count';
 const getPageCountInSession = (): number => {
-  const COUNT_KEY = 'analytics_page_count';
   const count = parseInt(sessionStorage.getItem(COUNT_KEY) || '0', 10);
   sessionStorage.setItem(COUNT_KEY, String(count + 1));
   return count + 1;
+};
+
+// Снимок текущего количества страниц в сессии без инкремента
+const getPageCountSnapshot = (): number => {
+  return parseInt(sessionStorage.getItem(COUNT_KEY) || '0', 10);
 };
 
 export const usePageView = () => {
@@ -58,7 +63,7 @@ export const usePageView = () => {
   const pageViewId = useRef<string | null>(null);
 
   const debouncedTrackRef = useRef(
-    debounce((pathname: string, search: string) => {
+    debounce(async (pathname: string, search: string) => {
       // Rate limiting: максимум 1 page view в 2 секунды для одной страницы
       const key = `page-view:${pathname}`;
       if (!rateLimiter.canRequest(key, { maxRequests: 1, windowMs: 2000 })) {
@@ -71,27 +76,36 @@ export const usePageView = () => {
       const isReturning = isReturningVisitor();
       const pagesInSession = getPageCountInSession();
       
-      supabase.from('page_views').insert({
-        session_id: sessionId,
-        page_path: pathname,
-        user_agent: navigator.userAgent,
-        device_type: getDeviceType(),
-        referrer: document.referrer || null,
-        utm_source: searchParams.get('utm_source'),
-        utm_medium: searchParams.get('utm_medium'),
-        utm_campaign: searchParams.get('utm_campaign'),
-        utm_term: searchParams.get('utm_term'),
-        utm_content: searchParams.get('utm_content'),
-        scroll_depth: 0,
-        time_on_page: 0,
-        is_returning: isReturning,
-        pages_in_session: pagesInSession,
-        is_bounce: false, // Будет обновлено при уходе
-      }).select('id').single().then(({ data }) => {
+      try {
+        const { data, error } = await supabase.from('page_views').insert({
+          session_id: sessionId,
+          page_path: pathname,
+          user_agent: navigator.userAgent,
+          device_type: getDeviceType(),
+          referrer: document.referrer || null,
+          utm_source: searchParams.get('utm_source'),
+          utm_medium: searchParams.get('utm_medium'),
+          utm_campaign: searchParams.get('utm_campaign'),
+          utm_term: searchParams.get('utm_term'),
+          utm_content: searchParams.get('utm_content'),
+          scroll_depth: 0,
+          time_on_page: 0,
+          is_returning: isReturning,
+          pages_in_session: pagesInSession,
+          is_bounce: false, // Будет обновлено при уходе
+        }).select('id').maybeSingle();
+
+        if (error) {
+          console.error('Error inserting page view:', error);
+        }
         if (data) {
           pageViewId.current = data.id;
+        } else {
+          pageViewId.current = null;
         }
-      });
+      } catch (e) {
+        console.error('Unexpected error inserting page view:', e);
+      }
     }, 500)
   );
 
@@ -114,20 +128,24 @@ export const usePageView = () => {
 
   // Обновление метрик при уходе со страницы
   useEffect(() => {
-    const updateMetrics = () => {
+    const updateMetrics = async () => {
       if (!pageViewId.current) return;
 
       const timeOnPage = Math.round((Date.now() - pageEntryTime.current) / 1000);
-      const pagesInSession = getPageCountInSession();
+      const pagesInSession = getPageCountSnapshot();
       
-      supabase
+      const { error } = await supabase
         .from('page_views')
         .update({
           scroll_depth: maxScrollDepth,
           time_on_page: timeOnPage,
-          is_bounce: pagesInSession === 1 && timeOnPage < 10, // Bounce если 1 страница и меньше 10 сек
+          is_bounce: pagesInSession <= 1 && timeOnPage < 10, // Bounce если 1 страница и меньше 10 сек
         })
         .eq('id', pageViewId.current);
+
+      if (error) {
+        console.error('Error updating page view (beforeunload):', error);
+      }
     };
 
     window.addEventListener('beforeunload', updateMetrics);
@@ -139,20 +157,26 @@ export const usePageView = () => {
 
   useEffect(() => {
     // Обновление метрик предыдущей страницы при переходе
-    if (pageViewId.current) {
-      const timeOnPage = Math.round((Date.now() - pageEntryTime.current) / 1000);
-      const pagesInSession = parseInt(sessionStorage.getItem('analytics_page_count') || '1', 10);
-      
-      supabase
-        .from('page_views')
-        .update({
-          scroll_depth: maxScrollDepth,
-          time_on_page: timeOnPage,
-          is_bounce: pagesInSession === 1 && timeOnPage < 10,
-        })
-        .eq('id', pageViewId.current);
-    }
-    
+    const updateOnRouteChange = async () => {
+      if (pageViewId.current) {
+        const timeOnPage = Math.round((Date.now() - pageEntryTime.current) / 1000);
+        const pagesInSession = getPageCountSnapshot();
+        const { error } = await supabase
+          .from('page_views')
+          .update({
+            scroll_depth: maxScrollDepth,
+            time_on_page: timeOnPage,
+            is_bounce: pagesInSession <= 1 && timeOnPage < 10,
+          })
+          .eq('id', pageViewId.current);
+        if (error) {
+          console.error('Error updating page view (route-change):', error);
+        }
+      }
+    };
+
+    updateOnRouteChange();
+
     // Сброс метрик при смене страницы
     pageEntryTime.current = Date.now();
     setMaxScrollDepth(0);

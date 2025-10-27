@@ -140,15 +140,17 @@ const Analytics = () => {
       }
       const { count: viewsCount } = await viewsQuery;
 
-      // Получаем количество уникальных сессий
+      // Получаем количество уникальных сессий (fallback для старых записей без session_id)
       let uniqueSessionsQuery = supabase
         .from("page_views")
-        .select("session_id");
+        .select("id, session_id");
       if (startDate) {
         uniqueSessionsQuery = uniqueSessionsQuery.gte("created_at", startDate);
       }
       const { data: sessionsData } = await uniqueSessionsQuery;
-      const uniqueSessions = new Set(sessionsData?.map(s => s.session_id).filter(Boolean)).size;
+      const uniqueSessions = new Set(
+        (sessionsData || []).map((row: any) => row.session_id || row.id)
+      ).size;
 
       // Создаем базовый query builder для button_clicks
       let clicksQuery = supabase.from("button_clicks").select("*", { count: 'exact', head: true });
