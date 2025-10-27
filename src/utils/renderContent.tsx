@@ -4,11 +4,11 @@ import { SafeHTMLRenderer } from "@/components/SafeHTMLRenderer";
 // Функция для обработки Raw HTML блоков
 const processRawHTML = (content: string): { 
   content: string; 
-  htmlBlocks: Array<{ id: string; html: string }> 
+  htmlBlocks: Array<{ id: string; html: string; isShortcode: boolean }> 
 } => {
   const div = document.createElement('div');
   div.innerHTML = content;
-  const htmlBlocks: Array<{ id: string; html: string }> = [];
+  const htmlBlocks: Array<{ id: string; html: string; isShortcode: boolean }> = [];
   
   // Находим все div с data-raw-html атрибутом
   const rawHTMLBlocks = div.querySelectorAll('div[data-raw-html]');
@@ -21,9 +21,16 @@ const processRawHTML = (content: string): {
       textarea.innerHTML = htmlContent;
       const decodedHTML = textarea.value;
       
+      // Проверяем, является ли это шорткодом offer
+      const isOfferShortcode = /^\[offer\s+id="[^"]+"\s*(compact)?\]$/.test(decodedHTML.trim());
+      
       // Создаем уникальный ID для этого блока
       const blockId = `raw-html-${index}`;
-      htmlBlocks.push({ id: blockId, html: decodedHTML });
+      htmlBlocks.push({ 
+        id: blockId, 
+        html: decodedHTML,
+        isShortcode: isOfferShortcode
+      });
       
       // Заменяем блок на плейсхолдер
       const placeholder = document.createElement('div');
@@ -100,7 +107,7 @@ export const renderContentWithShortcodes = (content: string) => {
 // Вспомогательная функция для рендера HTML контента с плейсхолдерами
 const renderHTMLContent = (
   htmlContent: string, 
-  htmlBlocks: Array<{ id: string; html: string }>,
+  htmlBlocks: Array<{ id: string; html: string; isShortcode: boolean }>,
   baseKey: number
 ): JSX.Element[] => {
   const parts: JSX.Element[] = [];
@@ -138,14 +145,29 @@ const renderHTMLContent = (
         );
       }
       
-      // Добавляем HTML блок
-      parts.push(
-        <SafeHTMLRenderer 
-          key={`html-${baseKey}-${partIndex++}`}
-          html={block.html}
-          className="my-8"
-        />
-      );
+      // Проверяем, является ли блок шорткодом offer
+      if (block.isShortcode) {
+        // Парсим шорткод
+        const offerMatch = block.html.match(/\[offer\s+id="([^"]+)"(\s+compact)?\]/);
+        if (offerMatch) {
+          const offerId = offerMatch[1];
+          const isCompact = !!offerMatch[2];
+          parts.push(
+            <div key={`offer-${baseKey}-${partIndex++}`} className="my-8">
+              <OfferShortcode offerId={offerId} compact={isCompact} />
+            </div>
+          );
+        }
+      } else {
+        // Добавляем HTML блок
+        parts.push(
+          <SafeHTMLRenderer 
+            key={`html-${baseKey}-${partIndex++}`}
+            html={block.html}
+            className="my-8"
+          />
+        );
+      }
       
       // Обновляем оставшийся контент
       remainingContent = remainingContent.substring(placeholderIndex + placeholderPattern.length);
