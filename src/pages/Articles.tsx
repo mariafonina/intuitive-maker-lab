@@ -82,7 +82,7 @@ const Articles = () => {
             Полезности
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            Статьи и гайды по запускам, продюсированию и развитию бизнеса
+            Статьи, гайды, инструкции и все на свете — создано с любовью ❤️
           </p>
         </header>
 
