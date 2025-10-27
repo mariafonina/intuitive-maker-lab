@@ -173,7 +173,7 @@ export default function Profile() {
                 <div className="mb-4 flex h-16 items-center justify-center">
                   <img src={logoDetiBabochki} alt="Фонд Дети-бабочки" className="h-full w-auto object-contain" />
                 </div>
-                <p className="font-semibold">Фонд "Дети-бабочки"</p>
+                <p className="font-semibold">Фонд «Дети-бабочки»</p>
                 <p className="mt-2 text-sm text-muted-foreground">Спикер благотворительного форума</p>
               </div>
               <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
