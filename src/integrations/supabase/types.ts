@@ -19,8 +19,11 @@ export type Database = {
           author_id: string
           content: string
           created_at: string | null
+          description: string | null
           id: string
+          og_image: string | null
           published: boolean | null
+          slug: string | null
           subtitle: string | null
           title: string
           updated_at: string | null
@@ -29,8 +32,11 @@ export type Database = {
           author_id: string
           content: string
           created_at?: string | null
+          description?: string | null
           id?: string
+          og_image?: string | null
           published?: boolean | null
+          slug?: string | null
           subtitle?: string | null
           title: string
           updated_at?: string | null
@@ -39,8 +45,11 @@ export type Database = {
           author_id?: string
           content?: string
           created_at?: string | null
+          description?: string | null
           id?: string
+          og_image?: string | null
           published?: boolean | null
+          slug?: string | null
           subtitle?: string | null
           title?: string
           updated_at?: string | null
@@ -260,8 +269,11 @@ export type Database = {
         Row: {
           content: string | null
           created_at: string | null
+          description: string | null
           id: string | null
+          og_image: string | null
           published: boolean | null
+          slug: string | null
           subtitle: string | null
           title: string | null
           updated_at: string | null
@@ -269,8 +281,11 @@ export type Database = {
         Insert: {
           content?: string | null
           created_at?: string | null
+          description?: string | null
           id?: string | null
+          og_image?: string | null
           published?: boolean | null
+          slug?: string | null
           subtitle?: string | null
           title?: string | null
           updated_at?: string | null
@@ -278,8 +293,11 @@ export type Database = {
         Update: {
           content?: string | null
           created_at?: string | null
+          description?: string | null
           id?: string | null
+          og_image?: string | null
           published?: boolean | null
+          slug?: string | null
           subtitle?: string | null
           title?: string | null
           updated_at?: string | null

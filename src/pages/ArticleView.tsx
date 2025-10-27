@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { MainNavigation } from "@/components/MainNavigation";
@@ -11,6 +12,9 @@ interface Article {
   id: string;
   title: string;
   subtitle?: string;
+  description?: string;
+  og_image?: string;
+  slug?: string;
   content: string;
   created_at: string;
 }
@@ -35,11 +39,19 @@ const ArticleView = () => {
   const loadArticle = async () => {
     if (!id) return;
 
-    const { data, error } = await supabase
-      .from("articles_public")
-      .select("*")
-      .eq("id", id)
-      .single();
+    // Пытаемся найти статью по slug или по id
+    let query = supabase.from("articles_public").select("*");
+    
+    // Если id выглядит как UUID, ищем по id, иначе по slug
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    
+    if (isUUID) {
+      query = query.eq("id", id);
+    } else {
+      query = query.eq("slug", id);
+    }
+
+    const { data, error } = await query.single();
 
     if (!error && data) {
       setArticle(data);
@@ -113,14 +125,35 @@ const ArticleView = () => {
   const toc = extractTableOfContents(article.content);
   const contentWithIds = addIdsToH2Elements(article.content, toc);
 
+  // Очищаем title от HTML тегов для мета-тегов
+  const cleanTitle = article.title.replace(/<[^>]*>/g, '');
+
   return (
-    <div className="min-h-screen bg-background">
-      <MainNavigation />
-      <ProgressBar topOffset="top-20" />
-      
-      <main className="pt-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <article>
+    <>
+      <Helmet>
+        <title>{cleanTitle} | Мария Афонина</title>
+        <meta name="description" content={article.description || `Статья: ${cleanTitle}`} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={cleanTitle} />
+        <meta property="og:description" content={article.description || `Статья: ${cleanTitle}`} />
+        {article.og_image && <meta property="og:image" content={article.og_image} />}
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={cleanTitle} />
+        <meta name="twitter:description" content={article.description || `Статья: ${cleanTitle}`} />
+        {article.og_image && <meta name="twitter:image" content={article.og_image} />}
+      </Helmet>
+
+      <div className="min-h-screen bg-background">
+        <MainNavigation />
+        <ProgressBar topOffset="top-20" />
+        
+        <main className="pt-32 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <article>
             {/* Header */}
             <header className="text-center mb-12 sm:mb-16">
               {article.subtitle && (
@@ -160,10 +193,11 @@ const ArticleView = () => {
             <div className="max-w-none">
               {renderContentWithShortcodes(contentWithIds)}
             </div>
-          </article>
-        </div>
-      </main>
-    </div>
+            </article>
+          </div>
+        </main>
+      </div>
+    </>
   );
 };
 

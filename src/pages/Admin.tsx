@@ -23,6 +23,9 @@ const Admin = () => {
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [ogImage, setOgImage] = useState("");
+  const [slug, setSlug] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
   const [currentSection, setCurrentSection] = useState("articles");
@@ -47,6 +50,9 @@ const Admin = () => {
           id: editingArticle.id,
           title,
           subtitle,
+          description,
+          og_image: ogImage,
+          slug: slug || undefined,
           content,
           published,
         });
@@ -59,6 +65,9 @@ const Admin = () => {
         await createArticle.mutateAsync({
           title,
           subtitle,
+          description,
+          og_image: ogImage,
+          slug: slug || undefined,
           content,
           published,
           author_id: session.user.id,
@@ -84,6 +93,9 @@ const Admin = () => {
     setEditingArticle(article);
     setTitle(article.title);
     setSubtitle(article.subtitle || "");
+    setDescription(article.description || "");
+    setOgImage(article.og_image || "");
+    setSlug(article.slug || "");
     setContent(article.content);
     setPublished(article.published);
     setCurrentSection("new-article");
@@ -111,6 +123,9 @@ const Admin = () => {
     setEditingArticle(null);
     setTitle("");
     setSubtitle("");
+    setDescription("");
+    setOgImage("");
+    setSlug("");
     setContent("");
     setPublished(false);
   };
@@ -173,6 +188,33 @@ const Admin = () => {
                     />
                   </div>
                   <div className="space-y-2">
+                    <Label htmlFor="description">Описание (для соцсетей и поисковиков)</Label>
+                    <Input
+                      id="description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Краткое описание статьи"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ogImage">Изображение для соцсетей (URL)</Label>
+                    <Input
+                      id="ogImage"
+                      value={ogImage}
+                      onChange={(e) => setOgImage(e.target.value)}
+                      placeholder="https://example.com/image.jpg"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="slug">Slug (для URL: /articles/ваш-slug)</Label>
+                    <Input
+                      id="slug"
+                      value={slug}
+                      onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))}
+                      placeholder="moi-super-gaid"
+                    />
+                  </div>
+                  <div className="space-y-2">
                     <Label htmlFor="content">Содержание</Label>
                     <RichTextEditor
                       content={content}
@@ -229,7 +271,7 @@ const Admin = () => {
                           <Button
                             size="icon"
                             variant="ghost"
-                            onClick={() => window.open(`/articles/${article.id}`, "_blank")}
+                            onClick={() => window.open(`/articles/${article.slug || article.id}`, "_blank")}
                             title="Открыть на сайте"
                           >
                             <ExternalLink className="h-4 w-4" />

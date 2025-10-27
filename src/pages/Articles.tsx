@@ -11,6 +11,7 @@ interface Article {
   id: string;
   title: string;
   subtitle?: string;
+  slug?: string;
   content: string;
   created_at: string;
 }
@@ -112,7 +113,7 @@ const Articles = () => {
               <Card 
                 key={article.id}
                 className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card"
-                onClick={() => navigate(`/articles/${article.id}`)}
+                onClick={() => navigate(`/articles/${article.slug || article.id}`)}
               >
                 <CardHeader>
                   {article.subtitle && (

@@ -5,6 +5,9 @@ export interface Article {
   id: string;
   title: string;
   subtitle?: string;
+  description?: string;
+  og_image?: string;
+  slug?: string;
   content: string;
   published: boolean;
   created_at: string;
@@ -28,7 +31,7 @@ export const useAdminArticles = () => {
   });
 
   const createArticle = useMutation({
-    mutationFn: async (article: { title: string; subtitle?: string; content: string; published: boolean; author_id: string }) => {
+    mutationFn: async (article: { title: string; subtitle?: string; description?: string; og_image?: string; slug?: string; content: string; published: boolean; author_id: string }) => {
       const { error } = await supabase.from("articles").insert(article);
       if (error) throw error;
     },
@@ -38,7 +41,7 @@ export const useAdminArticles = () => {
   });
 
   const updateArticle = useMutation({
-    mutationFn: async ({ id, ...article }: { id: string; title: string; subtitle?: string; content: string; published: boolean }) => {
+    mutationFn: async ({ id, ...article }: { id: string; title: string; subtitle?: string; description?: string; og_image?: string; slug?: string; content: string; published: boolean }) => {
       const { error } = await supabase.from("articles").update(article).eq("id", id);
       if (error) throw error;
     },
