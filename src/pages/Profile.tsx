@@ -44,7 +44,7 @@ export default function Profile() {
             <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">Обо мне</a>
             <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">Проекты</a>
             <a href="#contacts" className="text-muted-foreground hover:text-primary transition-colors">Контакты</a>
-            <Button asChild size="sm">
+            <Button asChild variant="gradient" size="sm">
               <a href="https://labs.mashtab.io/" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
             </Button>
           </div>
@@ -72,7 +72,7 @@ export default function Profile() {
             <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-foreground">Обо мне</a>
             <a href="#projects" onClick={() => setMobileMenuOpen(false)} className="text-foreground">Проекты</a>
             <a href="#contacts" onClick={() => setMobileMenuOpen(false)} className="text-foreground">Контакты</a>
-            <Button asChild onClick={() => setMobileMenuOpen(false)}>
+            <Button asChild variant="gradient" onClick={() => setMobileMenuOpen(false)}>
               <a href="https://labs.mashtab.io/" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
             </Button>
           </div>
@@ -234,7 +234,7 @@ export default function Profile() {
                   <p className="mt-3 text-lg text-muted-foreground">Проект по искусственному интеллекту и вайбкодингу.</p>
                   <p className="mt-6 font-medium">Стоимость: 33 300 руб.</p>
                   <p className="text-sm text-muted-foreground">Пройдет: 2-23 ноября</p>
-                  <Button asChild className="mt-6 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity">
+                  <Button asChild variant="gradient" className="mt-6">
                     <a href="https://labs.mashtab.io/" target="_blank" rel="noopener noreferrer">Занять место</a>
                   </Button>
                 </div>
