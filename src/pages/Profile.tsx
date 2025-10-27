@@ -234,7 +234,7 @@ export default function Profile() {
                   <p className="mt-3 text-lg text-muted-foreground">Проект по искусственному интеллекту и вайбкодингу.</p>
                   <p className="mt-6 font-medium">Стоимость: 33 300 руб.</p>
                   <p className="text-sm text-muted-foreground">Пройдет: 2-23 ноября</p>
-                  <Button asChild className="mt-6">
+                  <Button asChild className="mt-6 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity">
                     <a href="https://labs.mashtab.io/" target="_blank" rel="noopener noreferrer">Занять место</a>
                   </Button>
                 </div>
