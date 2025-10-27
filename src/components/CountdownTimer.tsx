@@ -70,7 +70,7 @@ const CountdownTimer = () => {
           <Button
             asChild
             size="lg"
-            className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-white font-semibold px-10 py-6 text-lg"
+            className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] text-white font-semibold px-10 py-6 text-lg hover:animate-gradient-shift transition-all duration-300 transform hover:scale-105"
             onClick={() => trackButtonClick('Занять место (таймер)', 'purchase')}
           >
             <a
@@ -129,7 +129,7 @@ const CountdownTimer = () => {
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all duration-300 transform hover:scale-105 text-white font-semibold px-10 py-6 text-lg"
+              className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] text-white font-semibold px-10 py-6 text-lg hover:animate-gradient-shift transition-all duration-300 transform hover:scale-105"
             >
               <a
                 href="https://www.google.com/calendar/render?action=TEMPLATE&text=Старт%20продаж%3A%20Вайбкодинг%20от%20Мари&dates=20251021T090000Z/20251021T100000Z&details=Не%20пропустите%20старт%20продаж%20нового%20потока!&location=Онлайн"

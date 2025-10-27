@@ -12,7 +12,7 @@ export const Navigation = () => {
       </a>
       <Button 
         asChild
-        className="bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary transition-all duration-500 rounded-full font-semibold px-6 shadow-lg hover:shadow-xl"
+        className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] rounded-full font-semibold px-6 shadow-lg hover:shadow-xl hover:animate-gradient-shift transition-shadow duration-300"
         onClick={() => trackButtonClick('Научиться вайбкодить (навигация гайда)', 'purchase')}
       >
         <a
