@@ -32,8 +32,20 @@ const Admin = () => {
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
   const [currentSection, setCurrentSection] = useState("articles");
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Таймаут на загрузку админа
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isAdminLoading) {
+        setLoadingTimeout(true);
+      }
+    }, 10000); // 10 секунд
+
+    return () => clearTimeout(timer);
+  }, [isAdminLoading]);
 
   useEffect(() => {
     if (!isAdminLoading && !isAdmin) {
@@ -127,8 +139,21 @@ const Admin = () => {
 
   if (isAdminLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <Loader2 className="h-8 w-8 animate-spin" />
+        {loadingTimeout && (
+          <div className="text-center space-y-2">
+            <p className="text-sm text-muted-foreground">
+              Загрузка занимает больше времени чем обычно...
+            </p>
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.reload()}
+            >
+              Обновить страницу
+            </Button>
+          </div>
+        )}
       </div>
     );
   }

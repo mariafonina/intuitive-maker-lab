@@ -1,11 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Article, ArticleCreateInput, ArticleUpdateInput } from "@/types/article";
+import { useAdmin } from "@/contexts/AdminContext";
 
 export type { Article } from "@/types/article";
 
 export const useAdminArticles = () => {
   const queryClient = useQueryClient();
+  const { isAdmin, isLoading: isAdminLoading } = useAdmin();
 
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ["admin-articles"],
@@ -18,7 +20,10 @@ export const useAdminArticles = () => {
       if (error) throw error;
       return data as Article[];
     },
+    enabled: !isAdminLoading && isAdmin, // Загружаем только если пользователь админ
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    retry: 1, // Только 1 повторная попытка
+    retryDelay: 1000, // Задержка 1 секунда
   });
 
   const createArticle = useMutation({
