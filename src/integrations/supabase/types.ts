@@ -95,6 +95,42 @@ export type Database = {
         }
         Relationships: []
       }
+      offers: {
+        Row: {
+          created_at: string
+          description: string
+          end_date: string
+          id: string
+          price: string
+          sales_start_date: string
+          start_date: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          end_date: string
+          id?: string
+          price: string
+          sales_start_date: string
+          start_date: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          end_date?: string
+          id?: string
+          price?: string
+          sales_start_date?: string
+          start_date?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           created_at: string | null

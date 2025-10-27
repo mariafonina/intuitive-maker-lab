@@ -11,6 +11,7 @@ export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: Admi
   const menuItems = [
     { id: "new-article", label: "Новая статья", icon: Plus },
     { id: "articles", label: "Статьи", icon: FileText },
+    { id: "offers", label: "Предложения", icon: FileText },
     { id: "images", label: "Галерея изображений", icon: FileText },
     { id: "analytics", label: "Аналитика", icon: BarChart3 },
   ];
@@ -19,12 +20,12 @@ export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: Admi
     <div className="w-64 bg-muted/30 min-h-screen flex flex-col">
       <div className="p-6">
         <a
-          href="https://t.me/mari_zapuski"
+          href="/"
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-lg text-foreground hover:text-primary transition-colors"
         >
-          @mari_zapuski
+          @mariafonina
         </a>
       </div>
 

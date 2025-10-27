@@ -12,6 +12,7 @@ import { RichTextEditor } from "@/components/RichTextEditor";
 import { TitleEditor } from "@/components/TitleEditor";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { ImageUpload } from "@/components/ImageUpload";
+import { OffersManager } from "@/components/OffersManager";
 
 interface Article {
   id: string;
@@ -322,6 +323,12 @@ const Admin = () => {
                 </Card>
               ))
             )}
+          </div>
+        )}
+
+        {currentSection === "offers" && (
+          <div className="max-w-4xl">
+            <OffersManager />
           </div>
         )}
 

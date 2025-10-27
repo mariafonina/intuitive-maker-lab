@@ -34,6 +34,7 @@ export const MainNavigation = () => {
         <div className="hidden items-center space-x-8 md:flex">
           <a href="/#projects" className="text-muted-foreground hover:text-primary transition-colors">Проекты</a>
           <a href="/articles" className="text-muted-foreground hover:text-primary transition-colors">Полезности</a>
+          <a href="/offers" className="text-muted-foreground hover:text-primary transition-colors">Предложения</a>
           <a href="/#contacts" className="text-muted-foreground hover:text-primary transition-colors">Контакты</a>
           <Button asChild variant="gradient" size="sm" onClick={() => trackButtonClick('Научиться вайбкодить (хедер)', 'purchase')}>
             <a href="https://labs.mashtab.io?utm_source=main_site_mari" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
@@ -62,6 +63,7 @@ export const MainNavigation = () => {
         <div className="fixed top-0 left-0 h-screen w-full flex flex-col items-center justify-center space-y-8 bg-background text-2xl font-medium md:hidden">
           <a href="/#projects" className="text-foreground">Проекты</a>
           <a href="/articles" className="text-foreground">Полезности</a>
+          <a href="/offers" className="text-foreground">Предложения</a>
           <a href="/#contacts" className="text-foreground">Контакты</a>
           <Button asChild variant="gradient" onClick={() => trackButtonClick('Научиться вайбкодить (мобильное меню)', 'purchase')}>
             <a href="https://labs.mashtab.io?utm_source=main_site_mari" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
