@@ -89,14 +89,9 @@ const renderHTMLContent = (
   baseKey: number
 ): JSX.Element[] => {
   const parts: JSX.Element[] = [];
-  const div = document.createElement('div');
-  div.innerHTML = htmlContent;
   
-  // Находим все плейсхолдеры
-  const placeholders = div.querySelectorAll('[data-html-placeholder]');
-  
-  if (placeholders.length === 0) {
-    // Нет плейсхолдеров, возвращаем обычный HTML
+  // Если нет HTML блоков, просто возвращаем контент
+  if (htmlBlocks.length === 0) {
     parts.push(
       <div 
         key={`text-${baseKey}`}
@@ -104,69 +99,53 @@ const renderHTMLContent = (
         className="prose prose-slate max-w-none dark:prose-invert"
       />
     );
-  } else {
-    // Заменяем плейсхолдеры на SafeHTMLRenderer компоненты
-    let currentHTML = '';
-    let lastNode: Node | null = null;
+    return parts;
+  }
+  
+  // Разбиваем контент по плейсхолдерам
+  let remainingContent = htmlContent;
+  let partIndex = 0;
+  
+  htmlBlocks.forEach((block) => {
+    const placeholderPattern = `<div data-html-placeholder="${block.id}"></div>`;
+    const placeholderIndex = remainingContent.indexOf(placeholderPattern);
     
-    const walker = document.createTreeWalker(div, NodeFilter.SHOW_ALL);
-    let node: Node | null;
-    
-    while ((node = walker.nextNode())) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const element = node as HTMLElement;
-        const placeholderId = element.getAttribute('data-html-placeholder');
-        
-        if (placeholderId) {
-          // Сохраняем текущий HTML
-          if (currentHTML.trim()) {
-            parts.push(
-              <div 
-                key={`text-${baseKey}-${parts.length}`}
-                dangerouslySetInnerHTML={{ __html: currentHTML }}
-                className="prose prose-slate max-w-none dark:prose-invert"
-              />
-            );
-            currentHTML = '';
-          }
-          
-          // Находим соответствующий HTML блок
-          const htmlBlock = htmlBlocks.find(b => b.id === placeholderId);
-          if (htmlBlock) {
-            parts.push(
-              <SafeHTMLRenderer 
-                key={`html-${baseKey}-${parts.length}`}
-                html={htmlBlock.html}
-                className="my-8"
-              />
-            );
-          }
-          
-          lastNode = node;
-          continue;
-        }
+    if (placeholderIndex !== -1) {
+      // Добавляем контент до плейсхолдера
+      const beforeContent = remainingContent.substring(0, placeholderIndex);
+      if (beforeContent.trim()) {
+        parts.push(
+          <div 
+            key={`text-${baseKey}-${partIndex++}`}
+            dangerouslySetInnerHTML={{ __html: beforeContent }}
+            className="prose prose-slate max-w-none dark:prose-invert"
+          />
+        );
       }
       
-      // Добавляем обычный контент
-      if (node !== lastNode) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          currentHTML += (node as HTMLElement).outerHTML;
-        } else if (node.nodeType === Node.TEXT_NODE) {
-          currentHTML += node.textContent || '';
-        }
-      }
-    }
-    
-    // Добавляем оставшийся HTML
-    if (currentHTML.trim()) {
+      // Добавляем HTML блок
       parts.push(
-        <div 
-          key={`text-${baseKey}-${parts.length}`}
-          dangerouslySetInnerHTML={{ __html: currentHTML }}
-          className="prose prose-slate max-w-none dark:prose-invert"
+        <SafeHTMLRenderer 
+          key={`html-${baseKey}-${partIndex++}`}
+          html={block.html}
+          className="my-8"
         />
       );
+      
+      // Обновляем оставшийся контент
+      remainingContent = remainingContent.substring(placeholderIndex + placeholderPattern.length);
     }
+  });
+  
+  // Добавляем оставшийся контент
+  if (remainingContent.trim()) {
+    parts.push(
+      <div 
+        key={`text-${baseKey}-${partIndex}`}
+        dangerouslySetInnerHTML={{ __html: remainingContent }}
+        className="prose prose-slate max-w-none dark:prose-invert"
+      />
+    );
   }
   
   return parts;
