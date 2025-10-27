@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-export const ProgressBar = () => {
+interface ProgressBarProps {
+  topOffset?: string;
+}
+
+export const ProgressBar = ({ topOffset = "top-16" }: ProgressBarProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export const ProgressBar = () => {
   }, []);
 
   return (
-    <div className="fixed top-16 left-0 w-full h-2.5 z-50 bg-muted">
+    <div className={`fixed ${topOffset} left-0 w-full h-2.5 z-50 bg-muted`}>
       <div
         className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-150"
         style={{ width: `${progress}%` }}

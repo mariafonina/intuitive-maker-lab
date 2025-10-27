@@ -32,11 +32,11 @@ export default function Profile() {
   return (
     <div className="bg-background text-foreground">
       {/* ПРОГРЕСС-БАР */}
-      <ProgressBar />
+      <ProgressBar topOffset="top-20" />
       
       {/* НАВИГАЦИЯ */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-lg">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+      <header className="fixed top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-lg h-20">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 h-full">
           <a href="/" className="text-lg font-bold">@mariafonina</a>
 
           {/* Десктоп навигация */}
@@ -77,7 +77,7 @@ export default function Profile() {
         )}
       </header>
 
-      <main>
+      <main className="pt-24">
         {/* СЕКЦИЯ: ОБО МНЕ */}
         <section id="about" className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
           <div className="mx-auto mb-6 h-32 w-32 rounded-full bg-muted shadow-md md:mb-8 md:h-40 md:w-40 overflow-hidden">
