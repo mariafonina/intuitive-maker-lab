@@ -343,7 +343,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">Для партнеров</p>
                   <h3 className="text-2xl font-bold mb-2">Сотрудничество</h3>
-                  <p className="text-xl">Написать в службу заботы</p>
+                  <p className="text-xl">@mashtab_sherif</p>
                 </div>
                 <Button asChild size="lg" className="md:min-w-[200px]">
                   <a href="https://t.me/mashtab_sherif" target="_blank" rel="noopener noreferrer">Связаться</a>
