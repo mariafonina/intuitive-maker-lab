@@ -7,17 +7,9 @@ import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { usePageView } from "@/hooks/useAnalytics";
 import { renderContentWithShortcodes } from "@/utils/renderContent";
-
-interface Article {
-  id: string;
-  title: string;
-  subtitle?: string;
-  description?: string;
-  og_image?: string;
-  slug?: string;
-  content: string;
-  created_at: string;
-}
+import { Article } from "@/types/article";
+import { isUUID } from "@/lib/validators";
+import { stripHtmlTags } from "@/lib/formatters";
 
 interface TocItem {
   id: string;
@@ -43,9 +35,7 @@ const ArticleView = () => {
     let query = supabase.from("articles_public").select("*");
     
     // Если id выглядит как UUID, ищем по id, иначе по slug
-    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-    
-    if (isUUID) {
+    if (isUUID(id)) {
       query = query.eq("id", id);
     } else {
       query = query.eq("slug", id);
@@ -125,8 +115,8 @@ const ArticleView = () => {
   const toc = extractTableOfContents(article.content);
   const contentWithIds = addIdsToH2Elements(article.content, toc);
 
-  // Очищаем title от HTML тегов для мета-тегов
-  const cleanTitle = article.title.replace(/<[^>]*>/g, '');
+  // Убираем HTML теги из заголовка для meta tags
+  const cleanTitle = stripHtmlTags(article.title);
 
   return (
     <>

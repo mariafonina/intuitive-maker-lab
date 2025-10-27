@@ -1,77 +1,33 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
-import { Upload, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { useImageUpload } from "@/hooks/useImageUpload";
 
 export const ImageUpload = () => {
-  const [uploading, setUploading] = useState(false);
   const [images, setImages] = useState<Array<{ id: string; url: string; filename: string }>>([]);
-  const { toast } = useToast();
+  
+  const { uploading, uploadMultiple } = useImageUpload({
+    saveToDatabase: true,
+    onSuccess: () => loadImages(),
+  });
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      setUploading(true);
-      
-      if (!event.target.files || event.target.files.length === 0) {
-        return;
-      }
+    if (!event.target.files || event.target.files.length === 0) return;
 
-      const files = Array.from(event.target.files);
-      const uploadPromises = files.map(async (file) => {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const filePath = `${fileName}`;
+    const files = Array.from(event.target.files);
+    const results = await uploadMultiple(files);
+    
+    if (results.length > 0) {
+      setImages(prev => [...prev, ...results.map(r => ({ 
+        id: r.id || '', 
+        url: r.url, 
+        filename: r.filename 
+      }))]);
+    }
 
-        // Upload file to storage
-        const { error: uploadError } = await supabase.storage
-          .from('images')
-          .upload(filePath, file);
-
-        if (uploadError) {
-          throw uploadError;
-        }
-
-        // Get public URL
-        const { data: { publicUrl } } = supabase.storage
-          .from('images')
-          .getPublicUrl(filePath);
-
-        // Save metadata to database
-        const { data, error: dbError } = await supabase
-          .from('images')
-          .insert({
-            filename: file.name,
-            storage_path: filePath,
-            url: publicUrl
-          })
-          .select()
-          .single();
-
-        if (dbError) throw dbError;
-
-        return { id: data.id, url: publicUrl, filename: file.name };
-      });
-
-      const uploadedImages = await Promise.all(uploadPromises);
-      setImages([...images, ...uploadedImages]);
-      
-      toast({
-        title: "Успешно загружено!",
-        description: `${files.length} изображени${files.length === 1 ? 'е' : files.length < 5 ? 'я' : 'й'} добавлено в базу данных`,
-      });
-    } catch (error) {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось загрузить изображения",
-        variant: "destructive",
-      });
-    } finally {
-      setUploading(false);
-      if (event.target) {
-        event.target.value = '';
-      }
+    if (event.target) {
+      event.target.value = '';
     }
   };
 

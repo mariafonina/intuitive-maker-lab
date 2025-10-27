@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
 import { Upload, Loader2, X } from "lucide-react";
+import { useImageUpload } from "@/hooks/useImageUpload";
 
 interface ArticleImageUploadProps {
   value: string;
@@ -17,53 +16,19 @@ export const ArticleImageUpload: React.FC<ArticleImageUploadProps> = ({
   onChange,
   label = "Изображение для соцсетей" 
 }) => {
-  const [uploading, setUploading] = useState(false);
-  const { toast } = useToast();
+  const { uploading, uploadSingle } = useImageUpload({
+    fileNamePrefix: "article",
+    onSuccess: (result) => onChange(result.url),
+  });
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      setUploading(true);
-      
-      if (!event.target.files || event.target.files.length === 0) {
-        return;
-      }
-
-      const file = event.target.files[0];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `article-${Date.now()}.${fileExt}`;
-      const filePath = `${fileName}`;
-
-      // Upload file to storage
-      const { error: uploadError } = await supabase.storage
-        .from('images')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(filePath);
-
-      onChange(publicUrl);
-      
-      toast({
-        title: "Успешно загружено!",
-        description: "Изображение добавлено",
-      });
-    } catch (error) {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось загрузить изображение",
-        variant: "destructive",
-      });
-    } finally {
-      setUploading(false);
-      if (event.target) {
-        event.target.value = '';
-      }
+    if (!event.target.files || event.target.files.length === 0) return;
+    
+    const file = event.target.files[0];
+    await uploadSingle(file);
+    
+    if (event.target) {
+      event.target.value = '';
     }
   };
 

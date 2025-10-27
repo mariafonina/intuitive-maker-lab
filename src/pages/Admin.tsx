@@ -17,6 +17,8 @@ import { OffersList } from "@/components/OffersList";
 import { useAdmin } from "@/contexts/AdminContext";
 import { useAdminArticles, type Article } from "@/hooks/useAdminArticles";
 import { ArticleImageUpload } from "@/components/ArticleImageUpload";
+import { formatDate } from "@/lib/formatters";
+import { TOAST_MESSAGES } from "@/lib/messages";
 
 const Admin = () => {
   const { isAdmin, isLoading: isAdminLoading } = useAdmin();
@@ -58,10 +60,7 @@ const Admin = () => {
           published,
         });
 
-        toast({
-          title: "Успех",
-          description: "Статья обновлена",
-        });
+        toast(TOAST_MESSAGES.SUCCESS.ARTICLE_UPDATED);
       } else {
         await createArticle.mutateAsync({
           title,
@@ -74,10 +73,7 @@ const Admin = () => {
           author_id: session.user.id,
         });
 
-        toast({
-          title: "Успех",
-          description: "Статья создана",
-        });
+        toast(TOAST_MESSAGES.SUCCESS.ARTICLE_CREATED);
       }
 
       resetForm();
@@ -107,16 +103,9 @@ const Admin = () => {
 
     try {
       await deleteArticle.mutateAsync(id);
-      toast({
-        title: "Успех",
-        description: "Статья удалена",
-      });
+      toast(TOAST_MESSAGES.SUCCESS.ARTICLE_DELETED);
     } catch (error) {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось удалить статью",
-        variant: "destructive",
-      });
+      toast(TOAST_MESSAGES.ERROR.ARTICLE_DELETE_FAILED);
     }
   };
 
@@ -260,7 +249,7 @@ const Admin = () => {
                           dangerouslySetInnerHTML={{ __html: article.title }}
                         />
                         <p className="text-sm text-muted-foreground">
-                          {new Date(article.created_at).toLocaleDateString("ru-RU")} • {article.published ? "Опубликовано" : "Черновик"}
+                          {formatDate(article.created_at)} • {article.published ? "Опубликовано" : "Черновик"}
                         </p>
                       </div>
                       <div className="flex gap-2 shrink-0">

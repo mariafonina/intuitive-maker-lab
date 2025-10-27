@@ -6,15 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ProgressBar } from "@/components/ProgressBar";
 import { MainNavigation } from "@/components/MainNavigation";
 import { usePageView } from "@/hooks/useAnalytics";
-
-interface Article {
-  id: string;
-  title: string;
-  subtitle?: string;
-  slug?: string;
-  content: string;
-  created_at: string;
-}
+import { Article } from "@/types/article";
+import { createExcerpt, formatDate, calculateReadingTime } from "@/lib/formatters";
 
 const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -38,22 +31,6 @@ const Articles = () => {
     }
 
     setLoading(false);
-  };
-
-  const calculateReadingTime = (content: string) => {
-    const div = document.createElement("div");
-    div.innerHTML = content;
-    const text = div.innerText;
-    const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
-    const wordsPerMinute = 230;
-    return Math.ceil(wordCount / wordsPerMinute);
-  };
-
-  const getExcerpt = (content: string, maxLength = 150) => {
-    const div = document.createElement("div");
-    div.innerHTML = content;
-    const text = div.innerText;
-    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
 
   if (loading) {
@@ -107,7 +84,7 @@ const Articles = () => {
           {/* Остальные статьи из базы данных */}
           {articles.map((article) => {
             const readingTime = calculateReadingTime(article.content);
-            const excerpt = getExcerpt(article.content);
+            const excerpt = createExcerpt(article.content);
             
             return (
               <Card 
