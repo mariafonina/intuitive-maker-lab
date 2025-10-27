@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Button } from "@/components/ui/button";
-import { usePageView, trackButtonClick } from "@/hooks/useAnalytics";
+import { usePageView, trackButtonClick, trackFunnelEvent } from "@/hooks/useAnalytics";
 import mariPhoto from "@/assets/mari-photo.jpeg";
 import bookCover from "@/assets/book-cover.png";
 import logoSber from "@/assets/logo-sber.png";
@@ -206,7 +206,10 @@ export default function Profile() {
                       href="https://labs.mashtab.io?utm_source=main_site_mari" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      onClick={() => trackButtonClick('Занять место ЛАБС', 'purchase')}
+                      onClick={() => {
+                        trackButtonClick('Занять место ЛАБС', 'purchase');
+                        trackFunnelEvent('click_labs_purchase', { offer: 'LABS' });
+                      }}
                     >
                       Занять место
                     </a>

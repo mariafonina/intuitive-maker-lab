@@ -14,6 +14,12 @@ interface PageConversion {
   conversionRate: number;
 }
 
+interface FunnelStep {
+  event_name: string;
+  count: number;
+  dropoff_rate: number;
+}
+
 interface AnalyticsData {
   totalPageViews: number;
   uniqueSessions: number;
@@ -21,11 +27,16 @@ interface AnalyticsData {
   conversionRate: number;
   avgScrollDepth: number;
   avgTimeOnPage: number;
+  bounceRate: number;
+  returningVisitorRate: number;
   deviceBreakdown: { device_type: string; count: number }[];
   topPages: { page_path: string; count: number; uniqueSessions: number }[];
+  landingPages: { page_path: string; count: number }[];
+  exitPages: { page_path: string; count: number }[];
   purchaseClicks: number;
   pageConversions: PageConversion[];
   utmSources: { utm_source: string; count: number }[];
+  funnelSteps: FunnelStep[];
 }
 
 const Analytics = () => {
@@ -39,11 +50,16 @@ const Analytics = () => {
     conversionRate: 0,
     avgScrollDepth: 0,
     avgTimeOnPage: 0,
+    bounceRate: 0,
+    returningVisitorRate: 0,
     deviceBreakdown: [],
     topPages: [],
+    landingPages: [],
+    exitPages: [],
     purchaseClicks: 0,
     pageConversions: [],
     utmSources: [],
+    funnelSteps: [],
   });
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -315,6 +331,89 @@ const Analytics = () => {
         ? Math.round(engagementData.reduce((sum, row) => sum + (row.time_on_page || 0), 0) / engagementData.length)
         : 0;
 
+      // Bounce Rate - процент посетителей, которые ушли после одной страницы
+      let bounceQuery = supabase
+        .from("page_views")
+        .select("*", { count: 'exact', head: true })
+        .eq("is_bounce", true);
+      if (startDate) {
+        bounceQuery = bounceQuery.gte("created_at", startDate);
+      }
+      const { count: bounceCount } = await bounceQuery;
+      const bounceRate = viewsCount && viewsCount > 0 ? ((bounceCount || 0) / viewsCount) * 100 : 0;
+
+      // Returning Visitors Rate
+      let returningQuery = supabase
+        .from("page_views")
+        .select("*", { count: 'exact', head: true })
+        .eq("is_returning", true);
+      if (startDate) {
+        returningQuery = returningQuery.gte("created_at", startDate);
+      }
+      const { count: returningCount } = await returningQuery;
+      const returningVisitorRate = viewsCount && viewsCount > 0 ? ((returningCount || 0) / viewsCount) * 100 : 0;
+
+      // Landing Pages - первые страницы в сессиях (pages_in_session = 1)
+      let landingQuery = supabase
+        .from("page_views")
+        .select("page_path")
+        .eq("pages_in_session", 1);
+      if (startDate) {
+        landingQuery = landingQuery.gte("created_at", startDate);
+      }
+      const { data: landingData } = await landingQuery;
+
+      const landingPages = landingData?.reduce((acc: any[], curr) => {
+        const existing = acc.find(item => item.page_path === curr.page_path);
+        if (existing) {
+          existing.count++;
+        } else {
+          acc.push({ page_path: curr.page_path, count: 1 });
+        }
+        return acc;
+      }, []).sort((a, b) => b.count - a.count).slice(0, 10) || [];
+
+      // Exit Pages - последние страницы (те, после которых is_bounce или макс pages_in_session в сессии)
+      let exitQuery = supabase
+        .from("page_views")
+        .select("page_path, is_bounce");
+      if (startDate) {
+        exitQuery = exitQuery.gte("created_at", startDate);
+      }
+      const { data: exitData } = await exitQuery;
+
+      const exitPages = exitData?.filter(view => view.is_bounce)
+        .reduce((acc: any[], curr) => {
+          const existing = acc.find(item => item.page_path === curr.page_path);
+          if (existing) {
+            existing.count++;
+          } else {
+            acc.push({ page_path: curr.page_path, count: 1 });
+          }
+          return acc;
+        }, []).sort((a, b) => b.count - a.count).slice(0, 10) || [];
+
+      // Funnel Steps - анализ воронки из funnel_events
+      let funnelQuery = supabase.from("funnel_events").select("event_name");
+      if (startDate) {
+        funnelQuery = funnelQuery.gte("created_at", startDate);
+      }
+      const { data: funnelData } = await funnelQuery;
+
+      const eventCounts = funnelData?.reduce((acc: Record<string, number>, curr) => {
+        acc[curr.event_name] = (acc[curr.event_name] || 0) + 1;
+        return acc;
+      }, {}) || {};
+
+      const totalFunnelEvents = Object.values(eventCounts).reduce((sum: number, count) => sum + (count as number), 0);
+      const funnelSteps: FunnelStep[] = Object.entries(eventCounts)
+        .map(([event_name, count]) => ({
+          event_name,
+          count: count as number,
+          dropoff_rate: totalFunnelEvents > 0 ? Math.round(((totalFunnelEvents - (count as number)) / totalFunnelEvents) * 100) : 0,
+        }))
+        .sort((a, b) => b.count - a.count);
+
       setData({
         totalPageViews: viewsCount || 0,
         uniqueSessions: uniqueSessions,
@@ -322,11 +421,16 @@ const Analytics = () => {
         conversionRate: Math.round(conversionRate * 100) / 100,
         avgScrollDepth,
         avgTimeOnPage,
+        bounceRate: Math.round(bounceRate * 100) / 100,
+        returningVisitorRate: Math.round(returningVisitorRate * 100) / 100,
         deviceBreakdown,
         topPages: pageCount,
+        landingPages,
+        exitPages,
         purchaseClicks: purchaseCount || 0,
         pageConversions,
         utmSources,
+        funnelSteps,
       });
     } catch (error) {
       console.error("Error loading analytics:", error);
@@ -526,7 +630,111 @@ const Analytics = () => {
                 </p>
               </CardContent>
             </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Отказы
+                </CardTitle>
+                <span className="text-xl">🚪</span>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{data.bounceRate.toFixed(1)}%</div>
+                <p className="text-xs text-muted-foreground">
+                  ушли с первой страницы
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Возвращаются
+                </CardTitle>
+                <span className="text-xl">🔄</span>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{data.returningVisitorRate.toFixed(1)}%</div>
+                <p className="text-xs text-muted-foreground">
+                  уже были на сайте
+                </p>
+              </CardContent>
+            </Card>
           </div>
+
+          {/* Landing и Exit Pages */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Landing Pages (Входные)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {data.landingPages.length > 0 ? (
+                    data.landingPages.map((page, index) => (
+                      <div key={index} className="flex justify-between items-center py-2 border-b last:border-0">
+                        <span className="text-sm">{page.page_path}</span>
+                        <span className="text-sm font-semibold">{page.count}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground">Нет данных</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Exit Pages (Выходные)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {data.exitPages.length > 0 ? (
+                    data.exitPages.map((page, index) => (
+                      <div key={index} className="flex justify-between items-center py-2 border-b last:border-0">
+                        <span className="text-sm">{page.page_path}</span>
+                        <span className="text-sm font-semibold">{page.count}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-muted-foreground">Нет данных</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Воронка конверсии */}
+          {data.funnelSteps.length > 0 && (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Воронка конверсии</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {data.funnelSteps.map((step, index) => (
+                    <div key={index} className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">{step.event_name}</span>
+                        <span className="text-sm text-muted-foreground">{step.count} событий</span>
+                      </div>
+                      <div className="w-full bg-muted rounded-full h-2.5">
+                        <div
+                          className="bg-primary h-2.5 rounded-full transition-all"
+                          style={{ width: `${100 - step.dropoff_rate}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>Прогресс: {100 - step.dropoff_rate}%</span>
+                        <span>Отсев: {step.dropoff_rate}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Конверсия по страницам */}
           <Card className="mb-8">

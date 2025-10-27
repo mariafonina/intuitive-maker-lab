@@ -83,6 +83,33 @@ export type Database = {
         }
         Relationships: []
       }
+      funnel_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_name: string
+          id: string
+          page_path: string
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_name: string
+          id?: string
+          page_path: string
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_name?: string
+          id?: string
+          page_path?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
       images: {
         Row: {
           filename: string
@@ -154,7 +181,10 @@ export type Database = {
           created_at: string | null
           device_type: string | null
           id: string
+          is_bounce: boolean | null
+          is_returning: boolean | null
           page_path: string
+          pages_in_session: number | null
           referrer: string | null
           scroll_depth: number | null
           session_id: string | null
@@ -170,7 +200,10 @@ export type Database = {
           created_at?: string | null
           device_type?: string | null
           id?: string
+          is_bounce?: boolean | null
+          is_returning?: boolean | null
           page_path: string
+          pages_in_session?: number | null
           referrer?: string | null
           scroll_depth?: number | null
           session_id?: string | null
@@ -186,7 +219,10 @@ export type Database = {
           created_at?: string | null
           device_type?: string | null
           id?: string
+          is_bounce?: boolean | null
+          is_returning?: boolean | null
           page_path?: string
+          pages_in_session?: number | null
           referrer?: string | null
           scroll_depth?: number | null
           session_id?: string | null
