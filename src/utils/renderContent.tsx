@@ -1,7 +1,32 @@
 import { OfferShortcode } from "@/components/OfferShortcode";
 
+// Функция для обработки Raw HTML блоков
+const processRawHTML = (content: string): string => {
+  const div = document.createElement('div');
+  div.innerHTML = content;
+  
+  // Находим все div с data-raw-html атрибутом
+  const rawHTMLBlocks = div.querySelectorAll('div[data-raw-html]');
+  
+  rawHTMLBlocks.forEach((block) => {
+    const htmlContent = block.getAttribute('data-raw-html');
+    if (htmlContent) {
+      // Создаем контейнер для рендеринга
+      const container = document.createElement('div');
+      container.className = 'my-8';
+      container.innerHTML = htmlContent;
+      block.replaceWith(container);
+    }
+  });
+  
+  return div.innerHTML;
+};
+
 // Функция для парсинга и рендера контента со шорткодами
 export const renderContentWithShortcodes = (content: string) => {
+  // Сначала обрабатываем Raw HTML блоки
+  const processedContent = processRawHTML(content);
+  
   // Паттерн для поиска [offer id="xxx"] или [offer id="xxx" compact]
   const offerPattern = /\[offer\s+id="([^"]+)"(\s+compact)?\]/g;
   
@@ -10,10 +35,10 @@ export const renderContentWithShortcodes = (content: string) => {
   let match;
   let key = 0;
 
-  while ((match = offerPattern.exec(content)) !== null) {
+  while ((match = offerPattern.exec(processedContent)) !== null) {
     // Добавляем текст до шорткода
     if (match.index > lastIndex) {
-      const htmlContent = content.slice(lastIndex, match.index);
+      const htmlContent = processedContent.slice(lastIndex, match.index);
       parts.push(
         <div 
           key={`text-${key++}`}
@@ -37,8 +62,8 @@ export const renderContentWithShortcodes = (content: string) => {
   }
 
   // Добавляем оставшийся текст
-  if (lastIndex < content.length) {
-    const htmlContent = content.slice(lastIndex);
+  if (lastIndex < processedContent.length) {
+    const htmlContent = processedContent.slice(lastIndex);
     parts.push(
       <div 
         key={`text-${key++}`}
@@ -52,7 +77,7 @@ export const renderContentWithShortcodes = (content: string) => {
   if (parts.length === 0) {
     return (
       <div 
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{ __html: processedContent }}
         className="prose prose-slate max-w-none dark:prose-invert"
       />
     );

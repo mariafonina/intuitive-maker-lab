@@ -3,7 +3,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 import { TextStyle } from '@tiptap/extension-text-style';
-import { Mark, mergeAttributes } from '@tiptap/core';
+import { Mark, mergeAttributes, Node } from '@tiptap/core';
 import {
   Bold,
   Italic,
@@ -19,10 +19,19 @@ import {
   Sparkles,
   Code,
   Brackets,
+  FileCode,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useState } from 'react';
 import { ImageGalleryDialog } from './ImageGalleryDialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 
 interface RichTextEditorProps {
   content: string;
@@ -34,6 +43,9 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     gradientText: {
       toggleGradient: () => ReturnType;
+    };
+    rawHTML: {
+      insertRawHTML: (html: string) => ReturnType;
     };
   }
 }
@@ -65,8 +77,62 @@ const GradientText = Mark.create({
   },
 });
 
+// Custom Raw HTML node extension
+const RawHTML = Node.create({
+  name: 'rawHTML',
+  
+  group: 'block',
+  
+  atom: true,
+  
+  addAttributes() {
+    return {
+      html: {
+        default: '',
+      },
+    };
+  },
+  
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-raw-html]',
+        getAttrs: (node) => {
+          const div = node as HTMLElement;
+          return {
+            html: div.getAttribute('data-raw-html'),
+          };
+        },
+      },
+    ];
+  },
+  
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes(HTMLAttributes, {
+      'data-raw-html': HTMLAttributes.html,
+      class: 'raw-html-block my-4 p-4 border border-dashed border-muted-foreground/30 rounded bg-muted/20',
+    }), ['div', { 
+      dangerouslySetInnerHTML: HTMLAttributes.html,
+      innerHTML: HTMLAttributes.html 
+    }]];
+  },
+  
+  addCommands() {
+    return {
+      insertRawHTML: (html: string) => ({ commands }) => {
+        return commands.insertContent({
+          type: this.name,
+          attrs: { html },
+        });
+      },
+    };
+  },
+});
+
 export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isHTMLDialogOpen, setIsHTMLDialogOpen] = useState(false);
+  const [htmlCode, setHtmlCode] = useState('');
 
   const editor = useEditor({
     extensions: [
@@ -87,6 +153,7 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       }),
       TextStyle,
       GradientText,
+      RawHTML,
       Image.configure({
         inline: true,
         allowBase64: true,
@@ -182,6 +249,14 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       setIsGalleryOpen(false);
     }
   }, [editor]);
+
+  const handleInsertHTML = useCallback(() => {
+    if (editor && htmlCode.trim()) {
+      editor.chain().focus().insertRawHTML(htmlCode).run();
+      setHtmlCode('');
+      setIsHTMLDialogOpen(false);
+    }
+  }, [editor, htmlCode]);
 
   if (!editor) {
     return null;
@@ -302,6 +377,10 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
           >
             Из галереи
           </Button>
+          <ToolbarButton
+            onClick={() => setIsHTMLDialogOpen(true)}
+            icon={FileCode}
+          />
         </div>
       </div>
 
@@ -313,6 +392,30 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
         onSelectImage={handleGalleryImageSelect}
         showSizeSelector={false}
       />
+
+      <Dialog open={isHTMLDialogOpen} onOpenChange={setIsHTMLDialogOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Вставить HTML код</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Textarea
+              value={htmlCode}
+              onChange={(e) => setHtmlCode(e.target.value)}
+              placeholder="Вставьте HTML код (например, iframe, embed и т.д.)"
+              className="min-h-[200px] font-mono text-sm"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsHTMLDialogOpen(false)}>
+              Отмена
+            </Button>
+            <Button onClick={handleInsertHTML}>
+              Вставить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
