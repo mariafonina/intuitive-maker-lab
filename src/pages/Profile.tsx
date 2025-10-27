@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,21 @@ export default function Profile() {
 
   return (
     <div className="bg-background text-foreground">
+      <Helmet>
+        <title>Мари Афонина</title>
+        <meta name="description" content="Мари Афонина — продюсер, IT-предприниматель. Официальный сайт." />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Мари Афонина" />
+        <meta property="og:description" content="Мари Афонина — продюсер, IT-предприниматель. Официальный сайт." />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Мари Афонина" />
+        <meta name="twitter:description" content="Мари Афонина — продюсер, IT-предприниматель. Официальный сайт." />
+      </Helmet>
+      
       {/* ПРОГРЕСС-БАР */}
       <ProgressBar topOffset="top-16" />
       
