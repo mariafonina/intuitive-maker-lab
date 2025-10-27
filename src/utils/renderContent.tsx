@@ -13,7 +13,7 @@ const processRawHTML = (content: string): string => {
     if (htmlContent) {
       // Создаем контейнер для рендеринга
       const container = document.createElement('div');
-      container.className = 'my-8';
+      container.className = 'my-8 w-full';
       container.innerHTML = htmlContent;
       block.replaceWith(container);
     }
