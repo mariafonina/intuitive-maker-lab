@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Clock } from "lucide-react";
-import { Navigation } from "@/components/Navigation";
+import { Loader2, Clock, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ProgressBar } from "@/components/ProgressBar";
 
 interface Article {
   id: string;
@@ -53,30 +54,42 @@ const Articles = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <ProgressBar />
       
-      <main className="pt-24 sm:pt-32 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <header className="text-center mb-12 sm:mb-16">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-            Статьи
+      {/* НАВИГАЦИЯ */}
+      <header className="fixed top-0 z-50 w-full border-b border-border/80 bg-background/90 backdrop-blur-lg h-20">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 h-full">
+          <a href="/profile" className="text-lg font-bold">@mariafonina</a>
+          
+          <Button variant="ghost" onClick={() => navigate('/profile')}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Назад
+          </Button>
+        </nav>
+      </header>
+      
+      <main className="pt-32 px-6 max-w-6xl mx-auto pb-24">
+        <header className="text-center mb-16">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            Полезности
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Читайте наши статьи и гайды
+          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
+            Статьи и гайды по запускам, продюсированию и развитию бизнеса
           </p>
         </header>
 
         {articles.length === 0 ? (
-          <p className="text-muted-foreground text-center">Статей пока нет</p>
+          <p className="text-muted-foreground text-center text-lg">Статей пока нет</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {articles.map((article) => {
               const readingTime = calculateReadingTime(article.content);
               const excerpt = getExcerpt(article.content);
@@ -84,27 +97,27 @@ const Articles = () => {
               return (
                 <Card 
                   key={article.id}
-                  className="cursor-pointer hover:shadow-lg transition-shadow"
+                  className="cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-3xl bg-card"
                   onClick={() => navigate(`/articles/${article.id}`)}
                 >
                   <CardHeader>
                     {article.subtitle && (
-                      <CardDescription className="text-primary font-semibold mb-2">
+                      <CardDescription className="text-primary font-semibold mb-2 text-sm uppercase tracking-wider">
                         {article.subtitle}
                       </CardDescription>
                     )}
                     <CardTitle 
-                      className="text-xl line-clamp-2"
+                      className="text-2xl line-clamp-2 font-bold"
                       dangerouslySetInnerHTML={{ __html: article.title }}
                     />
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground line-clamp-3 mb-4">
+                    <p className="text-muted-foreground line-clamp-3 mb-6 text-lg leading-relaxed">
                       {excerpt}
                     </p>
                     <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-1" />
-                      <span>~{readingTime} мин.</span>
+                      <Clock className="h-4 w-4 mr-2" />
+                      <span>~{readingTime} мин. чтения</span>
                     </div>
                   </CardContent>
                 </Card>
