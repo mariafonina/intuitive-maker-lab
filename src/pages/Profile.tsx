@@ -43,8 +43,10 @@ export default function Profile() {
           <div className="hidden items-center space-x-8 md:flex">
             <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">Обо мне</a>
             <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">Проекты</a>
-            <a href="#book" className="text-muted-foreground hover:text-primary transition-colors">Книга</a>
             <a href="#contacts" className="text-muted-foreground hover:text-primary transition-colors">Контакты</a>
+            <Button asChild size="sm">
+              <a href="https://labs.mashtab.io/" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
+            </Button>
           </div>
 
           {/* Мобильное меню кнопка */}
@@ -69,8 +71,10 @@ export default function Profile() {
           <div className="absolute top-0 left-0 h-screen w-full flex flex-col items-center justify-center space-y-8 bg-background text-2xl font-medium md:hidden">
             <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-foreground">Обо мне</a>
             <a href="#projects" onClick={() => setMobileMenuOpen(false)} className="text-foreground">Проекты</a>
-            <a href="#book" onClick={() => setMobileMenuOpen(false)} className="text-foreground">Книга</a>
             <a href="#contacts" onClick={() => setMobileMenuOpen(false)} className="text-foreground">Контакты</a>
+            <Button asChild onClick={() => setMobileMenuOpen(false)}>
+              <a href="https://labs.mashtab.io/" target="_blank" rel="noopener noreferrer">Научиться вайбкодить</a>
+            </Button>
           </div>
         )}
       </header>
