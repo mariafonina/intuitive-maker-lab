@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { trackButtonClick } from "@/hooks/useAnalytics";
@@ -87,54 +85,75 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
   };
 
   return (
-    <Card className="overflow-hidden border-2 border-primary/20 bg-gradient-to-br from-background to-primary/5">
-      <CardHeader className="text-center pb-4">
-        {(mode === "open" || mode === "started") && (
-          <div className="flex justify-center mb-3">
-            <Badge variant="default" className="px-4 py-1 text-sm font-semibold">
-              🔥 Сейчас в продаже
-            </Badge>
-          </div>
-        )}
-        <CardTitle className="text-2xl sm:text-3xl mb-2">{offer.title}</CardTitle>
-        <CardDescription className="text-xl sm:text-2xl font-bold text-primary">
-          {formatPrice(offer.price)}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="pt-2 space-y-6">
-        {!compact && offer.description && (
-          <p className="text-center text-muted-foreground">{offer.description}</p>
-        )}
+    <div className="my-16 text-center animate-fade-in">
+      {(mode === "open" || mode === "started") && (
+        <p className="text-sm sm:text-base font-semibold text-primary mb-4 uppercase tracking-wider">
+          СЕЙЧАС В ПРОДАЖЕ
+        </p>
+      )}
+
+      <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6">
+        {offer.title}
+      </h2>
+
+      {!compact && offer.description && (
+        <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+          {offer.description}
+        </p>
+      )}
+
+      <div className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
+        Стоимость: {formatPrice(offer.price)}
+      </div>
+      <div className="text-base sm:text-lg text-muted-foreground mb-12">
+        Пройдет: {format(new Date(offer.start_date), "d MMMM", { locale: ru })} - {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}
+      </div>
 
         {mode === "presale" && (
-          <div className="space-y-4">
-            <div className="bg-muted/50 p-6 rounded-lg text-center">
-              <h3 className="text-lg font-semibold mb-4 flex items-center justify-center gap-2">
-                <Clock className="h-5 w-5" />
+          <div className="space-y-6 max-w-2xl mx-auto">
+            <div className="bg-muted/50 p-8 rounded-2xl">
+              <h3 className="text-xl font-semibold mb-6 flex items-center justify-center gap-2">
+                <Clock className="h-6 w-6" />
                 Продажи откроются через:
               </h3>
-              <div className="grid grid-cols-4 gap-4 max-w-md mx-auto">
-                <div className="bg-background p-3 rounded">
-                  <div className="text-2xl font-bold text-primary">{timeLeft.days}</div>
-                  <div className="text-xs text-muted-foreground">дней</div>
+              <div className="flex justify-center gap-6 mb-8">
+                <div className="text-center">
+                  <span className="block text-4xl md:text-5xl font-light tracking-wider text-foreground">
+                    {timeLeft.days}
+                  </span>
+                  <span className="block text-xs text-muted-foreground uppercase tracking-widest mt-2">
+                    дней
+                  </span>
                 </div>
-                <div className="bg-background p-3 rounded">
-                  <div className="text-2xl font-bold text-primary">{timeLeft.hours}</div>
-                  <div className="text-xs text-muted-foreground">часов</div>
+                <div className="text-center">
+                  <span className="block text-4xl md:text-5xl font-light tracking-wider text-foreground">
+                    {timeLeft.hours}
+                  </span>
+                  <span className="block text-xs text-muted-foreground uppercase tracking-widest mt-2">
+                    часов
+                  </span>
                 </div>
-                <div className="bg-background p-3 rounded">
-                  <div className="text-2xl font-bold text-primary">{timeLeft.minutes}</div>
-                  <div className="text-xs text-muted-foreground">минут</div>
+                <div className="text-center">
+                  <span className="block text-4xl md:text-5xl font-light tracking-wider text-foreground">
+                    {timeLeft.minutes}
+                  </span>
+                  <span className="block text-xs text-muted-foreground uppercase tracking-widest mt-2">
+                    минут
+                  </span>
                 </div>
-                <div className="bg-background p-3 rounded">
-                  <div className="text-2xl font-bold text-primary">{timeLeft.seconds}</div>
-                  <div className="text-xs text-muted-foreground">секунд</div>
+                <div className="text-center">
+                  <span className="block text-4xl md:text-5xl font-light tracking-wider text-foreground">
+                    {timeLeft.seconds}
+                  </span>
+                  <span className="block text-xs text-muted-foreground uppercase tracking-widest mt-2">
+                    секунд
+                  </span>
                 </div>
               </div>
             </div>
             
             {!submitted ? (
-              <form onSubmit={handlePreorder} className="space-y-4">
+              <form onSubmit={handlePreorder} className="space-y-4 max-w-md mx-auto">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -157,15 +176,15 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
                     required
                   />
                 </div>
-                <div className="flex justify-center">
-                  <Button type="submit" size="lg" className="px-12">
+                <div className="flex justify-center pt-4">
+                  <Button type="submit" size="lg" variant="gradient" className="px-12">
                     Записаться в предзапись
                   </Button>
                 </div>
               </form>
             ) : (
-              <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg text-center">
-                <p className="text-green-600 font-medium">
+              <div className="bg-green-500/10 border border-green-500/20 p-6 rounded-2xl max-w-md mx-auto">
+                <p className="text-green-600 font-medium text-lg">
                   Спасибо! Мы свяжемся с вами, когда откроются продажи.
                 </p>
               </div>
@@ -174,60 +193,52 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
         )}
 
         {mode === "open" && (
-          <div className="space-y-4">
-            <div className="flex flex-col items-center gap-4">
-              <Button onClick={handlePurchase} size="lg" variant="gradient" className="px-12">
-                Занять место
-              </Button>
-              <div className="text-sm text-muted-foreground text-center space-y-1">
-                <div className="flex items-center justify-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  <span>Старт: {format(new Date(offer.start_date), "d MMMM yyyy", { locale: ru })}</span>
-                </div>
-                <div className="flex items-center justify-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  <span>Окончание: {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}</span>
-                </div>
-              </div>
-            </div>
+          <div className="animate-fade-in">
+            <Button 
+              onClick={handlePurchase} 
+              size="lg" 
+              variant="gradient"
+              className="px-12 py-6 text-lg font-semibold transform hover:scale-105 transition-all duration-300"
+            >
+              Занять место
+            </Button>
           </div>
         )}
 
         {mode === "started" && (
-          <div className="space-y-4">
-            <div className="bg-primary/10 border border-primary/20 p-4 rounded-lg">
-              <p className="text-primary font-medium text-center">
+          <div className="space-y-6">
+            <div className="bg-primary/10 border border-primary/20 p-6 rounded-2xl max-w-2xl mx-auto">
+              <p className="text-primary font-medium text-lg">
                 🎉 Мы только начали, вы ещё можете присоединиться!
               </p>
             </div>
-            <div className="flex flex-col items-center gap-4">
-              <Button onClick={handlePurchase} size="lg" variant="gradient" className="px-12">
+            <div className="animate-fade-in">
+              <Button 
+                onClick={handlePurchase} 
+                size="lg" 
+                variant="gradient"
+                className="px-12 py-6 text-lg font-semibold transform hover:scale-105 transition-all duration-300"
+              >
                 Занять место
               </Button>
-              <div className="text-sm text-muted-foreground text-center">
-                <div className="flex items-center justify-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  <span>Окончание: {format(new Date(offer.end_date), "d MMMM yyyy", { locale: ru })}</span>
-                </div>
-              </div>
             </div>
           </div>
         )}
 
         {mode === "soldout" && (
-          <div className="space-y-4">
-            <div className="bg-muted p-6 rounded-lg text-center space-y-2">
-              <div className="text-3xl font-bold text-muted-foreground">SOLDOUT</div>
-              <p className="text-sm text-muted-foreground">
+          <div className="space-y-6 max-w-2xl mx-auto">
+            <div className="bg-muted p-8 rounded-2xl text-center space-y-3">
+              <div className="text-4xl font-bold text-muted-foreground">SOLDOUT</div>
+              <p className="text-base text-muted-foreground">
                 Все места проданы, записаться в проект уже нельзя.
               </p>
-              <p className="text-sm">
+              <p className="text-base">
                 Но вы можете оставить свои данные, и мы свяжемся с вами, когда будет следующая продажа.
               </p>
             </div>
 
             {!submitted ? (
-              <form onSubmit={handlePreorder} className="space-y-4">
+              <form onSubmit={handlePreorder} className="space-y-4 max-w-md mx-auto">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -250,22 +261,21 @@ export const OfferCard = ({ offer, compact = false }: OfferCardProps) => {
                     required
                   />
                 </div>
-                <div className="flex justify-center">
+                <div className="flex justify-center pt-4">
                   <Button type="submit" size="lg" variant="secondary" className="px-12">
                     Записаться в предзапись
                   </Button>
                 </div>
               </form>
             ) : (
-              <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg text-center">
-                <p className="text-green-600 font-medium">
+              <div className="bg-green-500/10 border border-green-500/20 p-6 rounded-2xl max-w-md mx-auto">
+                <p className="text-green-600 font-medium text-lg">
                   Спасибо! Мы свяжемся с вами для следующей продажи.
                 </p>
               </div>
             )}
           </div>
         )}
-      </CardContent>
-    </Card>
+    </div>
   );
 };
