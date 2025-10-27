@@ -13,14 +13,37 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
+    let mounted = true;
+
+    const checkAdminStatus = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!mounted) return;
+        
+        if (!session) {
+          setIsAdmin(false);
+          setIsLoading(false);
+          return;
+        }
+
+        await checkAdminRole(session.user.id);
+      } catch (error) {
+        console.error("Error checking admin status:", error);
+        if (mounted) {
+          setIsAdmin(false);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    checkAdminStatus();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
+        if (!mounted) return;
+        
         if (session?.user) {
-          // Check admin role when session changes
-          setTimeout(() => {
-            checkAdminRole(session.user.id);
-          }, 0);
+          await checkAdminRole(session.user.id);
         } else {
           setIsAdmin(false);
           setIsLoading(false);
@@ -28,10 +51,10 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
       }
     );
 
-    // THEN check current session
-    checkAdminStatus();
-
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const checkAdminRole = async (userId: string) => {
@@ -52,22 +75,6 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const checkAdminStatus = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        setIsAdmin(false);
-        setIsLoading(false);
-        return;
-      }
-
-      await checkAdminRole(session.user.id);
-    } catch (error) {
-      console.error("Error checking admin status:", error);
-      setIsAdmin(false);
-      setIsLoading(false);
-    }
-  };
 
   return (
     <AdminContext.Provider value={{ isAdmin, isLoading }}>

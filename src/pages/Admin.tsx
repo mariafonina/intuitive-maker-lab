@@ -14,20 +14,12 @@ import { AdminSidebar } from "@/components/AdminSidebar";
 import { ImageUpload } from "@/components/ImageUpload";
 import { OffersManager } from "@/components/OffersManager";
 import { OffersList } from "@/components/OffersList";
-
-interface Article {
-  id: string;
-  title: string;
-  subtitle?: string;
-  content: string;
-  published: boolean;
-  created_at: string;
-}
+import { useAdmin } from "@/contexts/AdminContext";
+import { useAdminArticles, type Article } from "@/hooks/useAdminArticles";
 
 const Admin = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [articles, setArticles] = useState<Article[]>([]);
+  const { isAdmin, isLoading: isAdminLoading } = useAdmin();
+  const { articles, isLoading: articlesLoading, createArticle, updateArticle, deleteArticle } = useAdminArticles();
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -38,62 +30,10 @@ const Admin = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    checkAdminAndLoadArticles();
-  }, []);
-
-  const checkAdminAndLoadArticles = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
-
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
-
-      if (!roles) {
-        toast({
-          title: "Доступ запрещён",
-          description: "У вас нет прав администратора",
-          variant: "destructive",
-        });
-        navigate("/");
-        return;
-      }
-
-      setIsAdmin(true);
-      await loadArticles();
-    } catch (error) {
-      console.error("Error checking admin:", error);
-      navigate("/");
-    } finally {
-      setLoading(false);
+    if (!isAdminLoading && !isAdmin) {
+      navigate("/auth");
     }
-  };
-
-  const loadArticles = async () => {
-    const { data, error } = await supabase
-      .from("articles")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось загрузить статьи",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setArticles(data || []);
-  };
+  }, [isAdmin, isAdminLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,29 +43,26 @@ const Admin = () => {
       if (!session) return;
 
       if (editingArticle) {
-        const { error } = await supabase
-          .from("articles")
-          .update({ title, subtitle, content, published })
-          .eq("id", editingArticle.id);
-
-        if (error) throw error;
+        await updateArticle.mutateAsync({
+          id: editingArticle.id,
+          title,
+          subtitle,
+          content,
+          published,
+        });
 
         toast({
           title: "Успех",
           description: "Статья обновлена",
         });
       } else {
-        const { error } = await supabase
-          .from("articles")
-          .insert({
-            title,
-            subtitle,
-            content,
-            published,
-            author_id: session.user.id,
-          });
-
-        if (error) throw error;
+        await createArticle.mutateAsync({
+          title,
+          subtitle,
+          content,
+          published,
+          author_id: session.user.id,
+        });
 
         toast({
           title: "Успех",
@@ -134,7 +71,6 @@ const Admin = () => {
       }
 
       resetForm();
-      await loadArticles();
     } catch (error: any) {
       toast({
         title: "Ошибка",
@@ -156,26 +92,19 @@ const Admin = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Удалить эту статью?")) return;
 
-    const { error } = await supabase
-      .from("articles")
-      .delete()
-      .eq("id", id);
-
-    if (error) {
+    try {
+      await deleteArticle.mutateAsync(id);
+      toast({
+        title: "Успех",
+        description: "Статья удалена",
+      });
+    } catch (error) {
       toast({
         title: "Ошибка",
         description: "Не удалось удалить статью",
         variant: "destructive",
       });
-      return;
     }
-
-    toast({
-      title: "Успех",
-      description: "Статья удалена",
-    });
-
-    await loadArticles();
   };
 
   const resetForm = () => {
@@ -191,7 +120,7 @@ const Admin = () => {
     navigate("/");
   };
 
-  if (loading) {
+  if (isAdminLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />

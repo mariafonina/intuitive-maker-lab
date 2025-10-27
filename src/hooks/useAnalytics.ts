@@ -17,33 +17,21 @@ export const usePageView = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const trackPageView = async () => {
-      try {
-        // Extract UTM parameters from URL
-        const searchParams = new URLSearchParams(location.search);
-        const utmSource = searchParams.get('utm_source');
-        const utmMedium = searchParams.get('utm_medium');
-        const utmCampaign = searchParams.get('utm_campaign');
-        const utmTerm = searchParams.get('utm_term');
-        const utmContent = searchParams.get('utm_content');
-
-        await supabase.from('page_views').insert({
-          page_path: location.pathname,
-          user_agent: navigator.userAgent,
-          device_type: getDeviceType(),
-          referrer: document.referrer || null,
-          utm_source: utmSource,
-          utm_medium: utmMedium,
-          utm_campaign: utmCampaign,
-          utm_term: utmTerm,
-          utm_content: utmContent,
-        });
-      } catch (error) {
-        console.error('Error tracking page view:', error);
-      }
-    };
-
-    trackPageView();
+    // Track page view in background without blocking render
+    const searchParams = new URLSearchParams(location.search);
+    
+    // Fire and forget - don't block rendering
+    supabase.from('page_views').insert({
+      page_path: location.pathname,
+      user_agent: navigator.userAgent,
+      device_type: getDeviceType(),
+      referrer: document.referrer || null,
+      utm_source: searchParams.get('utm_source'),
+      utm_medium: searchParams.get('utm_medium'),
+      utm_campaign: searchParams.get('utm_campaign'),
+      utm_term: searchParams.get('utm_term'),
+      utm_content: searchParams.get('utm_content'),
+    });
   }, [location.pathname, location.search]);
 };
 
