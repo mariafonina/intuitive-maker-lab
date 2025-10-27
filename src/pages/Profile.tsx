@@ -96,44 +96,49 @@ export default function Profile() {
             </blockquote>
           </div>
           
-          <div className="mt-24 space-y-20 md:space-y-32 text-left">
-            {/* Блок 1: Запуски */}
-            <div>
-              <h3 className="text-3xl font-bold tracking-tight md:text-4xl mb-6">1.5 МЛРД+ РУБ</h3>
-              <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed text-muted-foreground md:text-xl">
-                <li>Cделала запусков больше чем на 1,5 млрд руб. без бюджета на маркетинг.</li>
-              </ul>
-            </div>
-
-            {/* Блок 2: Образование */}
-            <div>
-              <h3 className="text-3xl font-bold tracking-tight md:text-4xl mb-6">Образование</h3>
-              <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed text-muted-foreground md:text-xl">
-                <li>Автор самого масштабного курса по запускам и продюсированию с системой запусков «Масштаб», образовательная лицензия №Л035-01221-58/00204867.</li>
-                <li>14 000 студентов длительных образовательных проектов: продюсеров и экспертов.</li>
-                <li>Больше 100 000 человек прошли бесплатные онлайн-уроки по запускам образовательных проектов.</li>
-              </ul>
-            </div>
-
-            {/* Блок 3: Проекты */}
-            <div>
-              <h3 className="text-3xl font-bold tracking-tight md:text-4xl mb-6">Проекты</h3>
-              <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed text-muted-foreground md:text-xl">
-                <li>Создатель чата Мари про вакансии (185 000 участников, <a href="https://t.me/mari_vakansii" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://t.me/mari_vakansii</a>).</li>
-                <li>Автор методологии и ex-амбассадор сервиса с искусственным интеллектом для маркетинга в соцсетях (сервис вышел в прибыль в первый же месяц работы, привлекли 2000 довольных пользователей).</li>
-              </ul>
-            </div>
-
-            {/* Блок 4: Личное */}
-            <div>
-              <h3 className="text-3xl font-bold tracking-tight md:text-4xl mb-6">Личное</h3>
-              <ul className="list-disc list-inside space-y-3 text-lg leading-relaxed text-muted-foreground md:text-xl">
-                <li>По образованию — преподаватель русского и литературы с переподготовкой на руководителя образовательной организации.</li>
-                <li>Мама двоих детей (2 года и 8 лет), из многодетной семьи (8 своих детей и 5 приемных у родителей).</li>
-                <li>Создатель проекта Дом там, где мы — бот в телеграм, который помогает жителям приграничных территорий найти работу, деньги на переезд, жилье и волонтера для помощи (2024-2025).</li>
-                <li>Родилась 19.10.1992, Идеалист по MBTI, весы, генератор ⅓.</li>
-              </ul>
-            </div>
+          <div className="mt-24 text-left">
+            <ul className="space-y-5 text-lg leading-relaxed text-muted-foreground md:text-xl">
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>Cделала запусков больше чем на <span className="font-bold text-xl text-foreground">1,5 млрд руб. без бюджета</span> на маркетинг.</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>Автор <span className="font-bold text-xl text-foreground">самого масштабного курса</span> по запускам и продюсированию с системой запусков «Масштаб», образовательная лицензия №Л035-01221-58/00204867.</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>14 000 студентов длительных образовательных проектов: продюсеров и экспертов.</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>Больше 100 000 человек прошли бесплатные онлайн-уроки по запускам образовательных проектов.</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>Создатель чата Мари про вакансии (<span className="font-bold text-xl text-foreground">185 000 участников</span>, <a href="https://t.me/mari_vakansii" target="_blank" rel="noopener noreferrer" className="text-primary underline">https://t.me/mari_vakansii</a>).</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>Автор методологии и ex-амбассадор сервиса с искусственным интеллектом для маркетинга в соцсетях (сервис <span className="font-bold text-xl text-foreground">вышел в прибыль в первый же месяц работы</span>, привлекли 2000 довольных пользователей).</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>По образованию — преподаватель русского и литературы с переподготовкой на руководителя образовательной организации.</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span><span className="font-bold text-xl text-foreground">Мама двоих детей</span> (2 года и 8 лет), из многодетной семьи (8 своих детей и 5 приемных у родителей).</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>Создатель проекта Дом там, где мы — бот в телеграм, который помогает жителям приграничных территорий найти работу, деньги на переезд, жилье и волонтера для помощи (2024-2025).</span>
+              </li>
+              <li className="flex items-start gap-4">
+                <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
+                <span>Родилась 19.10.1992, Идеалист по MBTI, весы, генератор ⅓.</span>
+              </li>
+            </ul>
           </div>
 
           {/* Блок 5: Коллаборации */}
