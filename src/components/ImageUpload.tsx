@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import { Loader2 } from "lucide-react";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 export const ImageUpload = () => {
   const [images, setImages] = useState<Array<{ id: string; url: string; filename: string }>>([]);
   
-  const { uploading, uploadMultiple } = useImageUpload({
+  const { uploading, progress, uploadMultiple } = useImageUpload({
     saveToDatabase: true,
+    maxFileSizeMB: 10,
     onSuccess: () => loadImages(),
   });
 
@@ -50,16 +54,35 @@ export const ImageUpload = () => {
     <div className="w-full max-w-4xl mx-auto p-6">
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Загрузить изображение</h2>
-        <div className="flex items-center gap-4">
-          <Input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFileUpload}
-            disabled={uploading}
-            className="flex-1"
-          />
-          {uploading && <Loader2 className="animate-spin" />}
+        
+        <Alert className="mb-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="text-xs">
+            Максимальный размер файла: 10МБ. Изображения автоматически сжимаются до 1920px.
+          </AlertDescription>
+        </Alert>
+        
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileUpload}
+              disabled={uploading}
+              className="flex-1"
+            />
+            {uploading && <Loader2 className="animate-spin" />}
+          </div>
+          
+          {uploading && progress > 0 && (
+            <div className="space-y-1">
+              <Progress value={progress} className="h-2" />
+              <p className="text-xs text-muted-foreground text-center">
+                Загрузка: {progress}%
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -73,6 +96,7 @@ export const ImageUpload = () => {
                   src={image.url}
                   alt={image.filename}
                   className="w-full h-48 object-cover rounded-lg mb-2"
+                  loading="lazy"
                 />
                 <p className="text-sm text-muted-foreground truncate">{image.filename}</p>
               </div>
