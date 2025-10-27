@@ -16,6 +16,7 @@ import { OffersManager } from "@/components/OffersManager";
 import { OffersList } from "@/components/OffersList";
 import { useAdmin } from "@/contexts/AdminContext";
 import { useAdminArticles, type Article } from "@/hooks/useAdminArticles";
+import { ArticleImageUpload } from "@/components/ArticleImageUpload";
 
 const Admin = () => {
   const { isAdmin, isLoading: isAdminLoading } = useAdmin();
@@ -196,15 +197,11 @@ const Admin = () => {
                       placeholder="Краткое описание статьи"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="ogImage">Изображение для соцсетей (URL)</Label>
-                    <Input
-                      id="ogImage"
-                      value={ogImage}
-                      onChange={(e) => setOgImage(e.target.value)}
-                      placeholder="https://example.com/image.jpg"
-                    />
-                  </div>
+                  <ArticleImageUpload
+                    value={ogImage}
+                    onChange={setOgImage}
+                    label="Изображение для соцсетей (можно загрузить GIF)"
+                  />
                   <div className="space-y-2">
                     <Label htmlFor="slug">Slug (для URL: /articles/ваш-slug)</Label>
                     <Input
