@@ -72,11 +72,16 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     checkAdminStatus();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         if (!mounted) return;
         
         if (session?.user) {
-          await checkAdminRole(session.user.id);
+          // Используем setTimeout для избежания дедлока
+          setTimeout(() => {
+            if (mounted) {
+              checkAdminRole(session.user.id);
+            }
+          }, 0);
         } else {
           setIsAdmin(false);
           setIsLoading(false);
