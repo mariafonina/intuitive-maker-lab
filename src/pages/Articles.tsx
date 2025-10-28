@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Clock, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -75,6 +76,82 @@ const Articles = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Статьи и гайды Мари Афониной (Мария Галантер) | Вайбкодинг, Масштаб, ИИ</title>
+        <meta name="description" content="Полезные статьи, гайды и инструкции от Мари Афониной (Мария Галантер). Вайбкодинг, курс Масштаб, применение искусственного интеллекта в бизнесе, запуски и продюсирование." />
+        <meta name="keywords" content="Мари Афонина статьи, Мария Галантер, вайбкодинг гайд, обучение Мари Афониной, ЛАБС, Масштаб, статьи про ИИ" />
+        <link rel="canonical" href="https://mariafonina.com/articles" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://mariafonina.com/articles" />
+        <meta property="og:title" content="Статьи и гайды Мари Афониной | Вайбкодинг, Масштаб" />
+        <meta property="og:description" content="Полезные статьи и гайды от Мари Афониной: вайбкодинг, искусственный интеллект, запуски." />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Статьи Мари Афониной | Вайбкодинг" />
+        <meta name="twitter:description" content="Гайды по вайбкодингу, ИИ и запускам от Мари Афониной." />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Статьи и гайды Мари Афониной (Мария Галантер)",
+            "description": "Образовательные статьи, гайды и инструкции от Мари Афониной по вайбкодингу, искусственному интеллекту, запускам и продюсированию",
+            "url": "https://mariafonina.com/articles",
+            "author": {
+              "@type": "Person",
+              "name": "Мари Афонина",
+              "alternateName": "Мария Галантер",
+              "url": "https://mariafonina.com"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "ЛАБС",
+              "founder": {
+                "@type": "Person",
+                "name": "Мари Афонина"
+              }
+            },
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": [
+                {
+                  "@type": "Article",
+                  "position": 1,
+                  "name": "Что такое вайбкодинг и с чем его едят",
+                  "description": "Подробный гайд о вайбкодинге — новом способе создания приложений с помощью искусственного интеллекта",
+                  "url": "https://mariafonina.com/articles/vibecoding-guide",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Мари Афонина",
+                    "alternateName": "Мария Галантер"
+                  }
+                }
+              ]
+            }
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Главная",
+                "item": "https://mariafonina.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Статьи",
+                "item": "https://mariafonina.com/articles"
+              }
+            ]
+          })}
+        </script>
+      </Helmet>
       <ProgressBar topOffset="top-16" />
       <MainNavigation />
       
