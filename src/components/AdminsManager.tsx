@@ -35,10 +35,13 @@ export const AdminsManager = () => {
 
       if (rolesError) throw rolesError;
 
-      setAdmins((roles || []).map(role => ({
+      // Получаем email пользователей из auth.users через RPC или показываем user_id
+      const adminsData = (roles || []).map(role => ({
         ...role,
-        email: role.user_id, // Показываем user_id вместо email
-      })));
+        email: role.user_id,
+      }));
+
+      setAdmins(adminsData);
     } catch (error: any) {
       console.error("Error fetching admins:", error);
       toast({
@@ -51,13 +54,24 @@ export const AdminsManager = () => {
     }
   };
 
+  const [newAdminPassword, setNewAdminPassword] = useState("");
+
   const handleAddAdmin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!newAdminEmail.trim()) {
+    if (!newAdminEmail.trim() || !newAdminPassword.trim()) {
       toast({
         title: "Ошибка",
-        description: "Введите email пользователя",
+        description: "Введите email и пароль",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (newAdminPassword.length < 6) {
+      toast({
+        title: "Ошибка",
+        description: "Пароль должен содержать минимум 6 символов",
         variant: "destructive",
       });
       return;
@@ -66,50 +80,39 @@ export const AdminsManager = () => {
     setAddingAdmin(true);
 
     try {
-      // Проверяем, не является ли пользователь уже админом
-      const { data: existingRole } = await supabase
-        .from("user_roles")
-        .select("id")
-        .eq("user_id", newAdminEmail.trim())
-        .eq("role", "admin")
-        .maybeSingle();
-
-      if (existingRole) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
         toast({
-          title: "Уже админ",
-          description: "Этот пользователь уже является администратором",
+          title: "Ошибка",
+          description: "Вы не авторизованы",
           variant: "destructive",
         });
         return;
       }
 
-      // Добавляем роль админа по user_id
-      const { error: insertError } = await supabase
-        .from("user_roles")
-        .insert({
-          user_id: newAdminEmail.trim(),
-          role: "admin",
-        });
+      // Вызываем Edge Function для создания нового админа
+      const { data, error } = await supabase.functions.invoke('create-admin', {
+        body: {
+          email: newAdminEmail.trim(),
+          password: newAdminPassword.trim(),
+        },
+      });
 
-      if (insertError) {
-        if (insertError.code === "23503") {
-          toast({
-            title: "Пользователь не найден",
-            description: "Пользователь с таким ID не существует. Он должен сначала зарегистрироваться на сайте через /auth",
-            variant: "destructive",
-          });
-        } else {
-          throw insertError;
-        }
-        return;
+      if (error) {
+        throw error;
+      }
+
+      if (data.error) {
+        throw new Error(data.error);
       }
 
       toast({
         title: "Успешно",
-        description: "Новый администратор добавлен",
+        description: "Новый администратор создан и может войти с указанными данными",
       });
 
       setNewAdminEmail("");
+      setNewAdminPassword("");
       fetchAdmins();
     } catch (error: any) {
       console.error("Error adding admin:", error);
@@ -169,27 +172,35 @@ export const AdminsManager = () => {
         <CardContent>
           <form onSubmit={handleAddAdmin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="admin-email">User ID пользователя</Label>
+              <Label htmlFor="admin-email">Email нового администратора</Label>
               <Input
                 id="admin-email"
-                type="text"
+                type="email"
                 value={newAdminEmail}
                 onChange={(e) => setNewAdminEmail(e.target.value)}
-                placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                placeholder="admin@example.com"
                 disabled={addingAdmin}
               />
-              <p className="text-sm text-muted-foreground">
-                Найдите User ID в таблице auth.users в Backend. Пользователь должен быть зарегистрирован через /auth
-              </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="admin-password">Пароль (минимум 6 символов)</Label>
+              <Input
+                id="admin-password"
+                type="password"
+                value={newAdminPassword}
+                onChange={(e) => setNewAdminPassword(e.target.value)}
+                placeholder="••••••"
+                disabled={addingAdmin}
+              />
             </div>
             <Button type="submit" disabled={addingAdmin}>
               {addingAdmin ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Добавление...
+                  Создание...
                 </>
               ) : (
-                "Добавить администратора"
+                "Создать администратора"
               )}
             </Button>
           </form>
