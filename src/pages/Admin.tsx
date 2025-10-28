@@ -20,6 +20,7 @@ import { ArticleImageUpload } from "@/components/ArticleImageUpload";
 import { formatDate } from "@/lib/formatters";
 import { sanitizeArticleHtml } from "@/lib/sanitize";
 import { TOAST_MESSAGES } from "@/lib/messages";
+import { AdminsManager } from "@/components/AdminsManager";
 
 const Admin = () => {
   const { isAdmin, isLoading: isAdminLoading } = useAdmin();
@@ -335,6 +336,12 @@ const Admin = () => {
           <div className="max-w-4xl">
             <h2 className="text-3xl font-bold mb-6">Галерея изображений</h2>
             <ImageUpload />
+          </div>
+        )}
+
+        {currentSection === "admins" && (
+          <div className="max-w-4xl">
+            <AdminsManager />
           </div>
         )}
       </div>

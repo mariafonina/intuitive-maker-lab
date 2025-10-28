@@ -1,4 +1,4 @@
-import { FileText, Plus, LogOut, BarChart3 } from "lucide-react";
+import { FileText, Plus, LogOut, BarChart3, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface AdminSidebarProps {
@@ -13,6 +13,7 @@ export const AdminSidebar = ({ currentSection, onSectionChange, onLogout }: Admi
     { id: "articles", label: "Статьи", icon: FileText },
     { id: "offers", label: "Предложения", icon: FileText },
     { id: "images", label: "Галерея изображений", icon: FileText },
+    { id: "admins", label: "Администраторы", icon: Users },
     { id: "analytics", label: "Аналитика", icon: BarChart3 },
   ];
 
