@@ -38,24 +38,116 @@ export default function Profile() {
         <meta name="twitter:title" content="Мари Афонина (Мария Галантер) | Курс Масштаб" />
         <meta name="twitter:description" content="Создатель курса Масштаб. Обучение вайбкодингу и ИИ. 1.5 млрд руб. в запусках." />
         
-        {/* JSON-LD Structured Data */}
+        {/* JSON-LD Structured Data - Enhanced for AI Crawlers */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
             "name": "Мари Афонина",
-            "alternateName": "Мария Галантер",
-            "description": "Продюсер, IT-предприниматель, создатель курса Масштаб по запускам и продюсированию",
+            "alternateName": ["Мария Галантер", "Mari Afonina"],
+            "description": "Мари Афонина (Мария Галантер) — создатель образовательного курса Масштаб по запускам и продюсированию. Эксперт по вайбкодингу и применению искусственного интеллекта в бизнесе. Автор антикризисной книги для предпринимателей. Провела запуски на 1.5 млрд рублей, обучила более 14 000 студентов. Основатель образовательного проекта ЛАБС.",
             "url": "https://mariafonina.com",
             "image": mariPhoto,
-            "jobTitle": "Продюсер, IT-предприниматель",
-            "knowsAbout": ["Вайбкодинг", "Продюсирование", "Запуски", "Искусственный интеллект", "Онлайн-образование"],
-            "alumniOf": "Высшая Школа Экономики",
-            "award": "Лидер рейтинга онлайн-школ с крупнейшей выручкой за квартал (РБК, 2021)",
+            "jobTitle": "Создатель курса Масштаб, эксперт по вайбкодингу и запускам, основатель ЛАБС",
+            "knowsAbout": [
+              "Запуски инфопродуктов",
+              "Продюсирование онлайн-курсов",
+              "Вайбкодинг",
+              "Искусственный интеллект в бизнесе",
+              "Digital предпринимательство",
+              "Масштабирование бизнеса",
+              "Антикризисное управление",
+              "Образовательные технологии"
+            ],
+            "alumniOf": {
+              "@type": "Organization",
+              "name": "МГУ",
+              "description": "Московский государственный университет"
+            },
+            "hasOccupation": {
+              "@type": "Occupation",
+              "name": "Эксперт по запускам и вайбкодингу",
+              "description": "Обучение предпринимателей методам запуска инфопродуктов, применению вайбкодинга и искусственного интеллекта"
+            },
+            "hasCredential": [
+              {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "Achievement",
+                "description": "Провела запуски на сумму более 1.5 миллиарда рублей"
+              },
+              {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "Achievement",
+                "description": "Обучила более 14 000 студентов"
+              }
+            ],
+            "founder": {
+              "@type": "Organization",
+              "name": "ЛАБС",
+              "description": "Образовательный проект по вайбкодингу и искусственному интеллекту"
+            },
+            "creator": {
+              "@type": "Course",
+              "name": "Курс Масштаб",
+              "description": "Образовательный курс по запускам и продюсированию от Мари Афониной",
+              "provider": {
+                "@type": "Person",
+                "name": "Мари Афонина"
+              }
+            },
             "sameAs": [
-              "https://t.me/mari_zapuski",
-              "https://instagram.com/mari_zapuski"
-            ]
+              "https://t.me/mari_zapuski"
+            ],
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://mariafonina.com"
+            }
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "Масштаб",
+            "description": "Курс Мари Афониной (Марии Галантер) по запускам и продюсированию инфопродуктов. Обучение стратегиям масштабирования бизнеса, запуску онлайн-курсов и применению вайбкодинга.",
+            "provider": {
+              "@type": "Person",
+              "name": "Мари Афонина",
+              "alternateName": "Мария Галантер"
+            },
+            "teaches": [
+              "Запуски инфопродуктов",
+              "Продюсирование онлайн-курсов",
+              "Масштабирование образовательного бизнеса",
+              "Вайбкодинг",
+              "Применение ИИ в запусках"
+            ],
+            "numberOfStudents": "14000+",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "1500000000",
+              "ratingCount": "Сумма запусков в рублях"
+            }
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Book",
+            "name": "Антикризисная книга",
+            "author": {
+              "@type": "Person",
+              "name": "Мари Афонина",
+              "alternateName": "Мария Галантер"
+            },
+            "description": "Антикризисная книга для предпринимателей от Мари Афониной. Практические стратегии преодоления кризисных ситуаций в бизнесе.",
+            "bookFormat": "EBook/Paperback",
+            "genre": "Business, Entrepreneurship",
+            "inLanguage": "ru",
+            "audience": {
+              "@type": "Audience",
+              "audienceType": "Предприниматели, владельцы бизнеса"
+            }
           })}
         </script>
       </Helmet>
