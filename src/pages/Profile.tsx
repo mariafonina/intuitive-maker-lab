@@ -165,7 +165,7 @@ export default function Profile() {
             <img src={mariPhoto} alt="Мари Афонина" className="h-full w-full object-cover" />
           </div>
 
-          <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Мари Афонина (Мария Галантер)</h1>
+          <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Мари Афонина</h1>
           <h2 className="mt-4 text-2xl text-muted-foreground md:text-3xl">продюсер, IT-предприниматель, создатель курса Масштаб</h2>
           
           {/* Цитата-миссия */}
