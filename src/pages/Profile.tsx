@@ -22,18 +22,42 @@ export default function Profile() {
   return (
     <div className="bg-background text-foreground">
       <Helmet>
-        <title>Мари Афонина</title>
-        <meta name="description" content="Мари Афонина — продюсер, IT-предприниматель. Официальный сайт." />
+        <title>Мари Афонина (Мария Галантер) | Курс Масштаб | Обучение Вайбкодингу</title>
+        <meta name="description" content="Официальный сайт Мари Афониной (Мария Галантер) — создатель курса Масштаб по запускам и продюсированию. Обучение вайбкодингу, ЛАБС, антикризисная книга. 1.5 млрд руб. в запусках без бюджета на маркетинг, 14 000 студентов." />
+        <meta name="keywords" content="Мари Афонина, Мария Галантер, Масштаб, курс Мари Афониной, обучение Мари Афониной, вайбкодинг, ЛАБС, антикризисная книга, mari_zapuski" />
+        <link rel="canonical" href="https://mariafonina.com/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Мари Афонина" />
-        <meta property="og:description" content="Мари Афонина — продюсер, IT-предприниматель. Официальный сайт." />
+        <meta property="og:url" content="https://mariafonina.com/" />
+        <meta property="og:title" content="Мари Афонина (Мария Галантер) | Курс Масштаб | Обучение Вайбкодингу" />
+        <meta property="og:description" content="Официальный сайт Мари Афониной — создатель курса Масштаб. Обучение вайбкодингу и ИИ. 1.5 млрд руб. в запусках, 14 000 студентов." />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Мари Афонина" />
-        <meta name="twitter:description" content="Мари Афонина — продюсер, IT-предприниматель. Официальный сайт." />
+        <meta name="twitter:title" content="Мари Афонина (Мария Галантер) | Курс Масштаб" />
+        <meta name="twitter:description" content="Создатель курса Масштаб. Обучение вайбкодингу и ИИ. 1.5 млрд руб. в запусках." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Мари Афонина",
+            "alternateName": "Мария Галантер",
+            "description": "Продюсер, IT-предприниматель, создатель курса Масштаб по запускам и продюсированию",
+            "url": "https://mariafonina.com",
+            "image": mariPhoto,
+            "jobTitle": "Продюсер, IT-предприниматель",
+            "knowsAbout": ["Вайбкодинг", "Продюсирование", "Запуски", "Искусственный интеллект", "Онлайн-образование"],
+            "alumniOf": "Высшая Школа Экономики",
+            "award": "Лидер рейтинга онлайн-школ с крупнейшей выручкой за квартал (РБК, 2021)",
+            "sameAs": [
+              "https://t.me/mari_zapuski",
+              "https://instagram.com/mari_zapuski"
+            ]
+          })}
+        </script>
       </Helmet>
       
       {/* ПРОГРЕСС-БАР */}
@@ -49,8 +73,8 @@ export default function Profile() {
             <img src={mariPhoto} alt="Мари Афонина" className="h-full w-full object-cover" />
           </div>
 
-          <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Мари Афонина</h1>
-          <h2 className="mt-4 text-2xl text-muted-foreground md:text-3xl">продюсер, IT-предприниматель</h2>
+          <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Мари Афонина (Мария Галантер)</h1>
+          <h2 className="mt-4 text-2xl text-muted-foreground md:text-3xl">продюсер, IT-предприниматель, создатель курса Масштаб</h2>
           
           {/* Цитата-миссия */}
           <div className="mx-auto mt-16 max-w-3xl animate-fade-in md:mt-20">
@@ -71,7 +95,7 @@ export default function Profile() {
               </li>
               <li className="flex items-start gap-4">
                 <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
-                <span>Автор <span className="font-bold text-xl text-foreground">самого масштабного курса</span> по запускам и продюсированию с системой запусков «Масштаб», образовательная лицензия №Л035-01221-58/00204867.</span>
+                <span>Автор <span className="font-bold text-xl text-foreground">курса Масштаб</span> — самого масштабного курса по запускам и продюсированию с системой запусков «Масштаб», образовательная лицензия №Л035-01221-58/00204867.</span>
               </li>
               <li className="flex items-start gap-4">
                 <span className="mt-2 h-3 w-3 flex-shrink-0 rounded-full bg-gradient-to-r from-primary to-accent"></span>
@@ -110,7 +134,7 @@ export default function Profile() {
 
           {/* Блок 5: Коллаборации */}
           <div className="mt-24 text-left md:mt-32">
-            <h3 className="mb-12 text-center text-3xl font-bold md:text-4xl">Коллаборации и выступления</h3>
+            <h2 className="mb-12 text-center text-3xl font-bold md:text-4xl">Коллаборации и выступления Мари Афониной</h2>
             
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
               <div className="rounded-2xl bg-card p-6 shadow-sm transition-all hover:shadow-md">
@@ -183,9 +207,9 @@ export default function Profile() {
         {/* СЕКЦИЯ: ПРОЕКТЫ */}
         <section id="projects" className="bg-muted/30">
           <div className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
-            <h2 className="text-4xl font-bold tracking-tight md:text-6xl">Проекты</h2>
+            <h2 className="text-4xl font-bold tracking-tight md:text-6xl">Проекты Мари Афониной</h2>
             <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl">
-              Все мои проекты отвечают одной миссии: помогать онлайн-предпринимателям стать свободными и прибыльными. Я иду к тому, чтобы между предпринимателем и клиентов не стояло сложных программ, огромных команд и затрат.
+              Все проекты Мари Афониной отвечают одной миссии: помогать онлайн-предпринимателям стать свободными и прибыльными. Обучение вайбкодингу, курс Масштаб, антикризисная книга — все для упрощения работы между предпринимателем и клиентом.
             </p>
 
             <div className="mt-16 space-y-12">
@@ -193,8 +217,8 @@ export default function Profile() {
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Сейчас в продаже</h3>
                 <div className="mt-6 rounded-2xl bg-card p-8 text-left shadow-lg">
-                  <h4 className="text-2xl font-bold">ЛАБС</h4>
-                  <p className="mt-3 text-lg text-muted-foreground">Проект по искусственному интеллекту и вайбкодингу.</p>
+                  <h3 className="text-2xl font-bold">ЛАБС — обучение вайбкодингу от Мари Афониной</h3>
+                  <p className="mt-3 text-lg text-muted-foreground">Проект по обучению искусственному интеллекту и вайбкодингу. Научитесь создавать приложения с помощью ИИ.</p>
                   <p className="mt-6 font-medium">Стоимость: 33 300 руб.</p>
                   <p className="text-sm text-muted-foreground">Пройдет: 2-23 ноября</p>
                   <Button 
@@ -223,7 +247,7 @@ export default function Profile() {
 
         {/* СЕКЦИЯ: АНТИКРИЗИСНАЯ КНИГА */}
         <section id="book" className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
-          <h2 className="text-4xl font-bold tracking-tight md:text-6xl">Антикризисная книга</h2>
+          <h2 className="text-4xl font-bold tracking-tight md:text-6xl">Антикризисная книга Мари Афониной</h2>
           
           {/* Обложка книги */}
           <div className="mt-12 mb-8 mx-auto max-w-sm">

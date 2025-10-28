@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { usePageView } from "@/hooks/useAnalytics";
@@ -15,6 +16,86 @@ const Index = () => {
   usePageView(); // Трекинг просмотра страницы
   
   return <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Что такое вайбкодинг — гайд Мари Афониной по разработке с ИИ</title>
+        <meta name="description" content="Полный гайд по вайбкодингу от Мари Афониной (Мария Галантер). Узнайте, как создавать приложения с помощью искусственного интеллекта без навыков программирования. Обучение вайбкодингу в курсе ЛАБС." />
+        <meta name="keywords" content="вайбкодинг, Мари Афонина, обучение вайбкодингу, искусственный интеллект, разработка с ИИ, ЛАБС, курс Масштаб" />
+        <link rel="canonical" href="https://mariafonina.com/articles/vibecoding-guide" />
+        <meta name="author" content="Мари Афонина, Мария Галантер" />
+        
+        {/* Open Graph */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://mariafonina.com/articles/vibecoding-guide" />
+        <meta property="og:title" content="Что такое вайбкодинг — гайд Мари Афониной" />
+        <meta property="og:description" content="Полный гайд по вайбкодингу от Мари Афониной. Как создавать приложения с ИИ без навыков программирования." />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Что такое вайбкодинг — гайд Мари Афониной" />
+        <meta name="twitter:description" content="Полный гайд по вайбкодингу. Создавайте приложения с ИИ без программирования." />
+        
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Что такое вайбкодинг и с чем его едят",
+            "alternativeHeadline": "Полный гайд по вайбкодингу от Мари Афониной",
+            "description": "Подробный гайд о вайбкодинге — разработке приложений с помощью искусственного интеллекта",
+            "author": {
+              "@type": "Person",
+              "name": "Мари Афонина",
+              "alternateName": "Мария Галантер"
+            },
+            "publisher": {
+              "@type": "Person",
+              "name": "Мари Афонина"
+            },
+            "datePublished": "2025-10-27",
+            "dateModified": "2025-10-27",
+            "mainEntityOfPage": "https://mariafonina.com/articles/vibecoding-guide",
+            "image": heroImage,
+            "keywords": ["вайбкодинг", "искусственный интеллект", "разработка с ИИ", "обучение", "Мари Афонина"],
+            "articleSection": "Технологии",
+            "wordCount": readingTime * 200
+          })}
+        </script>
+        
+        {/* FAQ Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Что такое вайбкодинг?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Вайбкодинг — это создание приложений и сервисов с помощью искусственного интеллекта без необходимости владеть навыками программирования. Это позволяет предпринимателям самостоятельно создавать технологические продукты."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Где можно научиться вайбкодингу?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Обучение вайбкодингу проводится в проекте ЛАБС от Мари Афониной. Курс включает практическую работу с искусственным интеллектом и разработкой приложений."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Кто такая Мари Афонина?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Мари Афонина (Мария Галантер) — продюсер, IT-предприниматель, создатель курса Масштаб по запускам и продюсированию. Сделала запусков больше чем на 1.5 млрд руб. без бюджета на маркетинг, обучила 14 000 студентов."
+                }
+              }
+            ]
+          })}
+        </script>
+      </Helmet>
+      
       <MainNavigation />
       <ProgressBar topOffset="top-16" />
 
@@ -35,7 +116,7 @@ const Index = () => {
 
           {/* Hero Image */}
           <div className="mb-12 sm:mb-16 flex justify-center">
-            <img src={heroImage} alt="Современное рабочее пространство разработчика" className="max-w-full rounded-2xl shadow-lg" />
+            <img src={heroImage} alt="Вайбкодинг — разработка с искусственным интеллектом, рабочее пространство современного разработчика" className="max-w-full rounded-2xl shadow-lg" />
           </div>
 
           {/* Table of Contents */}
