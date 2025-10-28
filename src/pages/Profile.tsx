@@ -22,7 +22,7 @@ export default function Profile() {
   return (
     <div className="bg-background text-foreground">
       <Helmet>
-        <title>Мари Афонина (Мария Галантер) | Курс Масштаб | Обучение Вайбкодингу</title>
+        <title>Мари Афонина | Курс Масштаб | Обучение Вайбкодингу</title>
         <meta name="description" content="Официальный сайт Мари Афониной (Мария Галантер) — создатель курса Масштаб по запускам и продюсированию. Обучение вайбкодингу, ЛАБС, антикризисная книга. 1.5 млрд руб. в запусках без бюджета на маркетинг, 14 000 студентов." />
         <meta name="keywords" content="Мари Афонина, Мария Галантер, Масштаб, курс Мари Афониной, обучение Мари Афониной, вайбкодинг, ЛАБС, антикризисная книга, mari_zapuski" />
         <link rel="canonical" href="https://mariafonina.com/" />
@@ -30,12 +30,12 @@ export default function Profile() {
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mariafonina.com/" />
-        <meta property="og:title" content="Мари Афонина (Мария Галантер) | Курс Масштаб | Обучение Вайбкодингу" />
+        <meta property="og:title" content="Мари Афонина | Курс Масштаб | Обучение Вайбкодингу" />
         <meta property="og:description" content="Официальный сайт Мари Афониной — создатель курса Масштаб. Обучение вайбкодингу и ИИ. 1.5 млрд руб. в запусках, 14 000 студентов." />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Мари Афонина (Мария Галантер) | Курс Масштаб" />
+        <meta name="twitter:title" content="Мари Афонина | Курс Масштаб" />
         <meta name="twitter:description" content="Создатель курса Масштаб. Обучение вайбкодингу и ИИ. 1.5 млрд руб. в запусках." />
         
         {/* JSON-LD Structured Data - Enhanced for AI Crawlers */}
