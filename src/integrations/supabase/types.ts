@@ -21,8 +21,10 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: string
+          noindex: boolean | null
           og_image: string | null
           published: boolean | null
+          show_in_feed: boolean | null
           slug: string | null
           subtitle: string | null
           title: string
@@ -34,8 +36,10 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          noindex?: boolean | null
           og_image?: string | null
           published?: boolean | null
+          show_in_feed?: boolean | null
           slug?: string | null
           subtitle?: string | null
           title: string
@@ -47,8 +51,10 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          noindex?: boolean | null
           og_image?: string | null
           published?: boolean | null
+          show_in_feed?: boolean | null
           slug?: string | null
           subtitle?: string | null
           title?: string
@@ -319,8 +325,10 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: string | null
+          noindex: boolean | null
           og_image: string | null
           published: boolean | null
+          show_in_feed: boolean | null
           slug: string | null
           subtitle: string | null
           title: string | null
@@ -331,8 +339,10 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string | null
+          noindex?: boolean | null
           og_image?: string | null
           published?: boolean | null
+          show_in_feed?: boolean | null
           slug?: string | null
           subtitle?: string | null
           title?: string | null
@@ -343,8 +353,10 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string | null
+          noindex?: boolean | null
           og_image?: string | null
           published?: boolean | null
+          show_in_feed?: boolean | null
           slug?: string | null
           subtitle?: string | null
           title?: string | null

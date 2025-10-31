@@ -30,7 +30,9 @@ const Articles = () => {
       .order("created_at", { ascending: false });
 
     if (!error && data) {
-      setArticles(data);
+      // Фильтруем статьи - показываем только те, где show_in_feed = true
+      const filteredArticles = data.filter(article => article.show_in_feed !== false);
+      setArticles(filteredArticles);
     }
 
     setLoading(false);

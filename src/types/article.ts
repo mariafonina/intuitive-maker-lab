@@ -7,6 +7,8 @@ export interface Article {
   slug?: string;
   content: string;
   published: boolean;
+  show_in_feed?: boolean;
+  noindex?: boolean;
   created_at: string;
   updated_at?: string;
   author_id?: string;
@@ -20,6 +22,8 @@ export interface ArticleCreateInput {
   slug?: string;
   content: string;
   published: boolean;
+  show_in_feed?: boolean;
+  noindex?: boolean;
   author_id: string;
 }
 
@@ -32,4 +36,6 @@ export interface ArticleUpdateInput {
   slug?: string;
   content?: string;
   published?: boolean;
+  show_in_feed?: boolean;
+  noindex?: boolean;
 }

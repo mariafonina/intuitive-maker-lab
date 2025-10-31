@@ -181,6 +181,9 @@ const ArticleView = () => {
         <title>{cleanTitle} | Мария Афонина</title>
         <meta name="description" content={article.description || `Статья: ${cleanTitle}`} />
         
+        {/* Robots meta tag for noindex */}
+        {article.noindex && <meta name="robots" content="noindex, nofollow" />}
+        
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="article" />
         <meta property="og:title" content={cleanTitle} />

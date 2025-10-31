@@ -33,6 +33,8 @@ const Admin = () => {
   const [slug, setSlug] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
+  const [showInFeed, setShowInFeed] = useState(true);
+  const [noindex, setNoindex] = useState(false);
   const [currentSection, setCurrentSection] = useState("articles");
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   const navigate = useNavigate();
@@ -85,6 +87,8 @@ const Admin = () => {
           slug: slug || undefined,
           content,
           published,
+          show_in_feed: showInFeed,
+          noindex,
         });
 
         toast(TOAST_MESSAGES.SUCCESS.ARTICLE_UPDATED);
@@ -97,6 +101,8 @@ const Admin = () => {
           slug: slug || undefined,
           content,
           published,
+          show_in_feed: showInFeed,
+          noindex,
           author_id: session.user.id,
         });
 
@@ -122,6 +128,8 @@ const Admin = () => {
     setSlug(article.slug || "");
     setContent(article.content);
     setPublished(article.published);
+    setShowInFeed(article.show_in_feed ?? true);
+    setNoindex(article.noindex ?? false);
     setCurrentSection("new-article");
   };
 
@@ -145,6 +153,8 @@ const Admin = () => {
     setSlug("");
     setContent("");
     setPublished(false);
+    setShowInFeed(true);
+    setNoindex(false);
   };
 
   const handleLogout = async () => {
@@ -254,6 +264,22 @@ const Admin = () => {
                       onCheckedChange={setPublished}
                     />
                     <Label htmlFor="published">Опубликовать</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="showInFeed"
+                      checked={showInFeed}
+                      onCheckedChange={setShowInFeed}
+                    />
+                    <Label htmlFor="showInFeed">Показывать в ленте статей</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="noindex"
+                      checked={noindex}
+                      onCheckedChange={setNoindex}
+                    />
+                    <Label htmlFor="noindex">Запретить индексацию поисковиками</Label>
                   </div>
                   <div className="flex gap-2">
                     <Button type="submit" className="flex-1">
