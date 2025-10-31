@@ -141,8 +141,14 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const [htmlCode, setHtmlCode] = useState('');
   const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
-
-  const editor = useEditor({
+  
+  const { uploadSingle, uploading } = useImageUpload({
+    bucket: "images",
+    saveToDatabase: true,
+    onError: (error) => {
+      console.error('Upload error:', error);
+    }
+  });
     extensions: [
       StarterKit.configure({
         heading: {
@@ -172,7 +178,7 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       }),
       Image.configure({
         inline: true,
-        allowBase64: true,
+        allowBase64: false,
       }),
       Placeholder.configure({
         placeholder: 'Начните писать вашу статью...',
