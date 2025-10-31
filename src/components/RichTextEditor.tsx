@@ -26,6 +26,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useState } from 'react';
 import { ImageGalleryDialog } from './ImageGalleryDialog';
+import { useImageUpload } from '@/hooks/useImageUpload';
 import {
   Dialog,
   DialogContent,
@@ -149,6 +150,8 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       console.error('Upload error:', error);
     }
   });
+
+  const editor = useEditor({
     extensions: [
       StarterKit.configure({
         heading: {
