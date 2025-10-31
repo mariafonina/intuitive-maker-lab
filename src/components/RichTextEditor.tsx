@@ -181,7 +181,7 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       }),
       Image.configure({
         inline: true,
-        allowBase64: false,
+        allowBase64: true,
       }),
       Placeholder.configure({
         placeholder: 'Начните писать вашу статью...',
