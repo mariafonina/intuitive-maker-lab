@@ -73,7 +73,7 @@ const CountdownTimer = () => {
             className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] text-white font-semibold px-10 py-6 text-lg hover:animate-gradient-shift transition-all duration-300 transform hover:scale-105"
           >
             <a
-              href="https://labs.mashtab.io?utm_source=main_site_mari"
+              href="https://zapusk-labs.mariafonina.ru/"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackButtonClick('Занять место (таймер)', 'purchase')}

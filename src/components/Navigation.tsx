@@ -16,7 +16,7 @@ export const Navigation = () => {
         onClick={() => trackButtonClick('Научиться вайбкодить (навигация гайда)', 'purchase')}
       >
         <a
-          href="https://labs.mashtab.io?utm_source=main_site_mari"
+          href="https://zapusk-labs.mariafonina.ru/"
           target="_blank"
           rel="noopener noreferrer"
         >
