@@ -4,6 +4,9 @@ import { MainNavigation } from "@/components/MainNavigation";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Button } from "@/components/ui/button";
 import { usePageView, trackButtonClick, trackFunnelEvent } from "@/hooks/useAnalytics";
+import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 import mariPhoto from "@/assets/mari-photo.jpeg";
 import bookCover from "@/assets/book-cover.png";
 import logoSber from "@/assets/logo-sber.png";
@@ -16,8 +19,37 @@ import logoRgsu from "@/assets/logo-rgsu.png";
 import logoUnesco from "@/assets/logo-unesco.png";
 import logoRbk from "@/assets/logo-rbk.png";
 
+interface Offer {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  sales_start_date: string;
+  sales_end_date: string;
+  start_date: string;
+  end_date: string;
+  offer_url: string;
+}
+
 export default function Profile() {
   usePageView(); // Трекинг просмотра страницы
+  const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
+
+  useEffect(() => {
+    const loadActiveOffer = async () => {
+      const { data } = await supabase
+        .from("offers")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+      
+      if (data) {
+        setActiveOffer(data);
+      }
+    };
+    loadActiveOffer();
+  }, []);
 
   return (
     <div className="bg-background text-foreground">
@@ -166,7 +198,7 @@ export default function Profile() {
           </div>
 
           <h1 className="text-5xl font-bold tracking-tight md:text-7xl">Мари Афонина</h1>
-          <h2 className="mt-4 text-2xl text-muted-foreground md:text-3xl">продюсер, IT-предприниматель, создатель курса Масштаб</h2>
+          <h2 className="mt-4 text-2xl text-muted-foreground md:text-3xl">IT-предприниматель, помогаю облегчить жизнь онлайн-предпринимателям через свои проекты</h2>
           
           {/* Цитата-миссия */}
           <div className="mx-auto mt-16 max-w-3xl animate-fade-in md:mt-20">
@@ -306,32 +338,36 @@ export default function Profile() {
 
             <div className="mt-16 space-y-12">
               {/* Раздел "Сейчас в продаже" */}
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Сейчас в продаже</h3>
-                <div className="mt-6 rounded-2xl bg-card p-8 text-left shadow-lg">
-                  <h3 className="text-2xl font-bold">ЛАБС — обучение вайбкодингу от Мари Афониной</h3>
-                  <p className="mt-3 text-lg text-muted-foreground">Проект по обучению искусственному интеллекту и вайбкодингу. Научитесь создавать приложения с помощью ИИ.</p>
-                  <p className="mt-6 font-medium">Стоимость: 33 300 руб.</p>
-                  <p className="text-sm text-muted-foreground">Пройдет: 2-23 ноября</p>
-                  <Button 
-                    asChild 
-                    variant="gradient" 
-                    className="mt-6"
-                  >
-                    <a 
-                      href="https://zapusk-labs.mariafonina.ru/"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      onClick={() => {
-                        trackButtonClick('Занять место ЛАБС', 'purchase');
-                        trackFunnelEvent('click_labs_purchase', { offer: 'LABS' });
-                      }}
+              {activeOffer && (
+                <div>
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-primary">Сейчас в продаже</h3>
+                  <div className="mt-6 rounded-2xl bg-card p-8 text-left shadow-lg">
+                    <h3 className="text-2xl font-bold">{activeOffer.title}</h3>
+                    <p className="mt-3 text-lg text-muted-foreground">{activeOffer.description}</p>
+                    <p className="mt-6 font-medium">Стоимость: {activeOffer.price}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Пройдет: {format(new Date(activeOffer.start_date), "d MMMM", { locale: ru })} — {format(new Date(activeOffer.end_date), "d MMMM", { locale: ru })}
+                    </p>
+                    <Button 
+                      asChild 
+                      variant="gradient" 
+                      className="mt-6"
                     >
-                      Занять место
-                    </a>
-                  </Button>
+                      <a 
+                        href={activeOffer.offer_url}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={() => {
+                          trackButtonClick(`Занять место ${activeOffer.title}`, 'purchase');
+                          trackFunnelEvent('click_offer_purchase', { offer: activeOffer.title });
+                        }}
+                      >
+                        Занять место
+                      </a>
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
           </div>
