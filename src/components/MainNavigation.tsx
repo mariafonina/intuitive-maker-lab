@@ -81,7 +81,7 @@ export const MainNavigation = () => {
             size="sm"
           >
             <a 
-              href="https://labs.mashtab.io?utm_source=main_site_mari" 
+              href="https://zapusk-labs.mariafonina.ru/" 
               target="_blank" 
               rel="noopener noreferrer"
               onClick={() => trackButtonClick('Научиться вайбкодить (хедер)', 'purchase')}
@@ -131,7 +131,7 @@ export const MainNavigation = () => {
             variant="gradient"
           >
             <a 
-              href="https://labs.mashtab.io?utm_source=main_site_mari" 
+              href="https://zapusk-labs.mariafonina.ru/" 
               target="_blank" 
               rel="noopener noreferrer"
               onClick={() => trackButtonClick('Научиться вайбкодить (мобильное меню)', 'purchase')}
