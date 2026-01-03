@@ -11,10 +11,23 @@ import { Article } from "@/types/article";
 import { isUUID } from "@/lib/validators";
 import { stripHtmlTags } from "@/lib/formatters";
 import { sanitizeArticleHtml } from "@/lib/sanitize";
+import { OfferCard } from "@/components/OfferCard";
 
 interface TocItem {
   id: string;
   text: string;
+}
+
+interface Offer {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  sales_start_date: string;
+  sales_end_date: string;
+  start_date: string;
+  end_date: string;
+  offer_url: string;
 }
 
 const ArticleView = () => {
@@ -23,11 +36,13 @@ const ArticleView = () => {
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [contentReady, setContentReady] = useState(false);
+  const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
   
   usePageView(); // Трекинг просмотра страницы
 
   useEffect(() => {
     loadArticle();
+    loadActiveOffer();
   }, [id]);
 
   const loadArticle = async () => {
@@ -50,6 +65,20 @@ const ArticleView = () => {
     }
 
     setLoading(false);
+  };
+
+  const loadActiveOffer = async () => {
+    // Загружаем актуальное предложение (ЛАБС)
+    const { data } = await supabase
+      .from("offers")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+    
+    if (data) {
+      setActiveOffer(data);
+    }
   };
 
   // Функция для ожидания загрузки всех медиа элементов
@@ -243,6 +272,13 @@ const ArticleView = () => {
             <div className="max-w-none">
               {renderContentWithShortcodes(contentWithIds)}
             </div>
+
+            {/* Offer Card for vibecoding-guide */}
+            {(id === "vibecoding-guide" || article.slug === "vibecoding-guide") && activeOffer && (
+              <div className="mt-16 pt-8 border-t border-border">
+                <OfferCard offer={activeOffer} />
+              </div>
+            )}
             </article>
           </div>
         </main>
