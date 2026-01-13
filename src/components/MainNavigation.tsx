@@ -68,6 +68,7 @@ export const MainNavigation = () => {
             Проекты
           </a>
           <a href="/articles" className="text-muted-foreground hover:text-primary transition-colors">Полезности</a>
+          <a href="/ai-chat" className="text-muted-foreground hover:text-primary transition-colors">ИИ-справочник</a>
           <a 
             href="/#contacts" 
             onClick={(e) => handleAnchorClick(e, 'contacts')}
@@ -119,6 +120,7 @@ export const MainNavigation = () => {
             Проекты
           </a>
           <a href="/articles" className="text-foreground">Полезности</a>
+          <a href="/ai-chat" className="text-foreground">ИИ-справочник</a>
           <a 
             href="/#contacts" 
             onClick={(e) => handleAnchorClick(e, 'contacts')}

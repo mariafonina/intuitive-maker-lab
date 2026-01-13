@@ -12,6 +12,7 @@ import Articles from "./pages/Articles";
 import ArticleView from "./pages/ArticleView";
 import Profile from "./pages/Profile";
 import Offers from "./pages/Offers";
+import AIChat from "./pages/AIChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:id" element={<ArticleView />} />
           <Route path="/offers" element={<Offers />} />
+          <Route path="/ai-chat" element={<AIChat />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
