@@ -3,6 +3,7 @@ import { MainNavigation } from "@/components/MainNavigation";
 import { ChatBubble } from "@/components/ChatBubble";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { Send, Sparkles, Loader2 } from "lucide-react";
 
@@ -16,11 +17,41 @@ const EXAMPLE_QUESTIONS = [
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
 
+function ChatSkeleton() {
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <MainNavigation />
+      <main className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-4 pt-20 pb-4">
+        <div className="text-center py-6 border-b border-border mb-4">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Skeleton className="h-6 w-6 rounded" />
+            <Skeleton className="h-8 w-48" />
+          </div>
+          <Skeleton className="h-4 w-72 mx-auto" />
+        </div>
+        <div className="flex-1 flex flex-col items-center justify-center py-12">
+          <Skeleton className="h-4 w-40 mb-6" />
+          <div className="flex flex-wrap gap-2 justify-center max-w-md">
+            <Skeleton className="h-8 w-40" />
+            <Skeleton className="h-8 w-52" />
+            <Skeleton className="h-8 w-64" />
+          </div>
+        </div>
+        <div className="flex gap-2 items-end border-t border-border pt-4">
+          <Skeleton className="h-11 flex-1" />
+          <Skeleton className="h-10 w-10" />
+        </div>
+      </main>
+    </div>
+  );
+}
+
 export default function AIChat() {
   const { toast } = useToast();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -29,8 +60,16 @@ export default function AIChat() {
   };
 
   useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  if (!isReady) {
+    return <ChatSkeleton />;
+  }
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
