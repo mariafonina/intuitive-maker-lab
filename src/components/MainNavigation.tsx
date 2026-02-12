@@ -82,12 +82,12 @@ export const MainNavigation = () => {
             size="sm"
           >
             <a 
-              href="https://zapusk-labs.mariafonina.ru/" 
+              href="https://t.me/mari_zapuski" 
               target="_blank" 
               rel="noopener noreferrer"
-              onClick={() => trackButtonClick('Научиться вайбкодить (хедер)', 'purchase')}
+              onClick={() => trackButtonClick('Тг-канал Мари (хедер)', 'purchase')}
             >
-              Научиться вайбкодить
+              Тг-канал Мари
             </a>
           </Button>
         </div>
@@ -133,12 +133,12 @@ export const MainNavigation = () => {
             variant="gradient"
           >
             <a 
-              href="https://zapusk-labs.mariafonina.ru/" 
+              href="https://t.me/mari_zapuski" 
               target="_blank" 
               rel="noopener noreferrer"
-              onClick={() => trackButtonClick('Научиться вайбкодить (мобильное меню)', 'purchase')}
+              onClick={() => trackButtonClick('Тг-канал Мари (мобильное меню)', 'purchase')}
             >
-              Научиться вайбкодить
+              Тг-канал Мари
             </a>
           </Button>
         </div>

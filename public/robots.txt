@@ -4,13 +4,16 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+User-agent: YandexBot
+Allow: /
+
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-# AI Crawlers - Allow for training and indexing
+# AI Crawlers
 User-agent: GPTBot
 Allow: /
 

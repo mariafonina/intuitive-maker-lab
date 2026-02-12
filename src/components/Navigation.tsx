@@ -13,10 +13,10 @@ export const Navigation = () => {
       <Button 
         asChild
         className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] rounded-full font-semibold px-6 shadow-lg hover:shadow-xl hover:animate-gradient-shift transition-shadow duration-300"
-        onClick={() => trackButtonClick('Научиться вайбкодить (навигация гайда)', 'purchase')}
+        onClick={() => trackButtonClick('Тг-канал Мари (навигация гайда)', 'purchase')}
       >
         <a
-          href="https://zapusk-labs.mariafonina.ru/"
+          href="https://t.me/mari_zapuski"
           target="_blank"
           rel="noopener noreferrer"
         >
