@@ -1,4 +1,4 @@
-# Мари Афонина (Мария Галантер) — mariafonina.com
+# Мари Афонина (Мария Галантер) — site.mariafonina.ru
 
 ## Кто
 Мари Афонина (Мария Галантер) — российский IT-предприниматель, эксперт по искусственному интеллекту, digital-маркетингу и онлайн-образованию.
@@ -17,10 +17,11 @@
 - Консультирование предпринимателей по digital-стратегиям
 
 ## Контакты и ссылки
-- Сайт: https://mariafonina.com
+- Сайт: https://site.mariafonina.ru
 - Telegram-канал про запуски: https://t.me/mari_zapuski
 - Telegram-канал личный: https://t.me/mari_vse
 - Instagram: https://instagram.com/mariafonina
+- Twitter/X: https://x.com/mariiafonina
 
 ## Контент на сайте
 - Главная страница — портфолио и биография
